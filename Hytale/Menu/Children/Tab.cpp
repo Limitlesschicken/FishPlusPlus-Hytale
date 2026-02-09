@@ -19,9 +19,9 @@ Tab::Tab(std::string name, float x, float y) : Component(x, y, 200, Style::heade
 	this->AddChild(std::make_unique<Body>(this));
 }
 
-void Tab::Render() {
+void Tab::Render(double deltaTime) {
 	DrawHeader();
-	Component::Render();
+	Component::Render(deltaTime);
 }
 
 void Tab::DrawHeader() {
@@ -69,11 +69,11 @@ Body::Body(Tab* tab) {
 	this->height = this->m_children.size() * Style::featureHeight;
 }
 
-void Body::Render() {
+void Body::Render(double deltaTime) {
 	Renderer2D::colored->SquareOutline(Vector2(x, y), width, height, Color::From255(Style::tabBgColor), Color::From255(Style::tabOutlineColor));
 	Renderer2D::colored->Render();
 
-	Component::Render();
+	Component::Render(deltaTime);
 }
 
 void Body::Update(float mouseX, float mouseY) {

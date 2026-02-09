@@ -288,6 +288,7 @@
     <ClInclude Include="sdk\DefaultMovementController.h" />
     <ClInclude Include="sdk\Camera.h" />
     <ClInclude Include="sdk\ClientMovementStates.h" />
+    <ClInclude Include="sdk\Engine.h" />
     <ClInclude Include="sdk\Entity.h" />
     <ClInclude Include="sdk\EntityStoreModule.h" />
     <ClInclude Include="sdk\GameInstance.h" />
@@ -296,6 +297,7 @@
     <ClInclude Include="sdk\MoveCmd.h" />
     <ClInclude Include="sdk\MovementVector.h" />
     <ClInclude Include="Math\Vector3.h" />
+    <ClInclude Include="sdk\Window.h" />
     <ClInclude Include="Util\InputSystem.h" />
     <ClInclude Include="Util\TimeUtil.h" />
     <ClInclude Include="Core.h" />

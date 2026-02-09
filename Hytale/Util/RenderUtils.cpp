@@ -37,8 +37,8 @@ bool Util::WorldToScreen(Vector3 pos, Vector2& out) {
 
     if (ndcZ < -1.0f || ndcZ > 1.0f) return false;
 
-    out.x = (ndcX + 1.0f) * 0.5f * Util::windowWidth;
-    out.y = (1.0f - (ndcY + 1.0f) * 0.5f) * Util::windowHeight;
+    out.x = (ndcX + 1.0f) * 0.5f * Util::app->Engine->Window->WindowWidth;
+    out.y = (1.0f - (ndcY + 1.0f) * 0.5f) * Util::app->Engine->Window->WindowHeight;
 
     return true;
 }

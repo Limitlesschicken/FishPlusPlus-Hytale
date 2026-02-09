@@ -11,7 +11,7 @@ public:
 	Component(float x, float y, float width, float height);
 	Component();
 
-	virtual void Render();
+	virtual void Render(double deltaTime);
 	virtual void Update(float mouseX, float mouseY);
 
 	bool IsHovered(float mouseX, float mouseY);

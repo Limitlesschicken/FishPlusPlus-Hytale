@@ -33,6 +33,14 @@ static bool initialized = false;
 
 static std::unique_ptr<Menu> menu;
 
+#define CREATE_HOOK(name, pattern) \
+std::uint8_t* name##Address = PatternScan(pattern);\
+if (MH_CreateHook(name##Address, &H##name, reinterpret_cast<LPVOID*>(&o##name)) != MH_OK) {\
+    std::cout << "failed to create hook: " << #name << "\n";\
+    return false;\
+}\
+                                    
+
 static void* GetAnyGLFuncAddress(const char* name)
 {
     void* p = (void*)wglGetProcAddress(name);
@@ -68,22 +76,22 @@ BOOL WINAPI HWglSwapBuffers(HDC hdc) {
         initialized = true;
     }
 
+    static double lastTime = 0.0;
+    double currentTime = Util::GetTime();
+    double deltaTime = currentTime - lastTime;
+    lastTime = currentTime;
+
+    std::cout << deltaTime << "\n";
+
     HWND hwnd = WindowFromDC(hdc);
     RECT r;
     POINT current;
     GetCursorPos(&current);
     ScreenToClient(hwnd, &current);
-    GetClientRect(hwnd, &r);
-    Util::windowWidth = r.right - r.left;
-    Util::windowHeight = r.bottom - r.top;
     Util::cursorPosX = current.x;
     Util::cursorPosY = current.y;
     
     Renderer3D renderer3d = Renderer3D();
-    renderer3d.BoxLines(Vector3(0, 80, 0), Vector3(1, 1, 1), Color::From255(50, 50, 255, 50), Color::From255(50, 50, 255, 255));
-    renderer3d.BoxLines(Vector3(5, 80, 0), Vector3(1, 2, 1), Color::From255(50, 50, 255, 50), Color::From255(50, 50, 255, 255));
-    renderer3d.Render();
-
     Render3DEvent render3DEvent(renderer3d);
     FeatureDispatcher::DispatchEvent(render3DEvent);
 
@@ -102,49 +110,43 @@ BOOL WINAPI HWglSwapBuffers(HDC hdc) {
     return oWglSwapBuffers(hdc);
 }
 
-typedef __int64(__fastcall* PlayerMove)(__int64 instance, Vector3 offset);
-PlayerMove oPlayerMove = nullptr;
-__int64 __fastcall HGameTickType(__int64 instance, Vector3 offset) {
-    DefaultMovementController* dmc = (DefaultMovementController*)instance;
+__int64 __fastcall HDoMoveCycle(__int64 thisptr, Vector3 offset) {
+    DefaultMovementController* dmc = (DefaultMovementController*)thisptr;
     Util::dmc = dmc;
     MoveCycleEvent event(*dmc, offset);
     FeatureDispatcher::DispatchEvent(event);
 
-    return oPlayerMove(instance, offset);
+return Hooks::oDoMoveCycle(thisptr, offset);
 }
 
-typedef __int64(__fastcall* setUniformBuffers)(__int64 instance);
-setUniformBuffers oSetUniformBuffers = nullptr;
-__int64 __fastcall HSetUniformBuffers(__int64 instance) {
-    __int64 matrix = *(__int64*)(instance + 0x300);
-    
-    Matrix4x4 viewProjMat = *(Matrix4x4*)(instance + 0x300);
+__int64 __fastcall HSetUniformBuffers(__int64 thisptr) {
+    __int64 matrix = *(__int64*)(thisptr + 0x300);
+
+    Matrix4x4 viewProjMat = *(Matrix4x4*)(thisptr + 0x300);
 
     Util::viewProjMat = viewProjMat;
 
-    return oSetUniformBuffers(instance);
+    return Hooks::oSetUniformBuffers(thisptr);
 }
 
-typedef __int64(__fastcall* InGameApp)(__int64 a1);
-InGameApp oInGameApp = nullptr;
-__int64 __fastcall HInGameApp(__int64 a1) {
-    Util::app = (App*)a1;
-    return oInGameApp(a1);
+
+__int64 __fastcall HHandleScreenShotting(__int64 thisptr) {
+    Util::app = (App*)thisptr;
+    return Hooks::oHandleScreenShotting(thisptr);
 }
 
-typedef __int64*(__fastcall* OnUserInput)(__int64 a1, int* a2);
-OnUserInput oOnUserInput = nullptr;
-__int64* __fastcall HOnUserInput(__int64 a1, int* a2) {
+
+__int64* __fastcall HOnUserInput(__int64 thisptr, int* a2) {
     if (Menu::isMenuOpen()) {
-        Input* input = (Input*)a1;
+        Input* input = (Input*)thisptr;
         input->isMouseLocked = true;
     }
-        
+
     SDL_Scancode key = (SDL_Scancode)a2[6];
 
     if (*a2 == 768) {
         if (*((bool*)a2 + 37))
-            return oOnUserInput(a1, a2);
+            return Hooks::oOnUserInput(thisptr, a2);
 
         InputSystem::keysPressed.insert(key);
         InputSystem::keysHeld.insert(key);
@@ -157,7 +159,21 @@ __int64* __fastcall HOnUserInput(__int64 a1, int* a2) {
         InputSystem::keysDepressed.insert(key);
     }
 
-    return oOnUserInput(a1, a2);
+    return Hooks::oOnUserInput(thisptr, a2);
+}
+
+__int64 __fastcall HSetCursorVisible(void* thisptr, bool visible) {
+
+    //std::cout << "cursor\n";
+
+    return Hooks::oSetCursorVisible(thisptr, visible);
+}
+
+__int64 __fastcall HCalculateFrameTime(__int64* thisptr, float a2) {
+
+    std::cout << *thisptr << "\n";
+
+    return Hooks::oCalculateFrameTime(thisptr, a2);
 }
 
 bool Hooks::CreateHooks() {
@@ -165,7 +181,7 @@ bool Hooks::CreateHooks() {
         std::cout << "Failed to initialize minhook";
         return false;
     }
-    
+
     HMODULE hOpenGL = GetModuleHandleA("opengl32.dll");
     if (!hOpenGL || hOpenGL == 0)
         hOpenGL = LoadLibraryA("opengl32.dll");
@@ -174,36 +190,17 @@ bool Hooks::CreateHooks() {
         std::cout << "Failed to create hook HWglSwapBuffers";
         return false;
     }
-    
-    //const char* pattern = "41 57 41 56 41 55 41 54 57 56 55 53 48 81 EC ? ? ? ? 0F 29 B4 24 ? ? ? ? 0F 29 BC 24 ? ? ? ? 44 0F 29 84 24 ? ? ? ? 0F 57 E4 0F 29 64 24";
-    const char* playerMovePattern = "55 41 57 41 56 41 55 41 54 57 56 53 48 81 EC ? ? ? ? 0F 29 B4 24 ? ? ? ? 0F 29 BC 24 ? ? ? ? 44 0F 29 84 24 ? ? ? ? 48 8D AC 24 ? ? ? ? 33 C0 48 89 85 ? ? ? ? 0F 57 E4 48 B8";
-    std::uint8_t* playerMoveAddress = PatternScan(playerMovePattern);
-    if (MH_CreateHook(playerMoveAddress, &HGameTickType, reinterpret_cast<LPVOID*>(&oPlayerMove)) != MH_OK) {
-        std::cout << "Failed to create hook HPlayerMove";
-        return false;
-    }
 
-    const char* setUniformBuffersPattern = "55 41 57 41 56 41 55 41 54 57 56 53 48 81 EC ? ? ? ? 0F 29 B4 24 ? ? ? ? 0F 29 BC 24 ? ? ? ? 48 8D AC 24 ? ? ? ? 48 8B D9 48 89 5D";
-    uint8_t* setUniformBuffersAddress = PatternScan(setUniformBuffersPattern);
-    if (MH_CreateHook(setUniformBuffersAddress, &HSetUniformBuffers, reinterpret_cast<LPVOID*>(&oSetUniformBuffers)) != MH_OK) {
-        std::cout << "Failed to create hook HSetUniformBuffers";
-        return false;
-    }
+    CREATE_HOOK(DoMoveCycle, "55 41 57 41 56 41 55 41 54 57 56 53 48 81 EC ? ? ? ? 0F 29 B4 24 ? ? ? ? 0F 29 BC 24 ? ? ? ? 44 0F 29 84 24 ? ? ? ? 48 8D AC 24 ? ? ? ? 33 C0 48 89 85 ? ? ? ? 0F 57 E4 48 B8");
+    CREATE_HOOK(SetUniformBuffers, "55 41 57 41 56 41 55 41 54 57 56 53 48 81 EC ? ? ? ? 0F 29 B4 24 ? ? ? ? 0F 29 BC 24 ? ? ? ? 48 8D AC 24 ? ? ? ? 48 8B D9 48 89 5D");
+    CREATE_HOOK(HandleScreenShotting, "55 41 57 41 56 41 55 41 54 57 56 53 48 81 EC ? ? ? ? 48 8D AC 24 ? ? ? ? 33 C0 48 89 45 ? 0F 57 E4 0F 29 65 ? 48 89 45 ? 48 8B D9 48 8B 4B ? 48 8B 49");
+    CREATE_HOOK(OnUserInput, "41 57 41 56 41 55 41 54 57 56 55 53 48 83 EC ? 33 C0 48 89 44 24 ? 0F 57 E4 0F 29 64 24 ? 0F 29 64 24 ? 0F 29 64 24 ? 48 89 44 24 ? 48 8B D9 48 8B F2 8B 3E");
+    CREATE_HOOK(SetCursorVisible, "55 57 56 53 48 83 EC ? 48 8D 6C 24 ? 33 C0 48 89 45 ? 48 89 45 ? 48 8B D9 8B F2");
+    //CREATE_HOOK(CalculateFrameTime, "41 56 57 56 55 53 48 81 EC ? ? ? ? 0F 29 B4 24 ? ? ? ? 0F 29 BC 24 ? ? ? ? 44 0F 29 84 24 ? ? ? ? 33 C0 48 89 44 24 ? 0F 57 E4 48 B8");
+    //CREATE_HOOK(CalculateFrameTime, "55 41 56 57 56 53 48 83 EC ? 48 8D 6C 24 ? 48 89 4D ? 48 89 4D ? 48 8B DA EB");
+    
 
-    const char* ingameApp = "55 41 57 41 56 41 55 41 54 57 56 53 48 81 EC ? ? ? ? 48 8D AC 24 ? ? ? ? 33 C0 48 89 45 ? 0F 57 E4 0F 29 65 ? 48 89 45 ? 48 8B D9 48 8B 4B ? 48 8B 49";
-    uint8_t* ingameAppAddress = PatternScan(ingameApp);
-    if (MH_CreateHook(ingameAppAddress, &HInGameApp, reinterpret_cast<LPVOID*>(&oInGameApp)) != MH_OK) {
-        std::cout << "Failed to create hook HInGameApp";
-        return false;
-    }
-    
-    const char* onUserInputPattern = "41 57 41 56 41 55 41 54 57 56 55 53 48 83 EC ? 33 C0 48 89 44 24 ? 0F 57 E4 0F 29 64 24 ? 0F 29 64 24 ? 0F 29 64 24 ? 48 89 44 24 ? 48 8B D9 48 8B F2 8B 3E";
-    uint8_t* onUserInputAddress = PatternScan(onUserInputPattern);
-    if (MH_CreateHook(onUserInputAddress, &HOnUserInput, reinterpret_cast<LPVOID*>(&oOnUserInput)) != MH_OK) {
-        std::cout << "Failed to create hook HOnUserInput";
-        return false;
-    }
-    
+
     MH_EnableHook(MH_ALL_HOOKS);
     return true;
 }

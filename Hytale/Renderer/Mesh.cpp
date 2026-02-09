@@ -115,8 +115,8 @@ void Mesh::Render2D() {
 	glDisable(GL_CULL_FACE);
 	glDepthRange(0.0, 1.0);
 
-	int winW = Util::windowWidth;
-	int winH = Util::windowHeight;
+	int winW = Util::app->Engine->Window->WindowWidth;
+	int winH = Util::app->Engine->Window->WindowHeight;
 
 	glViewport(0, 0, winW, winH);
 

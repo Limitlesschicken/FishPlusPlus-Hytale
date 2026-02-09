@@ -17,7 +17,7 @@ Component::Component() {
 	this->height = 0;
 }
 
-void Component::Render() {
+void Component::Render(double deltaTime) {
 	for (auto& children : m_children) {
 		children->Render();
 	}

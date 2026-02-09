@@ -3,6 +3,8 @@
 #include "../Util/Util.h"
 #include "../Util/InputSystem.h"
 
+#include "Hooks/Hooks.h"
+
 static bool lbuttonWasDown = false;
 static bool rbuttonWasDown = false;
 
@@ -41,23 +43,35 @@ Menu::Menu(HDC hdc) {
     mainComponent = std::make_unique<Component>();
 }
 
-void Menu::m_listenOpenInput() {
-    if (InputSystem::IsKeyPressed(SDL_SCANCODE_RCTRL))
-       m_open = !m_open;
+void Menu::ListenOpenInput() {
+    if (InputSystem::IsKeyPressed(SDL_SCANCODE_RCTRL)) {
+        m_open = !m_open;
+        if (m_open)
+            OnMenuOpen();
+        else
+            OnMenuClose();
+    }
 }
 
-void Menu::Run() {
-    m_listenOpenInput();
+void Menu::OnMenuOpen() {
+    Util::app->Input->isMouseLocked = true;
+    //Hooks::oSetCursorVisible(Util::app->Engine->Window, true);
+}
 
+void Menu::OnMenuClose() {
     Util::app->Input->isMouseLocked = false;
+    //Hooks::oSetCursorVisible(Util::app->Engine->Window, false);
+    //Util::app->Engine->Window->IsCursorHidden = true;
+}
+
+void Menu::Run(double deltaTime) {
+    ListenOpenInput();
 
     if (!Menu::isMenuOpen())
         return;
 
-    Util::app->Input->isMouseLocked = true;
-
-    ClipCursor(NULL);
-    SetCursor(LoadCursor(NULL, IDC_ARROW));
+    //ClipCursor(NULL);
+    //SetCursor(LoadCursor(NULL, IDC_ARROW));
 
     bool lbuttonDown = GetAsyncKeyState(VK_LBUTTON);
     bool rbuttonDown = GetAsyncKeyState(VK_RBUTTON);
@@ -83,7 +97,7 @@ void Menu::Run() {
     prevYPos = Util::cursorPosY;
 
     mainComponent->Update(Util::cursorPosX, Util::cursorPosY);
-    mainComponent->Render();
+    mainComponent->Render(deltaTime);
 }
 
 bool Menu::isMenuOpen() {

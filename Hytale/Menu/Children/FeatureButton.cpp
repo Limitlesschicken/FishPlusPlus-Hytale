@@ -14,8 +14,7 @@ FeatureButton::FeatureButton(Feature* feature)  {
 
 }
 
-void FeatureButton::Render() {
-
+void FeatureButton::Render(double deltaTime) {
 	Renderer2D::colored->Square(Vector2(x, y), width, height, m_hovered ? Color::From255(Style::moduleHoverColor) : Color(0, 0, 0, 0));
 	Renderer2D::colored->Render();
 

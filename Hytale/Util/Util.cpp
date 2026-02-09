@@ -35,6 +35,21 @@ Camera* Util::getCamera() {
 	return Util::app->appInGame->gameInstance->Camera->Camera;
 }
 
+double Util::GetTime()
+{
+	static LARGE_INTEGER freq;
+	static bool initialized = false;
+	if (!initialized)
+	{
+		QueryPerformanceFrequency(&freq);
+		initialized = true;
+	}
+
+	LARGE_INTEGER now;
+	QueryPerformanceCounter(&now);
+	return (double)now.QuadPart / (double)freq.QuadPart;
+}
+
 std::vector<Entity*> Util::getEntities() {
 	GameInstance* gameInstance = getGameInstance();
 	if (gameInstance == nullptr)

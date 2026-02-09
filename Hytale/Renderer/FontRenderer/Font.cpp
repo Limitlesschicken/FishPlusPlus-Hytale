@@ -48,8 +48,8 @@ void Font::RenderText(std::string text, float x, float y, float scale, Color col
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	int winW = Util::windowWidth;
-	int winH = Util::windowHeight;
+	int winW = Util::app->Engine->Window->WindowWidth;
+	int winH = Util::app->Engine->Window->WindowHeight;
 
 	glViewport(0, 0, winW, winH);
 

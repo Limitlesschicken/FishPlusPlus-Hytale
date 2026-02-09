@@ -7,14 +7,17 @@ class Menu {
 public:
 	Menu(HDC hdc);
 
-	void Run();
+	void Run(double deltaTime);
 
 	static bool isMenuOpen();
 
 	static inline std::unique_ptr<Component> mainComponent;
 private:
 
-	void m_listenOpenInput();
+	void OnMenuOpen();
+	void OnMenuClose();
+
+	void ListenOpenInput();
 
 	inline static bool m_open = true;
 };

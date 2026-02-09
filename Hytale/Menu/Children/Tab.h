@@ -10,7 +10,7 @@ class Tab : public Component {
 public:
 	Tab(std::string name, float x, float y);
 
-	void Render() override;
+	void Render(double deltaTime) override;
 	void Update(float mouseX, float mouseY) override;
 	void MouseClicked(float mouseX, float mouseY, int vk);
 	void MouseReleased(float mouseX, float mouseY, int vk);
@@ -27,7 +27,7 @@ private:
 class Body : public Component {
 public:
 	Body(Tab* tab);
-	void Render() override;
+	void Render(double deltaTime) override;
 	void Update(float mouseX, float mouseY) override;
 private:
 	Tab* tab;

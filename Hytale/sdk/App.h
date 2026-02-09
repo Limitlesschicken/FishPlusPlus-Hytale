@@ -1,6 +1,7 @@
 #pragma once
 #include "AppInGame.h"
 #include "Input.h"
+#include "Engine.h"
 
 enum AppStage {
 	Initial,
@@ -14,8 +15,9 @@ enum AppStage {
 
 struct App {
 	char pad_0000[12]; //0x0000
-	AppStage Stage; //0x000C
-	char pad_0010[56]; //0x0010
+	int32_t Stage; //0x000C
+	Engine* Engine; //0x0010
+	char pad_0018[48]; //0x0018
 	Input* Input; //0x0048
 	char pad_0050[32]; //0x0050
 	void* AppStartup ; //0x0070

@@ -1,0 +1,44 @@
+#include "Util.h"
+Matrix4x4 Util::getViewProjMat() {
+	return viewProjMat;
+}
+
+bool Util::WorldToScreen(Vector3 pos, Vector2& out) {
+    if (!Util::getCamera()) return false;
+
+    Vector3 camPos = Util::getCamera()->Position;
+    Vector3 camRelativePos = pos - camPos;
+
+    float clipX = Util::viewProjMat.m[0][0] * camRelativePos.x +
+        Util::viewProjMat.m[1][0] * camRelativePos.y +
+        Util::viewProjMat.m[2][0] * camRelativePos.z +
+        Util::viewProjMat.m[3][0];
+
+    float clipY = Util::viewProjMat.m[0][1] * camRelativePos.x +
+        Util::viewProjMat.m[1][1] * camRelativePos.y +
+        Util::viewProjMat.m[2][1] * camRelativePos.z +
+        Util::viewProjMat.m[3][1];
+
+    float clipZ = Util::viewProjMat.m[0][2] * camRelativePos.x +
+        Util::viewProjMat.m[1][2] * camRelativePos.y +
+        Util::viewProjMat.m[2][2] * camRelativePos.z +
+        Util::viewProjMat.m[3][2];
+
+    float clipW = Util::viewProjMat.m[0][3] * camRelativePos.x +
+        Util::viewProjMat.m[1][3] * camRelativePos.y +
+        Util::viewProjMat.m[2][3] * camRelativePos.z +
+        Util::viewProjMat.m[3][3];
+
+    if (clipW < 0.001f) return false;
+
+    float ndcX = clipX / clipW;
+    float ndcY = clipY / clipW;
+    float ndcZ = clipZ / clipW;
+
+    if (ndcZ < -1.0f || ndcZ > 1.0f) return false;
+
+    out.x = (ndcX + 1.0f) * 0.5f * Util::windowWidth;
+    out.y = (1.0f - (ndcY + 1.0f) * 0.5f) * Util::windowHeight;
+
+    return true;
+}

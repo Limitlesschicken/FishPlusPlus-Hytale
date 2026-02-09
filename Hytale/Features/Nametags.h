@@ -1,0 +1,13 @@
+#pragma once
+
+#include "../FeatureDispatcher/Feature.h"
+
+class Nametags : public Feature {
+public:
+	Nametags() : Feature("Nametags") {};
+private:
+
+	void OnRender3D(Render3DEvent& renderer3D);
+
+	bool CanExecute() override;
+};

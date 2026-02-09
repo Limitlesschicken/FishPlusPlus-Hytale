@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="Hytale/Hytale.vcxproj" Id="b6c4e636-a222-482f-ad52-5187fa5508de" />
+</Solution>

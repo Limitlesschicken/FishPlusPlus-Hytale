@@ -24,7 +24,6 @@ public:
 
 	void OnToggle();
 	void setActive(bool active);
-
 	
 	template<typename T, typename... Args>
 	T* RegisterSetting(Args&&... args) {
@@ -33,15 +32,11 @@ public:
 		m_settings.push_back(std::move(ptr));
 		return raw;
 	}
-
-
-	
 	
 	std::vector<std::unique_ptr<ISetting>>& GetSettings() {
 		return m_settings;
 	}
 	
-
 	std::string getName();
 	std::string getCategory();
 	void setCategory(std::string category);

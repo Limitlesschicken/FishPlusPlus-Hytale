@@ -71,8 +71,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LibraryPath>C:\Users\Rober\source\repos\Hytale\Hytale\external\freetype;$(LibraryPath)</LibraryPath>
-    <IncludePath>C:\Users\Rober\source\repos\Hytale\Hytale;C:\Users\Rober\source\repos\Hytale\Hytale\external\freetype\include;C:\Users\Rober\source\repos\Hytale\Hytale\external\glad\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)\external\freetype;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)\external\freetype\include;$(ProjectDir)\external\glad\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(ProjectDir);$(ProjectDir)\external\freetype\include;$(ProjectDir)\external\glad\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)\external\freetype;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -142,6 +146,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalDependencies>opengl32.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -120,10 +120,10 @@
     <ClCompile Include="Menu\Children\ToggleButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Menu\Children\SettingsButton.cpp">
+    <ClCompile Include="Menu\Children\SliderButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FeatureDispatcher\Setting.cpp">
+    <ClCompile Include="Menu\Children\MultiButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -464,7 +464,7 @@
     <ClInclude Include="Menu\Children\ToggleButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Menu\Children\SettingsButton.h">
+    <ClInclude Include="Menu\Children\SettingButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FeatureDispatcher\Setting.h">
@@ -486,6 +486,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="sdk\Window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FeatureDispatcher\Settings\ToggleSetting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FeatureDispatcher\Settings\SliderSetting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu\Children\SliderButton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FeatureDispatcher\Settings\MultiSetting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu\Children\MultiButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

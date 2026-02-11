@@ -2,9 +2,20 @@
 
 #include <cmath>
 
+#include "glad/glad.h"
+#include "Util/Util.h"
+
 Renderer2D::Renderer2D() {
 	lines = std::make_unique<Mesh>(true);
 	triangles = std::make_unique<Mesh>(false);
+}
+
+void Renderer2D::BeginScissor(float x, float y, float width, float height) {
+    glEnable(GL_SCISSOR_TEST);
+    glScissor((GLint)x, (GLint)(Util::app->Engine->Window->WindowHeight - (y + height)), (GLint)width, (GLint)height);
+}
+void Renderer2D::EndScissor() {
+    glDisable(GL_SCISSOR_TEST);
 }
 
 void Renderer2D::Square(Vector2 p1, float width, float height, Color color) {

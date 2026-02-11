@@ -2,6 +2,7 @@
 
 #include <Windows.h>
 #include <memory>
+#include <iostream>
 
 #include "FeatureButton.h"
 
@@ -25,9 +26,11 @@ void Tab::Render(double deltaTime) {
 }
 
 void Tab::DrawHeader() {
-	Renderer2D::colored->Square(Vector2(x, y), width, height, Color::From255(Style::headerColor));
+	Renderer2D::colored->BeginScissor(x, y, width, height);
+	Renderer2D::colored->Square(Vector2(x, y), width, height, Color::Normalize(Style::headerColor));
 	Renderer2D::colored->Render();
 	Fonts::Figtree->RenderTextShadow(name, x + Style::headerPadding.x, y + Style::headerPadding.y, 1, Color::White());
+	Renderer2D::colored->EndScissor();
 }
 
 void Tab::Update(float mouseX, float mouseY) {
@@ -70,7 +73,7 @@ Body::Body(Tab* tab) {
 }
 
 void Body::Render(double deltaTime) {
-	Renderer2D::colored->SquareOutline(Vector2(x, y), width, height, Color::From255(Style::tabBgColor), Color::From255(Style::tabOutlineColor));
+	Renderer2D::colored->SquareOutline(Vector2(x, y), width, height, Color::Normalize(Style::tabBgColor), Color::Normalize(Style::tabOutlineColor));
 	Renderer2D::colored->Render();
 
 	Component::Render(deltaTime);
@@ -82,11 +85,14 @@ void Body::Update(float mouseX, float mouseY) {
 
 	float offsetY = 0;
 	for (auto& feature : this->m_children) {
-		feature->setX(tab->x + 1);
-		feature->setY(offsetY + y);
-		feature->setWidth(width - 2);
+		feature->SetX(tab->x + 1);
+		feature->SetY(offsetY + y);
+		feature->SetWidth(width - 2);
 		feature->Update(mouseX, mouseY);
-		offsetY += feature->getHeight();
+		offsetY += feature->GetHeight();
+		if (auto* fb = dynamic_cast<FeatureButton*>(feature.get())) {
+			offsetY += fb->GetBodyHeight();
+		}
 	}
 	height = offsetY;
 }

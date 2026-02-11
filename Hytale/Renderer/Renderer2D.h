@@ -14,6 +14,9 @@ public:
 
 	Renderer2D();
 
+	void BeginScissor(float x, float y, float width, float height);
+	void EndScissor();
+
 	void Square(Vector2 Position, float width, float height, Color color);
 	void SquareOutline(Vector2 p1, float width, float height, Color color, Color outlineColor);
 

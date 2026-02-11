@@ -1,9 +1,9 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
-#include "../sdk/DefaultMovementController.h"
-#include "../Renderer/Renderer3D.h"
+#include "Setting.h"
 
 #include "Events/MoveCycleEvent.h"
 #include "Events/Render3DEvent.h"
@@ -25,6 +25,23 @@ public:
 	void OnToggle();
 	void setActive(bool active);
 
+	
+	template<typename T, typename... Args>
+	T* RegisterSetting(Args&&... args) {
+		auto ptr = std::make_unique<T>(std::forward<Args>(args)...);
+		T* raw = ptr.get();
+		m_settings.push_back(std::move(ptr));
+		return raw;
+	}
+
+
+	
+	
+	std::vector<std::unique_ptr<ISetting>>& GetSettings() {
+		return m_settings;
+	}
+	
+
 	std::string getName();
 	std::string getCategory();
 	void setCategory(std::string category);
@@ -34,4 +51,5 @@ private:
 	std::string m_name;
 	std::string m_category;
 
+	std::vector<std::unique_ptr<ISetting>> m_settings;
 };

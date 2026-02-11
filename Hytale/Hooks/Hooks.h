@@ -19,8 +19,8 @@ namespace Hooks {
 	typedef __int64(__thiscall* SetCursorVisible)(void* thisptr, bool visible);
 	inline static SetCursorVisible oSetCursorVisible = nullptr;
 
-	typedef __int64(__thiscall* CalculateFrameTime)(__int64* thisptr, __int64 packet);
-	inline static CalculateFrameTime oCalculateFrameTime = nullptr;
+	typedef void(__thiscall* WeatherUpdate)(__int64 thisptr, float deltaTime);
+	inline static WeatherUpdate oWeatherUpdate = nullptr;
 
 	bool CreateHooks();
 }

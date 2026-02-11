@@ -4,7 +4,7 @@
 
 class ESP : public Feature {
 public:
-	ESP() : Feature("ESP") {};
+	ESP();
 private:
 	
 	void OnRender3D(Render3DEvent& renderer3D);

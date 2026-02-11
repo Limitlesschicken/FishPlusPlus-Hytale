@@ -26,14 +26,14 @@ public:
 
 	void AddChild(std::unique_ptr<Component> component);
 
-	void setX(float x);
-	void setY(float y);
-	void setWidth(float width);
-	void setHeight(float height);
-	float getX();
-	float getY();
-	float getWidth();
-	float getHeight();
+	void SetX(float x);
+	void SetY(float y);
+	void SetWidth(float width);
+	void SetHeight(float height);
+	float GetX();
+	float GetY();
+	float GetWidth();
+	float GetHeight();
 private:
 
 protected:

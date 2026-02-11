@@ -4,11 +4,17 @@
 #include "../FeatureDispatcher/Feature.h"
 #include "../sdk/AppInGame.h"
 
+#include "FeatureDispatcher/Settings/SliderSetting.h"
+#include "FeatureDispatcher/Settings/MultiSetting.h"
+
 class Flight : public Feature {
 public:
-	Flight() : Feature("Flight") {};
+	Flight();
 private:
 	void PlayerMove(MoveCycleEvent& event) override;
 	void OnDeactivate() override;
 	bool CanExecute() override;
+
+	MultiSetting* mode;
+	SliderSetting* speed;
 };

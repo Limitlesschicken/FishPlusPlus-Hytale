@@ -155,7 +155,6 @@
     <ClCompile Include="external\minhook\trampoline.c" />
     <ClCompile Include="FeatureDispatcher\Feature.cpp" />
     <ClCompile Include="FeatureDispatcher\FeatureDispatcher.cpp" />
-    <ClCompile Include="FeatureDispatcher\Setting.cpp" />
     <ClCompile Include="Features\ESP.cpp" />
     <ClCompile Include="Features\Flight.cpp" />
     <ClCompile Include="Features\Nametags.cpp" />
@@ -164,7 +163,8 @@
     <ClCompile Include="Math\Vector4.h" />
     <ClCompile Include="Memory\Memory.cpp" />
     <ClCompile Include="Menu\Children\FeatureButton.cpp" />
-    <ClCompile Include="Menu\Children\SettingsButton.cpp" />
+    <ClCompile Include="Menu\Children\MultiButton.cpp" />
+    <ClCompile Include="Menu\Children\SliderButton.cpp" />
     <ClCompile Include="Menu\Children\ToggleButton.cpp" />
     <ClCompile Include="Menu\Component.cpp" />
     <ClCompile Include="Menu\Menu.cpp" />
@@ -255,6 +255,9 @@
     <ClInclude Include="FeatureDispatcher\Feature.h" />
     <ClInclude Include="FeatureDispatcher\FeatureDispatcher.h" />
     <ClInclude Include="FeatureDispatcher\Setting.h" />
+    <ClInclude Include="FeatureDispatcher\Settings\MultiSetting.h" />
+    <ClInclude Include="FeatureDispatcher\Settings\SliderSetting.h" />
+    <ClInclude Include="FeatureDispatcher\Settings\ToggleSetting.h" />
     <ClInclude Include="Features\ESP.h" />
     <ClInclude Include="Features\Flight.h" />
     <ClInclude Include="Features\Nametags.h" />
@@ -266,11 +269,13 @@
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Memory\Memory.h" />
     <ClInclude Include="Menu\Children\FeatureButton.h" />
-    <ClInclude Include="Menu\Children\SettingsButton.h" />
+    <ClInclude Include="Menu\Children\MultiButton.h" />
+    <ClInclude Include="Menu\Children\SettingButton.h" />
     <ClInclude Include="Menu\Children\ToggleButton.h" />
     <ClInclude Include="Menu\Component.h" />
     <ClInclude Include="Menu\Config.h" />
     <ClInclude Include="Menu\Menu.h" />
+    <ClInclude Include="Menu\Children\SliderButton.h" />
     <ClInclude Include="Menu\Style.h" />
     <ClInclude Include="Menu\Children\Tab.h" />
     <ClInclude Include="Renderer\FontRenderer\Character.h" />

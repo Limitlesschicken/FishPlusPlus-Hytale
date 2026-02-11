@@ -19,7 +19,7 @@ Component::Component() {
 
 void Component::Render(double deltaTime) {
 	for (auto& children : m_children) {
-		children->Render();
+		children->Render(deltaTime);
 	}
 }
 void Component::Update(float mouseX, float mouseY) {
@@ -77,27 +77,27 @@ void Component::AddChild(std::unique_ptr<Component> component) {
 	m_children.push_back(std::move(component));
 }
 
-void Component::setX(float x) {
+void Component::SetX(float x) {
 	this->x = x;
 }
-void Component::setY(float y) {
+void Component::SetY(float y) {
 	this->y = y;
 }
-void Component::setWidth(float width) {
+void Component::SetWidth(float width) {
 	this->width = width;
 }
-void Component::setHeight(float height) {
+void Component::SetHeight(float height) {
 	this->height = height;
 }
-float Component::getX() {
+float Component::GetX() {
 	return x;
 }
-float Component::getY() {
+float Component::GetY() {
 	return y;
 }
-float Component::getWidth() {
+float Component::GetWidth() {
 	return width;
 }
-float Component::getHeight() {
+float Component::GetHeight() {
 	return height;
 }

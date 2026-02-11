@@ -33,6 +33,7 @@ void Feature::setActive(bool active) {
 	OnToggle();
 }
 
+
 std::string Feature::getName() {
 	return m_name;
 }

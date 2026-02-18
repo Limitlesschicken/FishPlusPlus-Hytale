@@ -9,6 +9,8 @@
 #include "Events/Render3DEvent.h"
 #include "Events/Render2DEvent.h"
 
+#include "Util/InputSystem.h"
+
 class Feature {
 public:
 	Feature(std::string name);
@@ -22,6 +24,7 @@ public:
 	virtual void OnActivate();
 	virtual void OnDeactivate();
 
+	void CreateKeybind();
 	void OnToggle();
 	void setActive(bool active);
 	
@@ -41,7 +44,7 @@ public:
 	std::string getCategory();
 	void setCategory(std::string category);
 	bool active;
-
+	SDL_Scancode keybind = SDL_SCANCODE_UNKNOWN;
 private:
 	std::string m_name;
 	std::string m_category;

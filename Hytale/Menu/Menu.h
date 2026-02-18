@@ -8,6 +8,7 @@ public:
 	Menu(HDC hdc);
 
 	void Run(double deltaTime);
+	void ListenForKeybinds();
 
 	static bool isMenuOpen();
 	static void HandleMouse();

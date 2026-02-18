@@ -169,6 +169,7 @@
     <ClCompile Include="Math\Vector4.h" />
     <ClCompile Include="Memory\Memory.cpp" />
     <ClCompile Include="Menu\Children\FeatureButton.cpp" />
+    <ClCompile Include="Menu\Children\KeybindButton.cpp" />
     <ClCompile Include="Menu\Children\MultiButton.cpp" />
     <ClCompile Include="Menu\Children\SliderButton.cpp" />
     <ClCompile Include="Menu\Children\ToggleButton.cpp" />
@@ -185,6 +186,7 @@
     <ClCompile Include="sdk\SDK.cpp" />
     <ClCompile Include="sdk\Time.h" />
     <ClCompile Include="Util\FileUtil.cpp" />
+    <ClCompile Include="Util\KeyUtils.cpp" />
     <ClCompile Include="Util\RenderUtils.cpp" />
     <ClCompile Include="Util\TimeUtil.cpp" />
     <ClCompile Include="Util\Util.cpp" />
@@ -262,6 +264,7 @@
     <ClInclude Include="FeatureDispatcher\Feature.h" />
     <ClInclude Include="FeatureDispatcher\FeatureDispatcher.h" />
     <ClInclude Include="FeatureDispatcher\Setting.h" />
+    <ClInclude Include="FeatureDispatcher\Settings\KeybindSetting.h" />
     <ClInclude Include="FeatureDispatcher\Settings\MultiSetting.h" />
     <ClInclude Include="FeatureDispatcher\Settings\SliderSetting.h" />
     <ClInclude Include="FeatureDispatcher\Settings\ToggleSetting.h" />
@@ -277,6 +280,7 @@
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Memory\Memory.h" />
     <ClInclude Include="Menu\Children\FeatureButton.h" />
+    <ClInclude Include="Menu\Children\KeybindButton.h" />
     <ClInclude Include="Menu\Children\MultiButton.h" />
     <ClInclude Include="Menu\Children\SettingButton.h" />
     <ClInclude Include="Menu\Children\ToggleButton.h" />
@@ -300,6 +304,7 @@
     <ClInclude Include="sdk\AppInGame.h" />
     <ClInclude Include="sdk\Array.h" />
     <ClInclude Include="sdk\CameraModule.h" />
+    <ClInclude Include="sdk\Chat.h" />
     <ClInclude Include="sdk\DefaultMovementController.h" />
     <ClInclude Include="sdk\Camera.h" />
     <ClInclude Include="sdk\ClientMovementStates.h" />

@@ -7,6 +7,7 @@
 #include "../Math/Matrix4x4.h"
 #include "../Math/Vector2.h"
 
+#include "InputSystem.h"
 #include "../sdk/Camera.h"
 #include "../sdk/CameraModule.h"
 #include "../sdk/GameInstance.h"
@@ -45,4 +46,6 @@ namespace Util {
     std::filesystem::path GetDirectory();
     SimpleTime HoursToTime(float hours);
     __int64 BuildTicksFromHours(float hours);
+    const char* GetKeyName(SDL_Scancode key);
+    bool ShouldInteractWithGame();
 }

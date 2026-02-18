@@ -3,9 +3,6 @@
 #include <vector>
 #include <memory>
 
-#include "../Renderer/Mesh.h"
-
-
 class Component {
 public:
 	Component(float x, float y, float width, float height);

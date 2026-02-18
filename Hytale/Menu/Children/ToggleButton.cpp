@@ -1,7 +1,6 @@
 #include "ToggleButton.h"
 
 #include <algorithm>
-#include <iostream>
 #include <Windows.h>
 
 #include "../Style.h"

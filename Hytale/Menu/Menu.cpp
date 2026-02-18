@@ -1,11 +1,10 @@
 #include "Menu.h"
 
-#include <iostream>
-
 #include "../Util/Util.h"
 #include "../Util/InputSystem.h"
 
-#include "Hooks/Hooks.h"
+#include "FeatureDispatcher/FeatureDispatcher.h"
+
 
 static bool lbuttonWasDown = false;
 static bool rbuttonWasDown = false;
@@ -65,6 +64,7 @@ void Menu::OnMenuClose() {
 
 void Menu::Run(double deltaTime) {
     ListenOpenInput();
+    ListenForKeybinds();
 
     if (!Menu::isMenuOpen())
         return;
@@ -95,6 +95,16 @@ void Menu::Run(double deltaTime) {
 
     mainComponent->Update(Util::cursorPosX, Util::cursorPosY);
     mainComponent->Render(deltaTime);
+}
+
+void Menu::ListenForKeybinds() {
+    if (!Util::ShouldInteractWithGame())
+        return;
+
+    for (auto& feature : FeatureDispatcher::features) {
+        if (InputSystem::IsKeyPressed(feature->keybind))
+            feature->setActive(!feature->active);
+    }
 }
 
 bool Menu::isMenuOpen() {

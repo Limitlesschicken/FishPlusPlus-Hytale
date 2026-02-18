@@ -13,6 +13,7 @@ Flight::Flight() : Feature("Flight") {
 
 void Flight::PlayerMove(MoveCycleEvent& event) {
 	if (mode->GetValue() == 1) {
+		
 		event.dmc.SpeedMultiplier = 1.0f;
 		event.dmc.clientMovementStates.IsFlying = false;
 		float yawRad = Util::getLocalPlayer()->yawRad;
@@ -24,7 +25,8 @@ void Flight::PlayerMove(MoveCycleEvent& event) {
 
 		event.dmc.Velocity = 0.0f;
 		event.wishDirection = 0.0f;
-		
+		if (!Util::ShouldInteractWithGame())
+			return;
 		if (InputSystem::IsKeyHeld(SDL_SCANCODE_W))
 			event.wishDirection += Vector3(forwardX * this->speed->GetValue(), event.wishDirection.y, forwardZ * this->speed->GetValue());
 		if (InputSystem::IsKeyHeld(SDL_SCANCODE_S)) 

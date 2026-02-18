@@ -6,6 +6,7 @@
 
 #include "FeatureDispatcher/Settings/SliderSetting.h"
 #include "FeatureDispatcher/Settings/MultiSetting.h"
+#include "FeatureDispatcher/Settings/KeybindSetting.h"
 
 class Flight : public Feature {
 public:

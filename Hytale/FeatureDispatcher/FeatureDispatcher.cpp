@@ -13,6 +13,7 @@ std::vector<std::unique_ptr<Feature>> FeatureDispatcher::features;
 
 void InitFeature(std::unique_ptr<Feature> feature, std::string tab) {
 	feature->setCategory(tab);
+	feature->CreateKeybind();
 	FeatureDispatcher::features.push_back(std::move(feature));
 }
 void FeatureDispatcher::initFeatures() {

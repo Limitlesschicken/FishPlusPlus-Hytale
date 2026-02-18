@@ -1,9 +1,5 @@
 #include "Component.h"
 
-#include <Windows.h>
-
-#include <iostream>
-
 Component::Component(float x, float y, float width, float height) {
 	this->x = x;
 	this->y = y;

@@ -26,7 +26,8 @@ void Speed::PlayerMove(MoveCycleEvent& event) {
 	event.dmc.Velocity.z = 0.0f;
 	event.wishDirection.x = 0.0f;
 	event.wishDirection.z = 0.0f;
-
+	if (!Util::ShouldInteractWithGame())
+		return;
 	if (InputSystem::IsKeyHeld(SDL_SCANCODE_W))
 		event.wishDirection += Vector3(forwardX * this->speed->GetValue(), event.wishDirection.y, forwardZ * this->speed->GetValue());
 	if (InputSystem::IsKeyHeld(SDL_SCANCODE_S))

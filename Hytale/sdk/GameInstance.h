@@ -8,6 +8,7 @@
 #include "CameraModule.h"
 #include "Engine.h"
 #include "SceneRenderer.h"
+#include "Chat.h"
 
 class GameInstance
 {
@@ -15,7 +16,9 @@ public:
 	char pad_0000[16]; //0x0000
 	Entity* Player; //0x0010
 	Engine* Engine; //0x0018
-	char pad_0020[80]; //0x0020
+	char pad_0020[8]; //0x0020
+	Chat* Chat; //0x0028
+	char pad_0030[64]; //0x0030
 	SceneRenderer* SceneRenderer; //0x0070
 	char pad_0078[136]; //0x0078
 	Time* Time; //0x0100

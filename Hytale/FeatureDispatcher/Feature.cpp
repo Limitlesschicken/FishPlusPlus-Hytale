@@ -1,6 +1,7 @@
 #include "Feature.h"
 
 #include "../Renderer/Renderer3D.h"
+#include "Settings/KeybindSetting.h"
 
 Feature::Feature(std::string name) {
 	m_name = name;
@@ -33,6 +34,9 @@ void Feature::setActive(bool active) {
 	OnToggle();
 }
 
+void Feature::CreateKeybind() {
+	this->RegisterSetting<KeybindSetting>("Keybind", SDL_SCANCODE_UNKNOWN, this);
+}
 
 std::string Feature::getName() {
 	return m_name;

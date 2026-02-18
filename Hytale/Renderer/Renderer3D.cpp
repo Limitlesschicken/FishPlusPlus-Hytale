@@ -1,7 +1,6 @@
 #include "Renderer3D.h"
 
-#include <format>
-#include "FontRenderer/Fonts.h"
+#include "core.h"
 
 Renderer3D::Renderer3D() {
 	lines = std::make_unique<Mesh>(true);
@@ -50,6 +49,10 @@ void Renderer3D::BoxLines(Vector3 pos, Vector3 size, Color insideColor, Color ou
 }
 
 void Renderer3D::BoxLines(Entity* entity, Color insideColor, Color outlineColor) {
+	ValidPtrVoid(entity);
+	if (entity->OldPos == Vector3(0, 0, 0))
+		entity->OldPos = entity->Position;
+
 	BoxLines(entity->RenderPos + entity->Hitbox.min, entity->Hitbox.max - entity->Hitbox.min, insideColor, outlineColor);
 }
 

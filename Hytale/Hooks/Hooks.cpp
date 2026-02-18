@@ -68,13 +68,13 @@ BOOL WINAPI HWglSwapBuffers(HDC hdc) {
     ScreenToClient(hwnd, &current);
     Util::cursorPosX = current.x;
     Util::cursorPosY = current.y;
-    
+
+    SDK::Main();
+
     Renderer3D renderer3D;
     Render3DEvent render3DEvent(renderer3D);
     FeatureDispatcher::DispatchEvent(render3DEvent);
     renderer3D.Render();
-
-	SDK::Main();
 
     Fonts::Figtree->RenderText(std::format("App: 0x{:x}", reinterpret_cast<uintptr_t>(Util::app)), 0.0f, 10.0f, 0.5f, Color::White());
     Fonts::Figtree->RenderText(std::format("AppInGame: 0x{:x}", reinterpret_cast<uintptr_t>(Util::app->appInGame)), 0.0f, 20.0f, 0.5f, Color::White());

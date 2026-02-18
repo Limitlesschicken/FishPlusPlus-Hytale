@@ -29,6 +29,7 @@
 #include "Math/Matrix4x4.h"
 
 #define ValidPtr(ptr) if (!Util::IsValidPtr(ptr)) return nullptr;
+#define ValidPtrVoid(ptr) if (!Util::IsValidPtr(ptr)) return;
 #define ValidPtrBool(ptr) if (!Util::IsValidPtr(ptr)) return false;
 #define ValidPtrEmpty(ptr) if (!Util::IsValidPtr(ptr)) return {};
 #define ValidPtrLoop(ptr) if (!Util::IsValidPtr(ptr)) continue;

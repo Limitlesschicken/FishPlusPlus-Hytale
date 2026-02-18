@@ -1,5 +1,7 @@
 #include "Mesh.h"
 
+#include "core.h"
+
 #define NOMINMAX
 #include <Windows.h>
 #include <algorithm>
@@ -26,9 +28,9 @@ uint32_t Mesh::GetVertexCount() {
 }
 
 void Mesh::AddVertex3D(const Vertex& vertex) {
-	if (Util::getCamera() == nullptr)
-		return;
-	Vector3 camPos = Util::getCamera()->Position;
+	Camera* camera = Util::getCamera();
+	ValidPtrVoid(camera);
+	Vector3 camPos = camera->Position;
 	vertices.push_back(Vertex(Vector3(vertex.position.x - camPos.x, vertex.position.y - camPos.y, vertex.position.z - camPos.z), vertex.color));
 	m_vertexCount++;
 }
@@ -89,6 +91,9 @@ void Mesh::Render() {
 		return;
 	}
 
+	SceneRenderer* sceneRenderer = Util::getGameInstance()->SceneRenderer;
+	ValidPtrVoid(sceneRenderer);
+
 
 	GLint lastProgram;
 	glGetIntegerv(GL_CURRENT_PROGRAM, &lastProgram);
@@ -102,7 +107,7 @@ void Mesh::Render() {
 	glDepthRange(0.0, 1.0);
 
 	Shaders::posColor->bind();
-	Shaders::posColor->set("viewMat", Util::app->appInGame->gameInstance->SceneRenderer->MPV);
+	Shaders::posColor->set("viewMat", sceneRenderer->MPV);
 	glBindVertexArray(vao);
 	glDrawElements(lines ? GL_LINES : GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 

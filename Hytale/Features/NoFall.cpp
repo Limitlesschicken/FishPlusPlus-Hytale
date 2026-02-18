@@ -1,9 +1,9 @@
 #include "NoFall.h"
 
-#include <iostream>
+#include "core.h"
 
 #include "../Util/Util.h"
-#include "Hooks/Hooks.h"
+
 
 void NoFall::PlayerMove(MoveCycleEvent& event) {
 	if (event.dmc.Velocity.y < -20.0f)
@@ -12,5 +12,5 @@ void NoFall::PlayerMove(MoveCycleEvent& event) {
 	
 }
 bool NoFall::CanExecute() {
-	return Util::getLocalPlayer() != nullptr;
+	ValidPtrBool(Util::getLocalPlayer());
 }

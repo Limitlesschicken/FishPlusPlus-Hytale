@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include "../Util/Util.h"
+#include "core.h"
 
 
 #include "Util/InputSystem.h"
@@ -39,5 +40,5 @@ void Speed::PlayerMove(MoveCycleEvent& event) {
 }
 
 bool Speed::CanExecute() {
-	return Util::getLocalPlayer() != nullptr;
+	ValidPtrBool(Util::getLocalPlayer());
 }

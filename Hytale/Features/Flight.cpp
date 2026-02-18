@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "core.h"
 #include "../Util/Util.h"
 
 #include "Util/InputSystem.h"
@@ -50,5 +51,6 @@ void Flight::OnDeactivate() {
 }
 
 bool Flight::CanExecute() {
-	return (Util::dmc != nullptr) && (Util::getLocalPlayer() != nullptr);
+	ValidPtrBool(Util::getLocalPlayer());
+	ValidPtrBool(Util::dmc);
 }

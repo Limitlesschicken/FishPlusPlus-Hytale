@@ -19,6 +19,10 @@ struct Vector3 {
 		return *this;
 	}
 
+	bool operator==(const Vector3& value) const {
+		return x == value.x && y == value.y && z == value.z;
+	}
+
 	
 	Vector3 operator-(const Vector3& value) const {
 		return Vector3(x - value.x, y - value.y, z - value.z);

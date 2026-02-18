@@ -3,6 +3,7 @@
 #include "../Renderer/Renderer3D.h"
 #include "../Renderer/FontRenderer/Fonts.h"
 #include "../Util/Util.h"
+#include "core.h"
 
 ESP::ESP() : Feature("ESP") {
 	this->toggle = this->RegisterSetting<ToggleSetting>("Self", false);
@@ -26,5 +27,5 @@ void ESP::OnRender3D(Render3DEvent& renderer3D) {
 }
 
 bool ESP::CanExecute() {
-	return (Util::getLocalPlayer() != nullptr);
+	ValidPtrBool(Util::getLocalPlayer());
 }

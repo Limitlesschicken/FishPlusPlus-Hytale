@@ -1,16 +1,18 @@
 #include "Util.h"
+#include "core.h"
+
 Matrix4x4 Util::getViewProjMat() {
 	return viewProjMat;
 }
 
 bool Util::WorldToScreen(Vector3 pos, Vector2& out) {
-    if (!Util::getCamera()) return false;
+    Camera* camera = Util::getCamera();
+    ValidPtrBool(camera);
 
     SceneRenderer* scene = Util::getGameInstance()->SceneRenderer;
-    if (scene == nullptr)
-        return false;
+    ValidPtrBool(scene);
 
-    Vector3 camPos = Util::getCamera()->Position;
+    Vector3 camPos = camera->Position;
     Vector3 camRelativePos = pos - camPos;
 
     float clipX = scene->MPV.m[0][0] * camRelativePos.x +

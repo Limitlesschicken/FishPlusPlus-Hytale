@@ -5,14 +5,17 @@
 #include "../Util/Util.h"
 
 void Nametags::OnRender3D(Render3DEvent& renderer3D) {
-	for (const auto& entity : Util::getEntities()) {
-		if (entity->entityPlayerType != Entity::EntityPlayerType::Player)
+	SDK::global_mutex.lock();
+	std::vector<EntityData> entities = SDK::entities;
+	SDK::global_mutex.unlock();
+
+	for (const auto& entity : entities) {
+		Vector2 screenPos;
+		if (!Util::WorldToScreen(entity.entityPtr->RenderPos + Vector3(0.0f, 2.1f, 0.0f), screenPos))
 			continue;
 
-		Vector2 screenPos;
-		if (Util::WorldToScreen(entity->RenderPos + Vector3(0.0f, 2.1f, 0.0f), screenPos)) {
-			Fonts::Figtree->RenderText(entity->Name->getName(), screenPos.x - Fonts::Figtree->getWidth(entity->Name->getName()) / 2, screenPos.y, 1, Color::White());
-		}
+		Fonts::Figtree->RenderText(entity.name, screenPos.x - Fonts::Figtree->getWidth(entity.name) / 2, screenPos.y, 1, Color::White());
+
 	}
 }
 

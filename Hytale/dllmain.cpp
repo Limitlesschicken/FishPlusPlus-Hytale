@@ -1,11 +1,7 @@
-#include <iostream>
-#include <Windows.h>
-
+#include "Core.h"
 #include "external/minhook/minhook.h"
 
 #include "Hooks/Hooks.h"
-
-#include "Core.h"
 
 void createConsole() {
     AllocConsole();
@@ -32,6 +28,7 @@ DWORD WINAPI startPoint(LPVOID lpParam) {
     }
 
     MH_DisableHook(MH_ALL_HOOKS);
+	FreeConsole();
 
     return 0;
 }

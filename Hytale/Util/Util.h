@@ -37,6 +37,7 @@ namespace Util {
     inline float cursorPosY = 0;
    
     double GetTime();
+    bool IsValidPtr(void* ptr);
 
     bool WorldToScreen(Vector3 pos, Vector2& out);
     void ResetGlobals();

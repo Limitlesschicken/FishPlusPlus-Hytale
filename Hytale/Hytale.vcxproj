@@ -182,6 +182,7 @@
     <ClCompile Include="Renderer\Renderer2D.cpp" />
     <ClCompile Include="Renderer\Renderer3D.cpp" />
     <ClCompile Include="Renderer\Shaders.cpp" />
+    <ClCompile Include="sdk\SDK.cpp" />
     <ClCompile Include="sdk\Time.h" />
     <ClCompile Include="Util\FileUtil.cpp" />
     <ClCompile Include="Util\RenderUtils.cpp" />
@@ -297,6 +298,7 @@
     <ClInclude Include="Renderer\Vertex.h" />
     <ClInclude Include="sdk\App.h" />
     <ClInclude Include="sdk\AppInGame.h" />
+    <ClInclude Include="sdk\Array.h" />
     <ClInclude Include="sdk\CameraModule.h" />
     <ClInclude Include="sdk\DefaultMovementController.h" />
     <ClInclude Include="sdk\Camera.h" />
@@ -313,6 +315,7 @@
     <ClInclude Include="sdk\MovementVector.h" />
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="sdk\SceneRenderer.h" />
+    <ClInclude Include="sdk\SDK.h" />
     <ClInclude Include="sdk\Window.h" />
     <ClInclude Include="Util\InputSystem.h" />
     <ClInclude Include="Util\TimeUtil.h" />

@@ -46,7 +46,7 @@ Menu::Menu(HDC hdc) {
 }
 
 void Menu::ListenOpenInput() {
-    if (InputSystem::IsKeyPressed(SDL_SCANCODE_RCTRL)) {
+    if (InputSystem::IsKeyPressed(SDL_SCANCODE_INSERT)) {
         m_open = !m_open;
         if (m_open)
             OnMenuOpen();

@@ -1,29 +1,5 @@
+#include "Core.h"
 #include "Hooks.h"
-
-#include "GLAD/glad.h"
-
-#include <iostream>
-#include <memory>
-#include <Windows.h>
-
-#include "../sdk/App.h"
-#include "../sdk/DefaultMovementController.h"
-#include "../FeatureDispatcher/FeatureDispatcher.h"
-#include "../Memory/Memory.h"
-#include "../external/minhook/minhook.h"
-#include "../Util/InputSystem.h"
-
-#include "../Menu/Menu.h"
-
-#include "../Util/Util.h"
-
-#include "../Renderer/Mesh.h"
-#include "../Renderer/Shaders.h"
-#include "../Renderer/Renderer2D.h"
-#include "../Renderer/Renderer3D.h"
-#include "../Renderer/FontRenderer/Fonts.h"
-
-#include "../Math/Matrix4x4.h"
 
 typedef int SDL_bool;
 #define SDL_TRUE  1
@@ -32,9 +8,6 @@ typedef int SDL_bool;
 static bool initialized = false;
 
 static std::unique_ptr<Menu> menu;
-
-
-
 
 #define CREATE_HOOK(name, pattern) \
 std::uint8_t* name##Address = PatternScan(pattern);\
@@ -50,7 +23,10 @@ static void* GetAnyGLFuncAddress(const char* name)
     if (p == nullptr || p == (void*)0x1 || p == (void*)0x2 ||
         p == (void*)0x3 || p == (void*)-1)
     {
-        static HMODULE module = LoadLibraryA("opengl32.dll");
+		static HMODULE module = GetModuleHandleA("opengl32.dll");
+        if (!module)
+            module = LoadLibraryA("opengl32.dll");
+
         p = (void*)GetProcAddress(module, name);
     }
     return p;
@@ -98,6 +74,7 @@ BOOL WINAPI HWglSwapBuffers(HDC hdc) {
     FeatureDispatcher::DispatchEvent(render3DEvent);
     renderer3D.Render();
 
+	SDK::Main();
 
     Fonts::Figtree->RenderText(std::format("App: 0x{:x}", reinterpret_cast<uintptr_t>(Util::app)), 0.0f, 10.0f, 0.5f, Color::White());
     Fonts::Figtree->RenderText(std::format("AppInGame: 0x{:x}", reinterpret_cast<uintptr_t>(Util::app->appInGame)), 0.0f, 20.0f, 0.5f, Color::White());

@@ -9,14 +9,18 @@ ESP::ESP() : Feature("ESP") {
 }
 
 void ESP::OnRender3D(Render3DEvent& renderer3D) {
-	for (const auto& entity : Util::getEntities()) {
-		if (entity->entityType != Entity::EntityType::Character && entity->entityType != Entity::EntityType::Item)
+	SDK::global_mutex.lock();
+	std::vector<EntityData> entities = SDK::entities;
+	SDK::global_mutex.unlock();
+
+	for (const auto& entity : entities) {
+		if (entity.entityType != Entity::EntityType::Character && entity.entityType != Entity::EntityType::Item)
 			continue;
 
-		if (!toggle->GetValue() && (uintptr_t)entity == (uintptr_t)Util::getLocalPlayer())
+		if (!toggle->GetValue() && entity.isLocalPlayer)
 			continue;
 		
-		renderer3D.renderer3D.BoxLines(entity, Color::Normalize(50, 50, 255, 100), Color::Normalize(50, 50, 255, 255));
+		renderer3D.renderer3D.BoxLines(entity.entityPtr, Color::Normalize(50, 50, 255, 100), Color::Normalize(50, 50, 255, 255));
 		
 	}
 }

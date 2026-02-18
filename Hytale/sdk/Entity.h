@@ -7,6 +7,7 @@
 #include "../Math/BoundingBox.h"
 
 #include "HytaleString.h"
+#include "Array.h"
 
 
 
@@ -21,7 +22,8 @@ public:
 
 	enum EntityPlayerType {
 		Other = -1,
-		Player = 1
+		Player = 1,
+		Something = 233
 	};
 	enum EntityType {
 		None,
@@ -41,8 +43,8 @@ public:
 	char pad_0108[192]; //0x0108
 	EntityPlayerType entityPlayerType; //0x01C8
 	char pad_01CC[8]; //0x01CC
-	EntityType entityType;
-	char pad_1D8[28];
+	EntityType entityType; // 0x01D4
+	char pad_1D8[28]; //0x01D8
 	float Scale; //0x01F4
 	char pad_01F8[78]; //0x01F8
 	bool wasOnGround; //0x0246

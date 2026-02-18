@@ -13,6 +13,8 @@ public:
 	void Render(double deltaTime) override;
 	void Update(float mouseX, float mouseY) override;
 
+	void MouseClicked(float mouseX, float mouseY, int virtualKeyCode) override;
+
 	void ToggleOpen() {
 		m_open = !m_open;
 	}

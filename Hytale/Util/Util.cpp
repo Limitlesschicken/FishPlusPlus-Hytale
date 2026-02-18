@@ -24,19 +24,20 @@ Entity* Util::getLocalPlayer() {
 }
 
 Camera* Util::getCamera() {
-	if (app == nullptr)
+	if (getGameInstance() == nullptr)
 		return nullptr;
-	if (app->appInGame == nullptr)
-		return nullptr;
-	if (app->appInGame->gameInstance == nullptr)
-		return nullptr;
-	if (app->appInGame->gameInstance->Camera == nullptr)
-		return nullptr;
+
 	return Util::app->appInGame->gameInstance->Camera->Camera;
 }
 
-double Util::GetTime()
-{
+CameraModule* Util::getCameraModule() {
+	if (getGameInstance() == nullptr)
+		return nullptr;
+
+	return Util::app->appInGame->gameInstance->CameraModule;
+}
+
+double Util::GetTime() {
 	static LARGE_INTEGER freq;
 	static bool initialized = false;
 	if (!initialized)
@@ -55,7 +56,7 @@ std::vector<Entity*> Util::getEntities() {
 	if (gameInstance == nullptr)
 		return {};
 
-	EntityStoreModule* entityStoreModule = gameInstance->entityStoreModule;
+	EntityStoreModule* entityStoreModule = gameInstance->EntityStoreModule;
 	int entityCount = entityStoreModule->entityCount;
 	uintptr_t entityArray = entityStoreModule->entityArray;
 

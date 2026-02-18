@@ -10,6 +10,7 @@ public:
 	std::vector<uint32_t> indices;
 
 	Mesh(bool lines);
+	~Mesh();
 	void AddVertex3D(const Vertex& vertex);
 	void AddVertex2D(const Vertex& vertex);
 	void AddTriangle(uint32_t a, uint32_t b, uint32_t c);
@@ -19,6 +20,7 @@ public:
 	void EndMesh();
 	void Render();
 	void Render2D();
+	void AfterRender();
 
 	uint32_t GetVertexCount();
 

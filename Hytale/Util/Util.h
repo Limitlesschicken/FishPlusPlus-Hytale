@@ -8,6 +8,7 @@
 #include "../Math/Vector2.h"
 
 #include "../sdk/Camera.h"
+#include "../sdk/CameraModule.h"
 #include "../sdk/GameInstance.h"
 #include "../sdk/DefaultMovementController.h"
 #include "../sdk/App.h"
@@ -27,6 +28,7 @@ namespace Util {
     Entity* getLocalPlayer();
     GameInstance* getGameInstance();
     Camera* getCamera();
+    CameraModule* getCameraModule();
     std::vector<Entity*> getEntities();
     inline Matrix4x4 viewProjMat;
     inline DefaultMovementController* dmc;

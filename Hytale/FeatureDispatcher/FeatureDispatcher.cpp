@@ -7,6 +7,7 @@
 #include "../Features/ESP.h"
 #include "../Features/Nametags.h"
 #include "../Features/Speed.h"
+#include "../Features/NoFall.h"
 
 std::vector<std::unique_ptr<Feature>> FeatureDispatcher::features;
 
@@ -17,6 +18,7 @@ void InitFeature(std::unique_ptr<Feature> feature, std::string tab) {
 void FeatureDispatcher::initFeatures() {
 	InitFeature(std::make_unique<Flight>(), "Movement");
 	InitFeature(std::make_unique<Speed>(), "Movement");
+	InitFeature(std::make_unique<NoFall>(), "Movement");
 	InitFeature(std::make_unique<ESP>(), "Visuals");
 	InitFeature(std::make_unique<Nametags>(), "Visuals");
 

@@ -118,3 +118,7 @@ void SettingsBody::Render(double deltaTime) {
 		Component::Render(deltaTime);
 }
 
+void SettingsBody::MouseClicked(float mouseX, float mouseY, int virtualKeyCode) {
+	if (m_open)
+		Component::MouseClicked(mouseX, mouseY, virtualKeyCode);
+}

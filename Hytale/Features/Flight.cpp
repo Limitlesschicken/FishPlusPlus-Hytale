@@ -48,5 +48,5 @@ void Flight::OnDeactivate() {
 }
 
 bool Flight::CanExecute() {
-	return Util::dmc != nullptr;
+	return (Util::dmc != nullptr) && (Util::getLocalPlayer() != nullptr);
 }

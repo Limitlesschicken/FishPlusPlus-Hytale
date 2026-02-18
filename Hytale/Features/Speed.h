@@ -12,6 +12,5 @@ private:
 	void PlayerMove(MoveCycleEvent& event) override;
 	bool CanExecute() override;
 
-	MultiSetting* mode;
 	SliderSetting* speed;
 };

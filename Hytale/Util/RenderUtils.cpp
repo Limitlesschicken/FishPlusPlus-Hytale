@@ -6,28 +6,32 @@ Matrix4x4 Util::getViewProjMat() {
 bool Util::WorldToScreen(Vector3 pos, Vector2& out) {
     if (!Util::getCamera()) return false;
 
+    SceneRenderer* scene = Util::getGameInstance()->SceneRenderer;
+    if (scene == nullptr)
+        return false;
+
     Vector3 camPos = Util::getCamera()->Position;
     Vector3 camRelativePos = pos - camPos;
 
-    float clipX = Util::viewProjMat.m[0][0] * camRelativePos.x +
-        Util::viewProjMat.m[1][0] * camRelativePos.y +
-        Util::viewProjMat.m[2][0] * camRelativePos.z +
-        Util::viewProjMat.m[3][0];
+    float clipX = scene->MPV.m[0][0] * camRelativePos.x +
+        scene->MPV.m[1][0] * camRelativePos.y +
+        scene->MPV.m[2][0] * camRelativePos.z +
+        scene->MPV.m[3][0];
 
-    float clipY = Util::viewProjMat.m[0][1] * camRelativePos.x +
-        Util::viewProjMat.m[1][1] * camRelativePos.y +
-        Util::viewProjMat.m[2][1] * camRelativePos.z +
-        Util::viewProjMat.m[3][1];
+    float clipY = scene->MPV.m[0][1] * camRelativePos.x +
+        scene->MPV.m[1][1] * camRelativePos.y +
+        scene->MPV.m[2][1] * camRelativePos.z +
+        scene->MPV.m[3][1];
 
-    float clipZ = Util::viewProjMat.m[0][2] * camRelativePos.x +
-        Util::viewProjMat.m[1][2] * camRelativePos.y +
-        Util::viewProjMat.m[2][2] * camRelativePos.z +
-        Util::viewProjMat.m[3][2];
+    float clipZ = scene->MPV.m[0][2] * camRelativePos.x +
+        scene->MPV.m[1][2] * camRelativePos.y +
+        scene->MPV.m[2][2] * camRelativePos.z +
+        scene->MPV.m[3][2];
 
-    float clipW = Util::viewProjMat.m[0][3] * camRelativePos.x +
-        Util::viewProjMat.m[1][3] * camRelativePos.y +
-        Util::viewProjMat.m[2][3] * camRelativePos.z +
-        Util::viewProjMat.m[3][3];
+    float clipW = scene->MPV.m[0][3] * camRelativePos.x +
+        scene->MPV.m[1][3] * camRelativePos.y +
+        scene->MPV.m[2][3] * camRelativePos.z +
+        scene->MPV.m[3][3];
 
     if (clipW < 0.001f) return false;
 

@@ -163,6 +163,7 @@
     <ClCompile Include="Features\ESP.cpp" />
     <ClCompile Include="Features\Flight.cpp" />
     <ClCompile Include="Features\Nametags.cpp" />
+    <ClCompile Include="Features\NoFall.cpp" />
     <ClCompile Include="Features\Speed.cpp" />
     <ClCompile Include="Hooks\Hooks.cpp" />
     <ClCompile Include="Math\Vector4.h" />
@@ -266,6 +267,7 @@
     <ClInclude Include="Features\ESP.h" />
     <ClInclude Include="Features\Flight.h" />
     <ClInclude Include="Features\Nametags.h" />
+    <ClInclude Include="Features\NoFall.h" />
     <ClInclude Include="Features\Speed.h" />
     <ClInclude Include="Hooks\Hooks.h" />
     <ClInclude Include="Math\BoundingBox.h" />
@@ -295,6 +297,7 @@
     <ClInclude Include="Renderer\Vertex.h" />
     <ClInclude Include="sdk\App.h" />
     <ClInclude Include="sdk\AppInGame.h" />
+    <ClInclude Include="sdk\CameraModule.h" />
     <ClInclude Include="sdk\DefaultMovementController.h" />
     <ClInclude Include="sdk\Camera.h" />
     <ClInclude Include="sdk\ClientMovementStates.h" />
@@ -303,10 +306,13 @@
     <ClInclude Include="sdk\EntityStoreModule.h" />
     <ClInclude Include="sdk\GameInstance.h" />
     <ClInclude Include="sdk\HytaleString.h" />
+    <ClInclude Include="sdk\ICameraController.h" />
     <ClInclude Include="sdk\Input.h" />
+    <ClInclude Include="sdk\InventoryModule.h" />
     <ClInclude Include="sdk\MoveCmd.h" />
     <ClInclude Include="sdk\MovementVector.h" />
     <ClInclude Include="Math\Vector3.h" />
+    <ClInclude Include="sdk\SceneRenderer.h" />
     <ClInclude Include="sdk\Window.h" />
     <ClInclude Include="Util\InputSystem.h" />
     <ClInclude Include="Util\TimeUtil.h" />

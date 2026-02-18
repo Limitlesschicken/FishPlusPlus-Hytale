@@ -1,5 +1,8 @@
 #include "Renderer3D.h"
 
+#include <format>
+#include "FontRenderer/Fonts.h"
+
 Renderer3D::Renderer3D() {
 	lines = std::make_unique<Mesh>(true);
 	triangles = std::make_unique<Mesh>(false);

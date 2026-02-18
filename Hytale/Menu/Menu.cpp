@@ -1,5 +1,7 @@
 #include "Menu.h"
 
+#include <iostream>
+
 #include "../Util/Util.h"
 #include "../Util/InputSystem.h"
 
@@ -54,14 +56,11 @@ void Menu::ListenOpenInput() {
 }
 
 void Menu::OnMenuOpen() {
-    Util::app->Input->isMouseLocked = true;
-    //Hooks::oSetCursorVisible(Util::app->Engine->Window, true);
+    m_justOpened = true;
 }
 
 void Menu::OnMenuClose() {
-    Util::app->Input->isMouseLocked = false;
-    //Hooks::oSetCursorVisible(Util::app->Engine->Window, false);
-    //Util::app->Engine->Window->IsCursorHidden = true;
+    m_justClosed = true;
 }
 
 void Menu::Run(double deltaTime) {
@@ -70,11 +69,9 @@ void Menu::Run(double deltaTime) {
     if (!Menu::isMenuOpen())
         return;
 
-    //ClipCursor(NULL);
-    //SetCursor(LoadCursor(NULL, IDC_ARROW));
-
     bool lbuttonDown = GetAsyncKeyState(VK_LBUTTON);
     bool rbuttonDown = GetAsyncKeyState(VK_RBUTTON);
+
 
     if (lbuttonDown && !lbuttonWasDown)
         mainComponent->MouseClicked(Util::cursorPosX, Util::cursorPosY, VK_LBUTTON);
@@ -102,4 +99,10 @@ void Menu::Run(double deltaTime) {
 
 bool Menu::isMenuOpen() {
     return m_open;
+}
+
+void Menu::HandleMouse() {
+    if (!Util::app->appInGame)
+        return;
+    
 }

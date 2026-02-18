@@ -33,6 +33,9 @@ static bool initialized = false;
 
 static std::unique_ptr<Menu> menu;
 
+
+
+
 #define CREATE_HOOK(name, pattern) \
 std::uint8_t* name##Address = PatternScan(pattern);\
 if (MH_CreateHook(name##Address, &H##name, reinterpret_cast<LPVOID*>(&o##name)) != MH_OK) {\
@@ -68,6 +71,7 @@ BOOL WINAPI HWglSwapBuffers(HDC hdc) {
         Fonts::initFonts();
 
         Renderer2D::colored = std::make_unique<Renderer2D>();
+        //Renderer3D::renderer = std::make_unique<Renderer3D>();
 
         menu = std::make_unique<Menu>(hdc);
 
@@ -89,14 +93,17 @@ BOOL WINAPI HWglSwapBuffers(HDC hdc) {
     Util::cursorPosX = current.x;
     Util::cursorPosY = current.y;
     
-    Renderer3D renderer3d = Renderer3D();
-    Render3DEvent render3DEvent(renderer3d);
+    Renderer3D renderer3D;
+    Render3DEvent render3DEvent(renderer3D);
     FeatureDispatcher::DispatchEvent(render3DEvent);
+    renderer3D.Render();
+
 
     Fonts::Figtree->RenderText(std::format("App: 0x{:x}", reinterpret_cast<uintptr_t>(Util::app)), 0.0f, 10.0f, 0.5f, Color::White());
     Fonts::Figtree->RenderText(std::format("AppInGame: 0x{:x}", reinterpret_cast<uintptr_t>(Util::app->appInGame)), 0.0f, 20.0f, 0.5f, Color::White());
     Fonts::Figtree->RenderText(std::format("GameInstance: 0x{:x}", reinterpret_cast<uintptr_t>(Util::getGameInstance())), 0.0f, 30.0f, 0.5f, Color::White());
     Fonts::Figtree->RenderText(std::format("LocalPlayer: 0x{:x}", reinterpret_cast<uintptr_t>(Util::getLocalPlayer())), 0.0f, 40.0f, 0.5f, Color::White());
+    Fonts::Figtree->RenderText(std::format("DMC: 0x{:x}", reinterpret_cast<uintptr_t>(Util::dmc)), 0.0f, 50.0f, 0.5f, Color::White());
 
     Fonts::Figtree->RenderText(std::format("Fish++ Hytale by LimitlessChicken aka milaq", reinterpret_cast<uintptr_t>(Util::app)), 500.0f, 10.0f, 0.5f, Color::White());
 
@@ -108,39 +115,38 @@ BOOL WINAPI HWglSwapBuffers(HDC hdc) {
     return oWglSwapBuffers(hdc);
 }
 
-__int64 __fastcall HDoMoveCycle(__int64 thisptr, Vector3 offset) {
+__int64 __fastcall HDoMoveCycle(__int64 thisptr, Vector3* offset) {
     DefaultMovementController* dmc = (DefaultMovementController*)thisptr;
     Util::dmc = dmc;
-    MoveCycleEvent event(*dmc, offset);
+    MoveCycleEvent event(*dmc, *offset);
     FeatureDispatcher::DispatchEvent(event);
 
-return Hooks::oDoMoveCycle(thisptr, offset);
+    return Hooks::oDoMoveCycle(thisptr, offset);
 }
-
-__int64 __fastcall HSetUniformBuffers(__int64 thisptr) {
-    __int64 matrix = *(__int64*)(thisptr + 0x300);
-
-    Matrix4x4 viewProjMat = *(Matrix4x4*)(thisptr + 0x300);
-
-    Util::viewProjMat = viewProjMat;
-
-    return Hooks::oSetUniformBuffers(thisptr);
-}
-
 
 __int64 __fastcall HHandleScreenShotting(__int64 thisptr) {
+    
     Util::app = (App*)thisptr;
+    
+    if (Menu::isMenuOpen() && Menu::m_justOpened) {
+        Hooks::oSetCursorHidden((__int64)Util::app->Engine->Window, false);
+        Menu::m_justOpened = false;
+    }
+
+    if (!Menu::isMenuOpen() && Menu::m_justClosed) {
+        if (Util::app->appInGame->gameInstance != nullptr)
+            Hooks::oUpdateInputStates((__int64)Util::app->appInGame, true);
+        Menu::m_justClosed = false;
+    }
+
     return Hooks::oHandleScreenShotting(thisptr);
 }
 
 
 __int64* __fastcall HOnUserInput(__int64 thisptr, int* a2) {
-    if (Menu::isMenuOpen()) {
-        Input* input = (Input*)thisptr;
-        input->isMouseLocked = true;
-    }
+    
 
-    SDL_Scancode key = (SDL_Scancode)a2[6];
+    SDL_Scancode key = (SDL_Scancode)(a2[6]);
 
     if (*a2 == 768) {
         if (*((bool*)a2 + 37))
@@ -151,7 +157,7 @@ __int64* __fastcall HOnUserInput(__int64 thisptr, int* a2) {
         InputSystem::keysUnheld.erase(key);
     }
 
-    if (*a2 == 769) {
+    if (*(int*)a2 == 769) {
         InputSystem::keysHeld.erase(key);
         InputSystem::keysUnheld.insert(key);
         InputSystem::keysDepressed.insert(key);
@@ -160,11 +166,12 @@ __int64* __fastcall HOnUserInput(__int64 thisptr, int* a2) {
     return Hooks::oOnUserInput(thisptr, a2);
 }
 
-__int64 __fastcall HSetCursorVisible(void* thisptr, bool visible) {
+__int64 __fastcall HSetCursorHidden(__int64 thisptr, char hidden) {
+    return Hooks::oSetCursorHidden(thisptr, hidden);
+}
 
-    //std::cout << "cursor\n";
-
-    return Hooks::oSetCursorVisible(thisptr, visible);
+__int64 __fastcall HUpdateInputStates(__int64 thisptr, char a2) {
+    return Hooks::oUpdateInputStates(thisptr, a2);
 }
 
 void __fastcall HWeatherUpdate(__int64 thisptr, float deltaTime) {
@@ -179,27 +186,31 @@ void __fastcall HWeatherUpdate(__int64 thisptr, float deltaTime) {
 
 }
 
+void __fastcall HSetActiveHotbarSlot(__int64 thisptr, unsigned int slot, bool triggerInteraction) {
+    Hooks::oSetActiveHotbarSlot(thisptr, slot, triggerInteraction);
+}
+
 bool Hooks::CreateHooks() {
     if (MH_Initialize() != MH_OK) {
         std::cout << "Failed to initialize minhook";
         return false;
     }
 
-    HMODULE hOpenGL = GetModuleHandleA("opengl32.dll");
-    if (!hOpenGL || hOpenGL == 0)
-        hOpenGL = LoadLibraryA("opengl32.dll");
-    void* pWglSwapBuffers = GetProcAddress(hOpenGL, "wglSwapBuffers");
+    void* pWglSwapBuffers = GetProcAddress(GetModuleHandleA("opengl32.dll"), "wglSwapBuffers");
     if (MH_CreateHook(pWglSwapBuffers, &HWglSwapBuffers, reinterpret_cast<LPVOID*>(&oWglSwapBuffers)) != MH_OK) {
         std::cout << "Failed to create hook HWglSwapBuffers";
         return false;
     }
 
     CREATE_HOOK(DoMoveCycle, "55 41 57 41 56 41 55 41 54 57 56 53 48 81 EC ? ? ? ? 0F 29 B4 24 ? ? ? ? 0F 29 BC 24 ? ? ? ? 44 0F 29 84 24 ? ? ? ? 48 8D AC 24 ? ? ? ? 33 C0 48 89 85 ? ? ? ? 0F 57 E4 48 B8");
-    CREATE_HOOK(SetUniformBuffers, "55 41 57 41 56 41 55 41 54 57 56 53 48 81 EC ? ? ? ? 0F 29 B4 24 ? ? ? ? 0F 29 BC 24 ? ? ? ? 48 8D AC 24 ? ? ? ? 48 8B D9 48 89 5D");
+    //CREATE_HOOK(SetUniformBuffers, "55 41 57 41 56 41 55 41 54 57 56 53 48 81 EC ? ? ? ? 0F 29 B4 24 ? ? ? ? 0F 29 BC 24 ? ? ? ? 44 0F 29 84 24 ? ? ? ? 48 8D AC 24 ? ? ? ? 0F 57 E4 0F 29 A5 ? ? ? ? 0F 29 A5 ? ? ? ? 48 B8");
+    //CREATE_HOOK(SetUniformBuffers, "55 41 57 41 56 41 55 41 54 57 56 53 48 81 EC ? ? ? ? 0F 29 B4 24 ? ? ? ? 0F 29 BC 24 ? ? ? ? 48 8D AC 24 ? ? ? ? 48 8B D9 48 89 5D"); ScendSceneDataToGpu()
     CREATE_HOOK(HandleScreenShotting, "55 41 57 41 56 41 55 41 54 57 56 53 48 81 EC ? ? ? ? 48 8D AC 24 ? ? ? ? 33 C0 48 89 45 ? 0F 57 E4 0F 29 65 ? 48 89 45 ? 48 8B D9 48 8B 4B ? 48 8B 49");
     CREATE_HOOK(OnUserInput, "41 57 41 56 41 55 41 54 57 56 55 53 48 83 EC ? 33 C0 48 89 44 24 ? 0F 57 E4 0F 29 64 24 ? 0F 29 64 24 ? 0F 29 64 24 ? 48 89 44 24 ? 48 8B D9 48 8B F2 8B 3E");
-    CREATE_HOOK(SetCursorVisible, "55 57 56 53 48 83 EC ? 48 8D 6C 24 ? 33 C0 48 89 45 ? 48 89 45 ? 48 8B D9 8B F2");
-    //CREATE_HOOK(CalculateFrameTime, "41 56 57 56 55 53 48 81 EC ? ? ? ? 0F 29 B4 24 ? ? ? ? 0F 29 BC 24 ? ? ? ? 44 0F 29 84 24 ? ? ? ? 33 C0 48 89 44 24 ? 0F 57 E4 48 B8");
+    CREATE_HOOK(SetCursorHidden, "55 57 56 53 48 83 EC ? 48 8D 6C 24 ? 33 C0 48 89 45 ? 48 89 45 ? 48 8B D9 8B F2");
+    CREATE_HOOK(UpdateInputStates, "57 56 53 48 83 EC ? 48 8B D9 8B F2 48 8B 4B ? 48 85 C9 0F 84");
+    //CREATE_HOOK(SetActiveHotbarSlot, "55 41 56 57 56 53 48 83 EC ? 48 8D 6C 24 ? 48 8B D9 8B F2 48 83 7B");
+    // 
     //CREATE_HOOK(WeatherUpdate, "57 56 55 53 48 83 EC ? 0F 29 74 24 ? 48 8B D9 48 8B F2 48 8B 4B ? 48 8B 89 ? ? ? ? 48 8B 79 ? 80 BB ? ? ? ? ? 74 ? 80 7B ? ? 0F 85 ? ? ? ? 48 8B CF 4C 8D 1D ? ? ? ? 41 FF 13 85 C0 0F 85 ? ? ? ? 0F B6 83 ? ? ? ? 88 83 ? ? ? ? F3 0F 10 76 ? 0F 16 F6 0F 12 36 0F 57 C0 0F 28 CE 0F C6 C8 ? 0F 28 C6 0F C6 C1 ? 0F 59 C0 0F 28 C8 0F C6 C8 ? 0F 58 C8 0F 28 C1 0F C6 C1 ? 0F 58 C1 F3 0F 51 C0 F3 0F 59 05 ? ? ? ? F3 0F 5A C0 E8 ? ? ? ? 0F 28 C8 F2 0F C2 C8 07 66 0F 54 C8 BA ? ? ? ? F2 0F 2C C9 66 0F 2E 05 ? ? ? ? 0F 42 D1 8B F2 0F 57 C0 F3 0F 2A C6 0F C6 C0 ? 0F 5E F0 85 F6 7E ? 8B EE 0F 29 74 24 ? 48 8D 54 24 ? 48 8B CB E8 ? ? ? ? FF CD 75 ? 85 F6 0F 85");
     
 

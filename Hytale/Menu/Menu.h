@@ -10,8 +10,12 @@ public:
 	void Run(double deltaTime);
 
 	static bool isMenuOpen();
+	static void HandleMouse();
 
 	static inline std::unique_ptr<Component> mainComponent;
+
+	inline static bool m_justOpened = false;
+	inline static bool m_justClosed = false;
 private:
 
 	void OnMenuOpen();
@@ -19,5 +23,6 @@ private:
 
 	void ListenOpenInput();
 
+	
 	inline static bool m_open = true;
 };

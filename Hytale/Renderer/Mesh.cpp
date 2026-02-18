@@ -16,6 +16,11 @@ Mesh::Mesh(bool lines) {
 	this->lines = lines;
 }
 
+Mesh::~Mesh() {
+	glDeleteBuffers(1, &vbo);
+	glDeleteBuffers(1, &ebo);
+	glDeleteVertexArrays(1, &vao);
+}
 uint32_t Mesh::GetVertexCount() {
 	return m_vertexCount;
 }
@@ -50,12 +55,13 @@ void Mesh::AddQuad(uint32_t a, uint32_t b, uint32_t c, uint32_t d) {
 }
 
 void Mesh::EndMesh() {
+
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(uint32_t), indices.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_DYNAMIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(uint32_t), indices.data(), GL_DYNAMIC_DRAW);
 
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
@@ -64,14 +70,25 @@ void Mesh::EndMesh() {
 	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
 
 	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void Mesh::Render() {
-	if (indices.size() <= 0)
+	if (Util::app->Stage != AppStage::InGame) {
+		AfterRender();
 		return;
+	}
 
-	if (vertices.size() <= 0)
+	if (indices.size() <= 0) {
+		AfterRender();
 		return;
+	}
+
+	if (vertices.size() <= 0) {
+		AfterRender();
+		return;
+	}
+
 
 	GLint lastProgram;
 	glGetIntegerv(GL_CURRENT_PROGRAM, &lastProgram);
@@ -84,26 +101,26 @@ void Mesh::Render() {
 	glDisable(GL_CULL_FACE);
 	glDepthRange(0.0, 1.0);
 
-
 	Shaders::posColor->bind();
-	Shaders::posColor->set("viewMat", Util::viewProjMat);
+	Shaders::posColor->set("viewMat", Util::app->appInGame->gameInstance->SceneRenderer->MPV);
 	glBindVertexArray(vao);
 	glDrawElements(lines ? GL_LINES : GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+
 	glBindVertexArray(0);
 
 	glUseProgram(lastProgram);
 	if (depthTest) glEnable(GL_DEPTH_TEST);
 	if (cullFace)  glEnable(GL_CULL_FACE);
 
-	vertices.clear();
-	indices.clear();
-	m_vertexCount = 0;
+	AfterRender();
 }
 
 void Mesh::Render2D() {
 	if (indices.size() <= 0)
 		return;
 
+	GLint lastVAO;
+	glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &lastVAO);
 	GLint lastProgram;
 	glGetIntegerv(GL_CURRENT_PROGRAM, &lastProgram);
 	GLint oldViewport[4];
@@ -124,6 +141,7 @@ void Mesh::Render2D() {
 	Shaders::posColor->set("viewMat", Matrix4x4::Orthographic(0.0f, winW, winH, 0.0f, -1.0f, 1.0f));
 	glBindVertexArray(vao);
 	glDrawElements(lines ? GL_LINES : GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+
 	glBindVertexArray(0);
 
 	glUseProgram(lastProgram);
@@ -131,7 +149,12 @@ void Mesh::Render2D() {
 	glViewport(oldViewport[0], oldViewport[1], oldViewport[2], oldViewport[3]);
 	if (depthTest) glEnable(GL_DEPTH_TEST);
 	if (cullFace)  glEnable(GL_CULL_FACE);
+	glBindVertexArray(lastVAO);
 
+	AfterRender();
+}
+
+void Mesh::AfterRender() {
 	vertices.clear();
 	indices.clear();
 	m_vertexCount = 0;

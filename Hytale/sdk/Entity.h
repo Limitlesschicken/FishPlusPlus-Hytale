@@ -38,21 +38,19 @@ public:
 	EntityAssetStruct* AssetNameStruct; //0x0098
 	char pad_00A0[96]; //0x00A0
 	HytaleString* Name; //0x0100
-	char pad_0108[204];
+	char pad_0108[192]; //0x0108
+	EntityPlayerType entityPlayerType; //0x01C8
+	char pad_01CC[8]; //0x01CC
 	EntityType entityType;
 	char pad_1D8[28];
 	float Scale; //0x01F4
-	char pad_01F8[44]; //0x01F8
-	EntityPlayerType entityPlayerType; //0x0224
-	char pad_0228[16]; //0x0228
-	float DisplayHealth; //0x0238
-	char pad_023C[10]; //0x023C
+	char pad_01F8[78]; //0x01F8
 	bool wasOnGround; //0x0246
 	bool wasInFluid; //0x0247
 	bool wasFalling; //0x0248
 	bool wasJunping; //0x0249
 	bool usable; //0x024A
-	char pad_024B[25]; //0x024B
+	char pad_024B[33]; //0x024B
 	Vector3 OldPos; //0x0264
 	Vector3 NextPos; //0x0270
 	Vector3 Position; //0x027C
@@ -62,12 +60,12 @@ public:
 	BoundingBox CrouchedHitbox;
 	BoundingBox IDKDefaultHitbox;
 	BoundingBox IDKCrouchedHitbox;
-	char pad_030C[104]; //0x030C
-	float pitchRad; //0x0374
-	float yawRad; //0x0378
-	char pad_037C[4]; //0x037C
-	float pitchRadOld; //0x0380
-	float yawRadOld; //0x0384
+	char pad_0314[200]; //0x0314
+	float pitchRad; //0x03DC
+	float yawRad; //0x03E0
+	char pad_03E4[4]; //0x03E4
+	float pitchRadOld; //0x03E8
+	float yawRadOld; //0x03EC
 	char pad_0388[1268]; //0x0388
 
 }; //Size: 0x087C

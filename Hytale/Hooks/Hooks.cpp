@@ -1,3 +1,7 @@
+/*
+ * This file is part of the FishPlusPlus distribution (https://github.com/Limitlesschicken/FishPlusPlus).
+ * Copyright (c) FishPlusPlus.
+ */
 #include "Core.h"
 #include "Hooks.h"
 

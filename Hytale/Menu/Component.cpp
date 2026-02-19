@@ -1,3 +1,7 @@
+/*
+ * This file is part of the FishPlusPlus distribution (https://github.com/Limitlesschicken/FishPlusPlus).
+ * Copyright (c) FishPlusPlus.
+ */
 #include "Component.h"
 
 Component::Component(float x, float y, float width, float height) {

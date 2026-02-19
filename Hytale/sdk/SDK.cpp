@@ -1,3 +1,7 @@
+/*
+ * This file is part of the FishPlusPlus distribution (https://github.com/Limitlesschicken/FishPlusPlus).
+ * Copyright (c) FishPlusPlus.
+ */
 #include "SDK.h"
 
 std::vector<EntityData> getEntities(Entity* localPlayer) {

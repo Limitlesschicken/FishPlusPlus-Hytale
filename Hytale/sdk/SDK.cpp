@@ -25,7 +25,7 @@ std::vector<EntityData> getEntities(Entity* localPlayer) {
 
 		EntityData data;
 		data.entityPtr = entity;
-
+		
 		if (entityType == Entity::EntityPlayerType::Player)
 			data.name = entity->Name->getName();
 		else

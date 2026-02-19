@@ -22,8 +22,7 @@ public:
 
 	enum EntityPlayerType {
 		Other = -1,
-		Player = 1,
-		Something = 233
+		Player = 1
 	};
 	enum EntityType {
 		None,

@@ -4,6 +4,7 @@
 #include "../FeatureDispatcher/Feature.h"
 
 #include "FeatureDispatcher/Settings/ToggleSetting.h"
+#include <FeatureDispatcher/Settings/ColorSetting.h>
 
 class ESP : public Feature {
 public:
@@ -15,4 +16,6 @@ private:
 	bool CanExecute() override;
 
 	ToggleSetting* toggle;
+	ColorSetting* insideColor;
+	ColorSetting* outsideColor;
 };

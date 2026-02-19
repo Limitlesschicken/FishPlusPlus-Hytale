@@ -1,9 +1,6 @@
 #include "Nametags.h"
 
 #include "core.h"
-#include "../Renderer/Renderer3D.h"
-#include "../Renderer/FontRenderer/Fonts.h"
-#include "../Util/Util.h"
 
 void Nametags::OnRender3D(Render3DEvent& renderer3D) {
 	SDK::global_mutex.lock();

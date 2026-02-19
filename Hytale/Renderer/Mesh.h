@@ -4,6 +4,8 @@
 
 #include "Vertex.h"
 
+#include "Shader.h"
+
 class Mesh {
 public:
 	std::vector<Vertex> vertices;
@@ -19,7 +21,7 @@ public:
 
 	void EndMesh();
 	void Render();
-	void Render2D();
+	void Render2D(Shader* shader);
 	void AfterRender();
 
 	uint32_t GetVertexCount();

@@ -24,16 +24,11 @@ void FeatureButton::Render(double deltaTime) {
 
 	double fastDeltaTime = deltaTime * 20.0;
 
-	if (m_hovered) {
-		m_hoverAlpha += 50.0f * (float)fastDeltaTime;
-		if (m_hoverAlpha > Style::moduleHoverColor.a)
-			m_hoverAlpha = Style::moduleHoverColor.a;
-	} else {
-		m_hoverAlpha -= 50.0f * (float)fastDeltaTime;
-		if (m_hoverAlpha < 0)
-			m_hoverAlpha = 0;
-	}
-
+	m_hoverAlpha += (m_hovered ? 50.0f : -50.0f) * fastDeltaTime;
+	if (m_hoverAlpha > Style::moduleHoverColor.a)
+		m_hoverAlpha = Style::moduleHoverColor.a;
+	if (m_hoverAlpha < 0)
+		m_hoverAlpha = 0;
 	
 	if (this->feature->active)
 		m_textColorPercent += (float)fastDeltaTime / 1.5f;

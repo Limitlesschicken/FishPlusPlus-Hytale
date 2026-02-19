@@ -1,14 +1,8 @@
 #include "Speed.h"
 
-#include <Windows.h>
 #include <cmath>
-#include <iostream>
 
-#include "../Util/Util.h"
 #include "core.h"
-
-
-#include "Util/InputSystem.h"
 
 Speed::Speed() : Feature("Speed") {
 	this->speed = this->RegisterSetting<SliderSetting>("Speed", 1.0f, 0.0f, 5.0f);

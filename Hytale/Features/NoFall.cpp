@@ -2,8 +2,6 @@
 
 #include "core.h"
 
-#include "../Util/Util.h"
-
 
 void NoFall::PlayerMove(MoveCycleEvent& event) {
 	if (event.dmc.Velocity.y < -20.0f)

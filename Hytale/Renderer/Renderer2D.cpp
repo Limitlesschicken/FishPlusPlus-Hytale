@@ -1,16 +1,31 @@
 #include "Renderer2D.h"
 
-#include <cmath>
+#include "SpecialRenderers/AlphaCheckerRenderer.h"
+#include "SpecialRenderers/HueRenderer.h"
+
+#include "core.h"
 
 #include "glad/glad.h"
 #include "Util/Util.h"
 
-Renderer2D::Renderer2D() {
+Renderer2D::Renderer2D(Shader* shader) {
+	this->shader = shader;
 	lines = std::make_unique<Mesh>(true);
 	triangles = std::make_unique<Mesh>(false);
 }
 
+void Renderer2D::InitRenderer() {
+	Renderer2D::colored = std::make_unique<Renderer2D>(Shaders::posColor.get());
+	Renderer2D::alphaChecker = std::make_unique<AlphaCheckerRenderer>(Shaders::alphaChecker.get());
+	Renderer2D::hue = std::make_unique<HueRenderer>(Shaders::hue.get());
+}
+
 void Renderer2D::BeginScissor(float x, float y, float width, float height) {
+
+	ValidPtrVoid(Util::app);
+	ValidPtrVoid(Util::app->Engine);
+	ValidPtrVoid(Util::app->Engine->Window);
+
     glEnable(GL_SCISSOR_TEST);
     glScissor((GLint)x, (GLint)(Util::app->Engine->Window->WindowHeight - (y + height)), (GLint)width, (GLint)height);
 }
@@ -28,15 +43,26 @@ void Renderer2D::Square(Vector2 p1, float width, float height, Color color) {
 	triangles->AddQuad(base + 0, base + 1, base + 2, base + 3);
 }
 
-void Renderer2D::SquareOutline(Vector2 p1, float width, float height, Color color, Color outlineColor) {
-	Square(p1, width, height, color);
-	FastLine(Vector2(p1.x, p1.y - 1.0f), Vector2(p1.x + width, p1.y - 1.0f), outlineColor);
-	FastLine(Vector2(p1.x + 1.0f, p1.y), Vector2(p1.x + 1.0f, p1.y + height), outlineColor);
-	FastLine(Vector2(p1.x + width, p1.y), Vector2(p1.x + width, p1.y + height), outlineColor);
-	FastLine(Vector2(p1.x, p1.y + height), Vector2(p1.x + width, p1.y + height), outlineColor);
+void Renderer2D::SquareMultiColor(Vector2 p1, float width, float height, Color tl, Color tr, Color bl, Color br) {
+	uint32_t base = triangles->GetVertexCount();
+	triangles->AddVertex2D(Vertex(Vector3(p1.x, p1.y, 0), tl));
+	triangles->AddVertex2D(Vertex(Vector3(p1.x + width, p1.y, 0), tr));
+	triangles->AddVertex2D(Vertex(Vector3(p1.x + width, p1.y + height, 0), br));
+	triangles->AddVertex2D(Vertex(Vector3(p1.x, p1.y + height, 0), bl));
+
+	triangles->AddQuad(base + 0, base + 1, base + 2, base + 3);
 }
 
-void Renderer2D::FastLine(Vector2 p1, Vector2 p2, Color color) {
+
+void Renderer2D::SquareOutline(Vector2 p1, float width, float height, Color color, Color outlineColor) {
+	Square(p1, width, height, color);
+	Line(Vector2(p1.x, p1.y - 1.0f), Vector2(p1.x + width, p1.y - 1.0f), outlineColor);
+	Line(Vector2(p1.x + 1.0f, p1.y), Vector2(p1.x + 1.0f, p1.y + height), outlineColor);
+	Line(Vector2(p1.x + width, p1.y), Vector2(p1.x + width, p1.y + height), outlineColor);
+	Line(Vector2(p1.x, p1.y + height), Vector2(p1.x + width, p1.y + height), outlineColor);
+}
+
+void Renderer2D::Line(Vector2 p1, Vector2 p2, Color color) {
 	uint32_t base = lines->GetVertexCount();
 	lines->AddVertex2D(Vertex(Vector3(p1.x, p1.y, 0), color));
 	lines->AddVertex2D(Vertex(Vector3(p2.x, p2.y, 0), color));
@@ -44,51 +70,10 @@ void Renderer2D::FastLine(Vector2 p1, Vector2 p2, Color color) {
 	lines->AddLine(base + 0, base + 1);
 }
 
-void Renderer2D::Line(Vector2 p1, Vector2 p2, float thickness, Color color) {
-    float dx = p2.x - p1.x;
-    float dy = p2.y - p1.y;
-
-    float len = sqrtf(dx * dx + dy * dy);
-    if (len < 0.0001f)
-        return;
-
-    float nx = dx / len;
-    float ny = dy / len;
-
-    float px = -ny;
-    float py = nx;
-
-    float half = thickness * 0.5f;
-
-    float ox = px * half;
-    float oy = py * half;
-
-    Vector2 v0 = { p1.x + ox, p1.y + oy };
-    Vector2 v1 = { p2.x + ox, p2.y + oy };
-    Vector2 v2 = { p2.x - ox, p2.y - oy };
-    Vector2 v3 = { p1.x - ox, p1.y - oy };
-
-    if (fabsf(dx) < 0.0001f && nx == 0 && p1.x < p2.x + 0.001f) {
-        v0.x += 1.0f;
-        v1.x += 1.0f;
-        v2.x += 1.0f;
-        v3.x += 1.0f;
-    }
-
-    uint32_t base = triangles->GetVertexCount();
-
-    triangles->AddVertex2D(Vertex(Vector3(v0.x, v0.y, 0), color));
-    triangles->AddVertex2D(Vertex(Vector3(v1.x, v1.y, 0), color));
-    triangles->AddVertex2D(Vertex(Vector3(v2.x, v2.y, 0), color));
-    triangles->AddVertex2D(Vertex(Vector3(v3.x, v3.y, 0), color));
-
-    triangles->AddQuad(base + 0, base + 1, base + 2, base + 3);
-}
-
 void Renderer2D::Render() {
 	triangles->EndMesh();
-	triangles->Render2D();
+	triangles->Render2D(this->shader);
 
 	lines->EndMesh();
-	lines->Render2D();
+	lines->Render2D(this->shader);
 }

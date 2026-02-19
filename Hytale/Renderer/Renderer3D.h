@@ -10,7 +10,6 @@ class Renderer3D {
 public:
 	std::unique_ptr<Mesh> lines = nullptr;
 	std::unique_ptr<Mesh> triangles = nullptr;
-	static inline std::unique_ptr<Renderer3D> renderer;
 
 	Renderer3D();
 

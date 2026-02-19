@@ -12,16 +12,11 @@ void KeybindButton::Render(double deltaTime) {
 	double fastDeltaTime = deltaTime * 20.0;
 	auto* s = static_cast<KeybindSetting*>(this->setting);
 
-	if (m_hovered) {
-		m_hoverAlpha += 50.0f * (float)fastDeltaTime;
-		if (m_hoverAlpha > Style::moduleHoverColor.a)
-			m_hoverAlpha = Style::moduleHoverColor.a;
-	}
-	else {
-		m_hoverAlpha -= 50.0f * (float)fastDeltaTime;
-		if (m_hoverAlpha < 0)
-			m_hoverAlpha = 0;
-	}
+	m_hoverAlpha += (m_hovered ? 50.0f : -50.0f) * fastDeltaTime;
+	if (m_hoverAlpha > Style::moduleHoverColor.a)
+		m_hoverAlpha = Style::moduleHoverColor.a;
+	if (m_hoverAlpha < 0)
+		m_hoverAlpha = 0;
 
 	if (this->choosingBind)
 		m_activePercent += (float)fastDeltaTime / 1.5f;
@@ -38,7 +33,7 @@ void KeybindButton::Render(double deltaTime) {
 
 	Fonts::Figtree->RenderTextShadow(s->GetName(), x + Style::settingsNamePadding.x, y + Style::settingsNamePadding.y, 1.0f, Color::Normalize(textColor));
 	std::string keyText = this->choosingBind ? "..." : Util::GetKeyName(s->GetValue());
-	Fonts::Figtree->RenderText(keyText, x + width - Fonts::Figtree->getWidth(keyText) - 6.0f, y + Style::settingsNamePadding.y, 1.0f, Color::Normalize(textColor));
+	Fonts::Figtree->RenderTextShadow(keyText, x + width - Fonts::Figtree->getWidth(keyText) - 6.0f, y + Style::settingsNamePadding.y, 1.0f, Color::Normalize(textColor));
 }
 void KeybindButton::Update(float mouseX, float mouseY) {
 	m_hovered = this->IsHovered(mouseX, mouseY);

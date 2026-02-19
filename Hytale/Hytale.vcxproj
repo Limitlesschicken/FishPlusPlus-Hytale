@@ -122,6 +122,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -168,6 +169,7 @@
     <ClCompile Include="Hooks\Hooks.cpp" />
     <ClCompile Include="Math\Vector4.h" />
     <ClCompile Include="Memory\Memory.cpp" />
+    <ClCompile Include="Menu\Children\ColorButton.cpp" />
     <ClCompile Include="Menu\Children\FeatureButton.cpp" />
     <ClCompile Include="Menu\Children\KeybindButton.cpp" />
     <ClCompile Include="Menu\Children\MultiButton.cpp" />
@@ -264,6 +266,7 @@
     <ClInclude Include="FeatureDispatcher\Feature.h" />
     <ClInclude Include="FeatureDispatcher\FeatureDispatcher.h" />
     <ClInclude Include="FeatureDispatcher\Setting.h" />
+    <ClInclude Include="FeatureDispatcher\Settings\ColorSetting.h" />
     <ClInclude Include="FeatureDispatcher\Settings\KeybindSetting.h" />
     <ClInclude Include="FeatureDispatcher\Settings\MultiSetting.h" />
     <ClInclude Include="FeatureDispatcher\Settings\SliderSetting.h" />
@@ -279,6 +282,7 @@
     <ClInclude Include="Math\Matrix4x4.h" />
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Memory\Memory.h" />
+    <ClInclude Include="Menu\Children\ColorButton.h" />
     <ClInclude Include="Menu\Children\FeatureButton.h" />
     <ClInclude Include="Menu\Children\KeybindButton.h" />
     <ClInclude Include="Menu\Children\MultiButton.h" />
@@ -299,6 +303,8 @@
     <ClInclude Include="Renderer\Renderer3D.h" />
     <ClInclude Include="Renderer\Shader.h" />
     <ClInclude Include="Renderer\Shaders.h" />
+    <ClInclude Include="Renderer\SpecialRenderers\AlphaCheckerRenderer.h" />
+    <ClInclude Include="Renderer\SpecialRenderers\HueRenderer.h" />
     <ClInclude Include="Renderer\Vertex.h" />
     <ClInclude Include="sdk\App.h" />
     <ClInclude Include="sdk\AppInGame.h" />

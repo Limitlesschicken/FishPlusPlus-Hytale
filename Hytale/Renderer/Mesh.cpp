@@ -120,9 +120,13 @@ void Mesh::Render() {
 	AfterRender();
 }
 
-void Mesh::Render2D() {
+void Mesh::Render2D(Shader* shader) {
 	if (indices.size() <= 0)
 		return;
+
+	ValidPtrVoid(Util::app);
+	ValidPtrVoid(Util::app->Engine);
+	ValidPtrVoid(Util::app->Engine->Window);
 
 	GLint lastVAO;
 	glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &lastVAO);
@@ -142,8 +146,8 @@ void Mesh::Render2D() {
 
 	glViewport(0, 0, winW, winH);
 
-	Shaders::posColor->bind();
-	Shaders::posColor->set("viewMat", Matrix4x4::Orthographic(0.0f, winW, winH, 0.0f, -1.0f, 1.0f));
+	shader->bind();
+	shader->set("viewMat", Matrix4x4::Orthographic(0.0f, winW, winH, 0.0f, -1.0f, 1.0f));
 	glBindVertexArray(vao);
 	glDrawElements(lines ? GL_LINES : GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 

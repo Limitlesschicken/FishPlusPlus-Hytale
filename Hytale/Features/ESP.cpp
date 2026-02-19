@@ -1,12 +1,12 @@
 #include "ESP.h"
 
-#include "../Renderer/Renderer3D.h"
-#include "../Renderer/FontRenderer/Fonts.h"
-#include "../Util/Util.h"
 #include "core.h"
+#include <FeatureDispatcher/Settings/ColorSetting.h>
 
 ESP::ESP() : Feature("ESP") {
 	this->toggle = this->RegisterSetting<ToggleSetting>("Self", false);
+	this->insideColor = this->RegisterSetting<ColorSetting>("Inside", Color(50, 50, 255, 100));
+	this->outsideColor = this->RegisterSetting<ColorSetting>("Outside", Color(50, 50, 255, 255));
 }
 
 void ESP::OnRender3D(Render3DEvent& renderer3D) {
@@ -21,8 +21,7 @@ void ESP::OnRender3D(Render3DEvent& renderer3D) {
 		if (!toggle->GetValue() && entity.isLocalPlayer)
 			continue;
 		
-		renderer3D.renderer3D.BoxLines(entity.entityPtr, Color::Normalize(50, 50, 255, 100), Color::Normalize(50, 50, 255, 255));
-		
+		renderer3D.renderer3D.BoxLines(entity.entityPtr, Color::Normalize(insideColor->GetValue()), Color::Normalize(outsideColor->GetValue()));
 	}
 }
 

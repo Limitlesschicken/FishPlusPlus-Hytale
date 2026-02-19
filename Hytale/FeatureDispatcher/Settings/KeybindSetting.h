@@ -16,7 +16,7 @@ public:
 	KeybindSetting(std::string name, SDL_Scancode defaultValue) : Setting(name, defaultValue) {}
 
 	//Dont use this in a module bc its for the module keybind
-	KeybindSetting(std::string name, SDL_Scancode, Feature* parentFeature) : Setting(name, defaultValue) {
+	KeybindSetting(std::string name, SDL_Scancode defaultValue, Feature* parentFeature) : Setting(name, defaultValue) {
 		this->parentFeature = parentFeature;
 		this->isDefaultKeybind = true;
 	}

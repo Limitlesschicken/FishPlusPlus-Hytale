@@ -1,11 +1,6 @@
 #include "Flight.h"
 
-#include <iostream>
-
 #include "core.h"
-#include "../Util/Util.h"
-
-#include "Util/InputSystem.h"
 
 Flight::Flight() : Feature("Flight") {
 	this->mode = this->RegisterSetting<MultiSetting>("Mode", std::vector<std::string>{"Creative", "Velocity"}, 0);

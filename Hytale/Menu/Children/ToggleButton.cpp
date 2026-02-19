@@ -10,17 +10,11 @@
 void ToggleButton::Render(double deltaTime) {
 	double fastDeltaTime = deltaTime * 20.0;
 
-	if (m_hovered) {
-		m_hoverAlpha += 50.0f * (float)fastDeltaTime;
-		if (m_hoverAlpha > Style::moduleHoverColor.a)
-			m_hoverAlpha = Style::moduleHoverColor.a;
-	}
-	else {
-		m_hoverAlpha -= 50.0f * (float)fastDeltaTime;
-		if (m_hoverAlpha < 0)
-			m_hoverAlpha = 0;
-	}
-
+	m_hoverAlpha += (m_hovered ? 50.0f : -50.0f) * fastDeltaTime;
+	if (m_hoverAlpha > Style::moduleHoverColor.a)
+		m_hoverAlpha = Style::moduleHoverColor.a;
+	if (m_hoverAlpha < 0)
+		m_hoverAlpha = 0;
 
 	auto* s = static_cast<Setting<bool>*>(this->setting);
 

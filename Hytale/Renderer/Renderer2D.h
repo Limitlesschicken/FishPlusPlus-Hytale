@@ -9,20 +9,26 @@
 class Renderer2D {
 public:
 	static inline std::unique_ptr<Renderer2D> colored;
+	static inline std::unique_ptr<Renderer2D> alphaChecker;
+	static inline std::unique_ptr<Renderer2D> hue;
 	std::unique_ptr<Mesh> lines = nullptr;
 	std::unique_ptr<Mesh> triangles = nullptr;
 
-	Renderer2D();
+	Renderer2D(Shader* shader);
+
+	static void InitRenderer();
 
 	void BeginScissor(float x, float y, float width, float height);
 	void EndScissor();
 
 	void Square(Vector2 Position, float width, float height, Color color);
+	void SquareMultiColor(Vector2 p1, float width, float height, Color tl, Color tr, Color bl, Color br);
 	void SquareOutline(Vector2 p1, float width, float height, Color color, Color outlineColor);
 
-	void FastLine(Vector2 p1, Vector2 p2, Color color);
-	void Line(Vector2 p1, Vector2 p2, float thickness, Color color);
+	void Line(Vector2 p1, Vector2 p2, Color color);
 
-	void Render();
+	virtual void Render();
 private:
+
+	Shader* shader;
 };

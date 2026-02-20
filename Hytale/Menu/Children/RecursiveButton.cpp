@@ -20,10 +20,23 @@ void RecursiveButton::Render(double deltaTime) {
 	if (m_hoverAlpha < 0)
 		m_hoverAlpha = 0;
 
-	Renderer2D::colored->Square(Vector2(x, y), width, height, Color::Normalize(Style::moduleHoverColor.r, Style::moduleHoverColor.g, Style::moduleHoverColor.b, m_hoverAlpha));
+	auto* s = static_cast<Setting<bool>*>(this->setting);
+
+	m_activePercent = std::clamp(m_activePercent, 0.0f, 1.0f);
+
+	if (s->GetValue())
+		m_activePercent += (float)fastDeltaTime / 1.5f;
+	else
+		m_activePercent -= (float)fastDeltaTime / 1.5f;
+
+	Color hoverColor(Style::moduleHoverColor.r, Style::moduleHoverColor.g, Style::moduleHoverColor.b, m_hoverAlpha);
+	Color boxColor = Color::Blend(Style::recursiveColor, hoverColor, m_activePercent);
+
+	Renderer2D::colored->Square(Vector2(x, y), width, height, Color::Normalize(boxColor));
 	Renderer2D::colored->Render();
 
 	Fonts::Figtree->RenderTextShadow(this->setting->GetName(), x + Style::settingsNamePadding.x, y + Style::settingsNamePadding.y, 1.0f, Color::Normalize(Color::White()));
+	Fonts::Figtree->RenderTextShadow("=", x + width - Fonts::Figtree->getWidth("=") - 6.0f, y + Style::settingsNamePadding.y, 1.0f, Color::Normalize(Color::White()));
 
 	if (this->body->open)
 		Component::Render(deltaTime);
@@ -36,6 +49,10 @@ void RecursiveButton::MouseClicked(float mouseX, float mouseY, int vk) {
 
 	if (vk == VK_RBUTTON)
 		this->body->open = !this->body->open;
+
+	auto* s = static_cast<Setting<bool>*>(this->setting);
+	if (vk == VK_LBUTTON)
+		s->SetValue(!s->GetValue());
 }
 
 void RecursiveButton::Update(float mouseX, float mouseY) {

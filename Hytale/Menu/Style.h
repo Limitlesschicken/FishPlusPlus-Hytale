@@ -22,5 +22,7 @@ namespace Style {
 
 	constexpr Vector2 settingsNamePadding(12.0f, 8.0f);
 
+	constexpr Color recursiveColor(255.0f, 100.0f, 100.0f, 200.0f);
+
 	constexpr Color sliderColor(150.0f, 150.0f, 150.0f, 180.0f);
 }

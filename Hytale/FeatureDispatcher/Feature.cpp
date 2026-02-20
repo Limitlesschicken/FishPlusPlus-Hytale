@@ -10,7 +10,8 @@
 Feature::Feature(std::string name) {
 	m_name = name;
 	m_category = "";
-	active = false;
+	enabled = false;
+	this->RegisterSetting<KeybindSetting>("Keybind", SDL_SCANCODE_UNKNOWN, this);
 }
 
 void Feature::OnTick() {}
@@ -19,36 +20,10 @@ void Feature::OnRender3D(Render3DEvent& event) {};
 void Feature::OnRender2D(Render2DEvent& event) {};
 
 bool Feature::CanExecute() { return true; }
-void Feature::OnActivate() {}
-void Feature::OnDeactivate() {}
+void Feature::onEnable() {}
+void Feature::onDisable() {}
 
-void Feature::OnToggle() {
-	if (active && CanExecute()) {
-		OnActivate();
-	}
-	else if (!active && CanExecute()) {
-		OnDeactivate();
-	}
-}
-void Feature::setActive(bool active) {
-	if (this->active == active)
-		return;
 
-	this->active = active;
-	OnToggle();
-}
-
-void Feature::CreateKeybind() {
-	this->RegisterSetting<KeybindSetting>("Keybind", SDL_SCANCODE_UNKNOWN, this);
-}
-
-std::string Feature::getName() {
-	return m_name;
-}
-
-std::string Feature::getCategory() {
-	return m_category;
-}
 void Feature::setCategory(std::string category) {
 	m_category = category;
 }

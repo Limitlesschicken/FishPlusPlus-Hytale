@@ -14,7 +14,7 @@ namespace Hooks {
 	typedef __int64(__fastcall* SetUniformBuffers)(__int64 thisptr);
 	inline static SetUniformBuffers oSetUniformBuffers = nullptr;
 
-	typedef __int64(__fastcall* HandleScreenShotting)(__int64 a1);
+	typedef __int64(__fastcall* HandleScreenShotting)(App* a1);
 	inline static HandleScreenShotting oHandleScreenShotting = nullptr;
 
 	typedef __int64*(__fastcall* OnUserInput)(__int64 a1, int* a2);

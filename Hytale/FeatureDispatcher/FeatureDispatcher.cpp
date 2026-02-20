@@ -17,7 +17,6 @@ std::vector<std::unique_ptr<Feature>> FeatureDispatcher::features;
 
 void InitFeature(std::unique_ptr<Feature> feature, std::string tab) {
 	feature->setCategory(tab);
-	feature->CreateKeybind();
 	FeatureDispatcher::features.push_back(std::move(feature));
 }
 void FeatureDispatcher::initFeatures() {
@@ -32,35 +31,33 @@ void FeatureDispatcher::initFeatures() {
 }
 
 void FeatureDispatcher::DispatchEvent(Event& event) {
-	if (event.GetEventType() == Event::EventType::MoveCycleEvent) {
-		for (auto& feature : features) {
-			if (feature->CanExecute() && feature->active)
-				feature->PlayerMove(static_cast<MoveCycleEvent&>(event));
+	for (auto& feature : features) {
+		if (!feature->CanExecute() || !feature->isEnabled()) {
+			continue;
 		}
-		return;
-	}
-
-	if (event.GetEventType() == Event::EventType::Render3DEvent) {
-		for (auto& feature : features) {
-			if (feature->CanExecute() && feature->active)
-				feature->OnRender3D(static_cast<Render3DEvent&>(event));
+		switch (event.GetEventType()) {
+		case Event::EventType::MoveCycleEvent:
+			feature->PlayerMove(static_cast<MoveCycleEvent&>(event));
+			break;
+		case Event::EventType::Render3DEvent:
+			feature->OnRender3D(static_cast<Render3DEvent&>(event));
+			break;
+		case Event::EventType::Render2DEvent:
+			feature->OnRender2D(static_cast<Render2DEvent&>(event));
+			break;
+		default:
+			break;
 		}
-		return;
-	}
-
-	if (event.GetEventType() == Event::EventType::Render2DEvent) {
-		for (auto& feature : features) {
-			if (feature->CanExecute() && feature->active)
-				feature->OnRender2D(static_cast<Render2DEvent&>(event));
-		}
-		return;
 	}
 
 }
 
 void FeatureDispatcher::TickAll() {
 	for (auto& feature : features) {
-		if (feature->CanExecute() && feature->active)
-			feature->OnTick();
+		if (!feature->CanExecute() || !feature->isEnabled()) {
+			continue;
+		}
+
+		feature->OnTick();
 	}
 }

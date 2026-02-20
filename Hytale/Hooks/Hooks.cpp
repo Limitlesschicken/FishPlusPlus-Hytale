@@ -104,9 +104,11 @@ __int64 __fastcall HDoMoveCycle(__int64 thisptr, Vector3* offset) {
     return Hooks::oDoMoveCycle(thisptr, offset);
 }
 
-__int64 __fastcall HHandleScreenShotting(__int64 thisptr) {
+__int64 __fastcall HHandleScreenShotting(App* app) {
     
-    Util::app = (App*)thisptr;
+    if (Util::app != app) {
+        Util::app = app;
+    }
     
     if (Menu::isMenuOpen() && Menu::m_justOpened) {
         Hooks::oSetCursorHidden((__int64)Util::app->Engine->Window, false);
@@ -119,7 +121,7 @@ __int64 __fastcall HHandleScreenShotting(__int64 thisptr) {
         Menu::m_justClosed = false;
     }
 
-    return Hooks::oHandleScreenShotting(thisptr);
+    return Hooks::oHandleScreenShotting(app);
 }
 
 

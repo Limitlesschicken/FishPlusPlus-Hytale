@@ -53,11 +53,11 @@ void KeybindButton::Update(float mouseX, float mouseY) {
 	SDL_Scancode key = *InputSystem::keysPressed.begin();
 	if (Util::GetKeyName(key) == "None") {
 		if (s->isDefaultKeybind && s->parentFeature)
-			s->parentFeature->keybind = SDL_SCANCODE_UNKNOWN;
+			s->parentFeature->setKeybind(SDL_SCANCODE_UNKNOWN);
 		s->SetValue(SDL_SCANCODE_UNKNOWN);
 	} else {
 		if (s->isDefaultKeybind && s->parentFeature)
-			s->parentFeature->keybind = key;
+			s->parentFeature->setKeybind(key);
 		s->SetValue(key);
 	}
 

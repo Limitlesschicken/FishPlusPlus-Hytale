@@ -29,12 +29,11 @@ struct SimpleTime
 
 namespace Util {
 
-    inline App* app;
+    static inline App* app;
     Entity* getLocalPlayer();
     GameInstance* getGameInstance();
     Camera* getCamera();
     CameraModule* getCameraModule();
-    std::vector<Entity*> getEntities();
     inline Matrix4x4 viewProjMat;
     inline DefaultMovementController* dmc;
 

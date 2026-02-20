@@ -25,12 +25,8 @@ public:
 	virtual void OnRender2D(Render2DEvent& event);
 
 	virtual bool CanExecute();
-	virtual void OnActivate();
-	virtual void OnDeactivate();
-
-	void CreateKeybind();
-	void OnToggle();
-	void setActive(bool active);
+	virtual void onEnable();
+	virtual void onDisable();
 	
 	template<typename T, typename... Args>
 	T* RegisterSetting(Args&&... args) {
@@ -39,17 +35,32 @@ public:
 		m_settings.push_back(std::move(ptr));
 		return raw;
 	}
-	
-	std::vector<std::unique_ptr<ISetting>>& GetSettings() {
-		return m_settings;
+
+	[[nodiscard]] const std::string& getName() const { return m_name; }
+	[[nodiscard]] const std::string& getCategory() const { return m_category; }
+	[[nodiscard]] const std::vector<std::unique_ptr<ISetting>>& getSettings() const { return m_settings; }
+	[[nodiscard]] SDL_Scancode getKeybind() const { return keybind; }
+	[[nodiscard]] bool isEnabled() const { return enabled; }
+
+	void setEnabled(bool state) {
+		enabled = state;
+		if (enabled) {
+			onEnable();
+		}
+		else {
+			onDisable();
+		}
 	}
-	
-	std::string getName();
-	std::string getCategory();
+
+	void setKeybind(SDL_Scancode newKey) { keybind = newKey; }
+	void toggleState() {
+		setEnabled(!enabled);
+	}
+
 	void setCategory(std::string category);
-	bool active;
-	SDL_Scancode keybind = SDL_SCANCODE_UNKNOWN;
 private:
+	bool enabled;
+	SDL_Scancode keybind = SDL_SCANCODE_UNKNOWN;
 	std::string m_name;
 	std::string m_category;
 

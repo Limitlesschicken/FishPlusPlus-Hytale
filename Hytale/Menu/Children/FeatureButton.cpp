@@ -34,7 +34,7 @@ void FeatureButton::Render(double deltaTime) {
 	if (m_hoverAlpha < 0)
 		m_hoverAlpha = 0;
 	
-	if (this->feature->active)
+	if (this->feature->isEnabled())
 		m_textColorPercent += (float)fastDeltaTime / 1.5f;
 	else
 		m_textColorPercent -= (float)fastDeltaTime / 1.5f;
@@ -70,7 +70,7 @@ void FeatureButton::MouseClicked(float mouseX, float mouseY, int virtualKeyCode)
 		return;
 
 	if (virtualKeyCode == VK_LBUTTON) {
-		feature->setActive(!feature->active);
+		feature->toggleState();
 	}
 
 	if (virtualKeyCode == VK_RBUTTON) {
@@ -81,7 +81,7 @@ void FeatureButton::MouseClicked(float mouseX, float mouseY, int virtualKeyCode)
 SettingsBody::SettingsBody(FeatureButton* featureButton, Feature* feature) {
 	this->width = 200.0f;
 	this->featureButton = featureButton;
-	for (auto& setting : feature->GetSettings()) {
+	for (auto& setting : feature->getSettings()) {
 		AddChild(setting->CreateButton());
 	}
 }

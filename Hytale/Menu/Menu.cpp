@@ -106,8 +106,8 @@ void Menu::ListenForKeybinds() {
         return;
 
     for (auto& feature : FeatureDispatcher::features) {
-        if (InputSystem::IsKeyPressed(feature->keybind))
-            feature->setActive(!feature->active);
+        if (InputSystem::IsKeyPressed(feature->getKeybind()))
+            feature->toggleState();
     }
 }
 

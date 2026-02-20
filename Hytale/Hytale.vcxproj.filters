@@ -141,6 +141,9 @@
     <ClCompile Include="Menu\Children\ColorButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Menu\Children\RecursiveButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Memory\Memory.h">
@@ -558,6 +561,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Renderer\SpecialRenderers\HueRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu\Children\RecursiveButton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FeatureDispatcher\Settings\RecursiveSetting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

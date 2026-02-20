@@ -11,6 +11,10 @@ ESP::ESP() : Feature("ESP") {
 	this->toggle = this->RegisterSetting<ToggleSetting>("Self", false);
 	this->insideColor = this->RegisterSetting<ColorSetting>("Inside", Color(50, 50, 255, 100));
 	this->outsideColor = this->RegisterSetting<ColorSetting>("Outside", Color(50, 50, 255, 255));
+
+	this->testRecursive = this->RegisterSetting<RecursiveSetting>("testRecursive", false);
+
+	this->colorUnderRecrusive = this->testRecursive->RegisterSetting<ColorSetting>("testColor", Color(255, 255, 0, 255));
 }
 
 void ESP::OnRender3D(Render3DEvent& renderer3D) {

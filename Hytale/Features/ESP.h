@@ -8,7 +8,8 @@
 #include "../FeatureDispatcher/Feature.h"
 
 #include "FeatureDispatcher/Settings/ToggleSetting.h"
-#include <FeatureDispatcher/Settings/ColorSetting.h>
+#include "FeatureDispatcher/Settings/ColorSetting.h"
+#include "FeatureDispatcher/Settings/RecursiveSetting.h"
 
 class ESP : public Feature {
 public:
@@ -22,4 +23,8 @@ private:
 	ToggleSetting* toggle;
 	ColorSetting* insideColor;
 	ColorSetting* outsideColor;
+
+	RecursiveSetting* testRecursive;
+
+	ColorSetting* colorUnderRecrusive;
 };

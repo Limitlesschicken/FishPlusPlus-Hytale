@@ -19,6 +19,7 @@
 #include "Util/InputSystem.h"
 
 #include "Menu/Menu.h"
+#include "Menu/Style.h"
 
 #include "Util/Util.h"
 

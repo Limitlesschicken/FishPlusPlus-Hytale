@@ -59,7 +59,8 @@ void ColorButton::Update(float mouseX, float mouseY) {
 }
 
 void ColorButton::MouseClicked(float mouseX, float mouseY, int vk) {
-	Component::MouseClicked(mouseX, mouseY, vk);
+	if (this->body->open)
+		Component::MouseClicked(mouseX, mouseY, vk);
 	if (!this->IsHovered(mouseX, mouseY))
 		return;
 

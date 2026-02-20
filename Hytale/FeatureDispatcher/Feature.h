@@ -27,9 +27,7 @@ public:
 	virtual void OnActivate();
 	virtual void OnDeactivate();
 
-	void CreateKeybind();
-	void OnToggle();
-	void setActive(bool active);
+	void CreateForcedKeybind();
 	
 	template<typename T, typename... Args>
 	T* RegisterSetting(Args&&... args) {
@@ -38,17 +36,35 @@ public:
 		m_settings.push_back(std::move(ptr));
 		return raw;
 	}
-	
-	std::vector<std::unique_ptr<ISetting>>& GetSettings() {
-		return m_settings;
+
+	[[nodiscard]] const std::string& GetName() const { return m_name; }
+	[[nodiscard]] const std::string& GetCategory() const { return m_category; }
+	[[nodiscard]] const std::vector<std::unique_ptr<ISetting>>& GetSettings() const { return m_settings; }
+	[[nodiscard]] SDL_Scancode GetKeybind() const { return keybind; }
+	[[nodiscard]] bool IsActive() const { return active; }
+
+	void SetKeybind(SDL_Scancode key) {this->keybind = key;}
+
+	void setActive(bool active) {
+		this->active = active;
+		if (active) {
+			OnActivate();
+		}
+		else {
+			OnDeactivate();
+		}
 	}
-	
-	std::string getName();
-	std::string getCategory();
+
+	void ToggleState() {
+		setActive(!active);
+	}
+
+
 	void setCategory(std::string category);
+	
+private:
 	bool active;
 	SDL_Scancode keybind = SDL_SCANCODE_UNKNOWN;
-private:
 	std::string m_name;
 	std::string m_category;
 

@@ -33,7 +33,6 @@ namespace Util {
     GameInstance* getGameInstance();
     Camera* getCamera();
     CameraModule* getCameraModule();
-    std::vector<Entity*> getEntities();
     inline Matrix4x4 viewProjMat;
     inline DefaultMovementController* dmc;
 

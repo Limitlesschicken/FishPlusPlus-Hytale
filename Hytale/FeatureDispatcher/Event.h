@@ -8,7 +8,7 @@
 class Event {
 public:
 
-	enum EventType {
+	enum EventType : uint8_t {
 		None,
 		MoveCycleEvent,
 		Render3DEvent,

@@ -3,6 +3,8 @@
  */
 #pragma once
 
+#include "core.h"
+
 #include "Math/Vector3.h"
 
 namespace Hooks {
@@ -13,7 +15,7 @@ namespace Hooks {
 	typedef __int64(__fastcall* SetUniformBuffers)(__int64 thisptr);
 	inline static SetUniformBuffers oSetUniformBuffers = nullptr;
 
-	typedef __int64(__fastcall* HandleScreenShotting)(__int64 a1);
+	typedef __int64(__fastcall* HandleScreenShotting)(__int64 thisptr);
 	inline static HandleScreenShotting oHandleScreenShotting = nullptr;
 
 	typedef __int64*(__fastcall* OnUserInput)(__int64 a1, int* a2);

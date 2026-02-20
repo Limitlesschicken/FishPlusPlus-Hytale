@@ -33,7 +33,7 @@ void FeatureButton::Render(double deltaTime) {
 	if (m_hoverAlpha < 0)
 		m_hoverAlpha = 0;
 	
-	if (this->feature->active)
+	if (this->feature->IsActive())
 		m_textColorPercent += (float)fastDeltaTime / 1.5f;
 	else
 		m_textColorPercent -= (float)fastDeltaTime / 1.5f;
@@ -49,7 +49,7 @@ void FeatureButton::Render(double deltaTime) {
 
 	std::string openName = m_body->IsOpened() ? "-" : "+";
 
-	Fonts::Figtree->RenderTextShadow(feature->getName(), x + Style::moduleNamePadding.x, y + Style::moduleNamePadding.y, 1.0f, Color::Normalize(textColor));
+	Fonts::Figtree->RenderTextShadow(feature->GetName(), x + Style::moduleNamePadding.x, y + Style::moduleNamePadding.y, 1.0f, Color::Normalize(textColor));
 	Fonts::Figtree->RenderTextShadow(openName, x + width - Fonts::Figtree->getWidth(openName) - 6.0f, y + Style::moduleNamePadding.y, 1.0f, Color::Normalize(textColor));
 	
 	Component::Render(deltaTime);
@@ -69,7 +69,7 @@ void FeatureButton::MouseClicked(float mouseX, float mouseY, int virtualKeyCode)
 		return;
 
 	if (virtualKeyCode == VK_LBUTTON) {
-		feature->setActive(!feature->active);
+		feature->ToggleState();
 	}
 
 	if (virtualKeyCode == VK_RBUTTON) {

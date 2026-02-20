@@ -21,33 +21,10 @@ bool Feature::CanExecute() { return true; }
 void Feature::OnActivate() {}
 void Feature::OnDeactivate() {}
 
-void Feature::OnToggle() {
-	if (active && CanExecute()) {
-		OnActivate();
-	}
-	else if (!active && CanExecute()) {
-		OnDeactivate();
-	}
-}
-void Feature::setActive(bool active) {
-	if (this->active == active)
-		return;
-
-	this->active = active;
-	OnToggle();
-}
-
-void Feature::CreateKeybind() {
+void Feature::CreateForcedKeybind() {
 	this->RegisterSetting<KeybindSetting>("Keybind", SDL_SCANCODE_UNKNOWN, this);
 }
 
-std::string Feature::getName() {
-	return m_name;
-}
-
-std::string Feature::getCategory() {
-	return m_category;
-}
 void Feature::setCategory(std::string category) {
 	m_category = category;
 }

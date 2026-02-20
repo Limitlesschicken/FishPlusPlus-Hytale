@@ -10,10 +10,7 @@
 
 
 std::uint8_t* PatternScan(const char* signature) noexcept {
-	const auto module_handle = GetModuleHandleA("HytaleClient.exe");
-
-	if (!module_handle)
-		return nullptr;
+	const auto module_handle = GetModuleHandleW(nullptr); // instead of using the string to find the handle, we're a dll and injected into the process already we can simplify it by using nullptr instead
 
 	static auto pattern_to_byte = [](const char* pattern) {
 		auto bytes = std::vector<int>{};

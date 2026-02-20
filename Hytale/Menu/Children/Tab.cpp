@@ -67,7 +67,7 @@ void Tab::MouseDragged(float mouseX, float mouseY, int vk, float deltaX, float d
 Body::Body(Tab* tab) {
 	this->tab = tab;
 	for (auto& feature : FeatureDispatcher::features) {
-		if (feature->getCategory() != tab->name)
+		if (feature->GetCategory() != tab->name)
 			continue;
 		this->AddChild(std::make_unique<FeatureButton>(feature.get()));
 	}

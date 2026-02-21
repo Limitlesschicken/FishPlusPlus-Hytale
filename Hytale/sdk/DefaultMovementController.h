@@ -3,15 +3,15 @@
  */
 #pragma once
 
-#include "GameInstance.h"
 #include "ClientMovementStates.h"
+#include "Math/Vector3.h"
 
 class DefaultMovementController
 {
 public:
 	char pad_0000[20]; //0x0000
 	float N00000862; //0x0014
-	GameInstance* GameInstance; //0x0018
+	void* GameInstance; //0x0018
 	char pad_0020[40]; //0x0020
 	float SpeedMultiplier; //0x0048
 	char pad_004C[92]; //0x004C

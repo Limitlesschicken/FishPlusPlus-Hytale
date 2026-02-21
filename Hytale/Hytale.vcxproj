@@ -315,6 +315,7 @@
     <ClInclude Include="sdk\AppInGame.h" />
     <ClInclude Include="sdk\Array.h" />
     <ClInclude Include="sdk\CameraModule.h" />
+    <ClInclude Include="sdk\CharacterControllerModule.h" />
     <ClInclude Include="sdk\Chat.h" />
     <ClInclude Include="sdk\DefaultMovementController.h" />
     <ClInclude Include="sdk\Camera.h" />

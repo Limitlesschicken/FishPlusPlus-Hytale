@@ -31,10 +31,10 @@ namespace Util {
     inline App* app;
     Entity* getLocalPlayer();
     GameInstance* getGameInstance();
+    DefaultMovementController* GetMovementController();
     Camera* getCamera();
     CameraModule* getCameraModule();
     inline Matrix4x4 viewProjMat;
-    inline DefaultMovementController* dmc;
 
     inline float cursorPosX = 0;
     inline float cursorPosY = 0;
@@ -43,7 +43,6 @@ namespace Util {
     bool IsValidPtr(void* ptr);
 
     bool WorldToScreen(Vector3 pos, Vector2& out);
-    void ResetGlobals();
     Matrix4x4 getViewProjMat();
     std::filesystem::path GetDirectory();
     SimpleTime HoursToTime(float hours);

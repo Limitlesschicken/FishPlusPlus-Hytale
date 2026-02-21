@@ -12,6 +12,7 @@ void Nametags::OnRender3D(Render3DEvent& renderer3D) {
 
 	for (const auto& entity : entities) {
 		Vector2 screenPos;
+		ValidPtrLoop(entity.entityPtr);
 		if (!Util::WorldToScreen(entity.entityPtr->RenderPos + Vector3(0.0f, 2.1f, 0.0f), screenPos))
 			continue;
 

@@ -22,6 +22,7 @@ void ESP::OnRender3D(Render3DEvent& renderer3D) {
 	SDK::global_mutex.unlock();
 
 	for (const auto& entity : entities) {
+		ValidPtrLoop(entity.entityPtr);
 		if (entity.entityType != Entity::EntityType::Character && entity.entityType != Entity::EntityType::Item)
 			continue;
 

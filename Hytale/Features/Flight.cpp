@@ -45,10 +45,13 @@ void Flight::PlayerMove(MoveCycleEvent& event) {
 }
 
 void Flight::OnDeactivate() {
-	Util::dmc->clientMovementStates.IsFlying = false;
+	ValidPtrVoid(Util::getGameInstance());
+	ValidPtrVoid(Util::GetMovementController());
+	DefaultMovementController* dmc = Util::GetMovementController();
+	dmc->clientMovementStates.IsFlying = false;
 }
 
 bool Flight::CanExecute() {
 	ValidPtrBool(Util::getLocalPlayer());
-	ValidPtrBool(Util::dmc);
+	ValidPtrBool(Util::GetMovementController());
 }

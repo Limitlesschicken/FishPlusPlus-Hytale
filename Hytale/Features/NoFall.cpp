@@ -5,7 +5,6 @@
 
 #include "core.h"
 
-
 void NoFall::PlayerMove(MoveCycleEvent& event) {
 	if (event.dmc.Velocity.y < -20.0f)
 		event.dmc.Velocity.y = -20.0f;
@@ -14,4 +13,5 @@ void NoFall::PlayerMove(MoveCycleEvent& event) {
 }
 bool NoFall::CanExecute() {
 	ValidPtrBool(Util::getLocalPlayer());
+	ValidPtrBool(Util::GetMovementController());
 }

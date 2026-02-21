@@ -6,10 +6,6 @@
 
 #include "../sdk/Entity.h"
 
-void Util::ResetGlobals() {
-	dmc = nullptr;
-}
-
 bool Util::IsValidPtr(void* ptr) {
 	if (!ptr)
 		return false;
@@ -26,7 +22,7 @@ bool Util::IsValidPtr(void* ptr) {
 GameInstance* Util::getGameInstance() {
 	ValidPtr(app);
 	ValidPtr(app->appInGame);
-	return Util::app->appInGame->gameInstance;
+	return app->appInGame->gameInstance;
 }
 
 Entity* Util::getLocalPlayer() {
@@ -34,6 +30,14 @@ Entity* Util::getLocalPlayer() {
 	ValidPtr(gameInstance);
 
 	return gameInstance->Player;
+}
+
+DefaultMovementController* Util::GetMovementController() {
+	GameInstance* gameInstance = getGameInstance();
+	ValidPtr(gameInstance);
+	CharacterControllerModule* module = gameInstance->CharacterControllerModule;
+	ValidPtr(module);
+	return module->MovementController;
 }
 
 Camera* Util::getCamera() {

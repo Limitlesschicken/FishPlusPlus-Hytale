@@ -24,7 +24,7 @@ namespace Hooks {
 	typedef __int64(__thiscall* SetCursorHidden)(__int64 thisptr, char hidden);
 	inline static SetCursorHidden oSetCursorHidden = nullptr;
 
-	typedef __int64(__thiscall* UpdateInputStates)(__int64 thisptr, char skipResetKeys);
+	typedef void(__thiscall* UpdateInputStates)(__int64 thisptr, char skipResetKeys);
 	inline static UpdateInputStates oUpdateInputStates = nullptr;
 
 	typedef void(__thiscall* WeatherUpdate)(__int64 thisptr, float deltaTime);

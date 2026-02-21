@@ -12,6 +12,7 @@
 #include "Engine.h"
 #include "SceneRenderer.h"
 #include "Chat.h"
+#include "CharacterControllerModule.h"
 
 class GameInstance
 {
@@ -28,7 +29,7 @@ public:
 	char pad_0108[8]; //0x0108
 	StructBeforeCam* Camera; //0x0110
 	char pad_0118[8]; //0x0118
-	void* SomeKindOfPlayerPointer; //0x0120
+	CharacterControllerModule* CharacterControllerModule; //0x0120
 	CameraModule* CameraModule; //0x0128
 	char pad_0130[8]; //0x0130
 	EntityStoreModule* EntityStoreModule; //0x0138

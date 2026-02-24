@@ -29,11 +29,11 @@ void Tab::Render(double deltaTime) {
 }
 
 void Tab::DrawHeader() {
-	Renderer2D::colored->BeginScissor(x, y, width, height);
+	//Renderer2D::colored->BeginScissor(x, y, width, height);
 	Renderer2D::colored->Square(Vector2(x, y), width, height, Color::Normalize(Style::headerColor));
 	Renderer2D::colored->Render();
 	Fonts::Figtree->RenderTextShadow(name, x + Style::headerPadding.x, y + Style::headerPadding.y, 1, Color::White());
-	Renderer2D::colored->EndScissor();
+	//Renderer2D::colored->EndScissor();
 }
 
 void Tab::Update(float mouseX, float mouseY) {

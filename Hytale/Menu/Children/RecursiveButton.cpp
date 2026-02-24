@@ -34,8 +34,8 @@ void RecursiveButton::Render(double deltaTime) {
 	Renderer2D::colored->Square(Vector2(x, y), width, height, Color::Normalize(boxColor));
 	Renderer2D::colored->Render();
 
-	Fonts::Figtree->RenderTextShadow(this->setting->GetName(), x + Style::settingsNamePadding.x, y + Style::settingsNamePadding.y, 1.0f, Color::Normalize(Color::White()));
-	Fonts::Figtree->RenderTextShadow("=", x + width - Fonts::Figtree->getWidth("=") - 6.0f, y + Style::settingsNamePadding.y, 1.0f, Color::Normalize(Color::White()));
+	Fonts::Figtree->RenderText(this->setting->GetName(), x + Style::settingsNamePadding.x, y + Style::settingsNamePadding.y, 1.0f, Color::Normalize(Color::White()));
+	Fonts::Figtree->RenderText("=", x + width - Fonts::Figtree->getWidth("=") - 6.0f, y + Style::settingsNamePadding.y, 1.0f, Color::Normalize(Color::White()));
 
 	if (this->body->open)
 		Component::Render(deltaTime);

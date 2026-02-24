@@ -150,7 +150,7 @@ void Mesh::Render2D(Shader* shader) {
 	glViewport(0, 0, winW, winH);
 
 	shader->bind();
-	shader->set("viewMat", Matrix4x4::Orthographic(0.0f, winW, winH, 0.0f, -1.0f, 1.0f));
+	shader->set("viewMat", Util::orthoProjMat);
 	glBindVertexArray(vao);
 	glDrawElements(lines ? GL_LINES : GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 

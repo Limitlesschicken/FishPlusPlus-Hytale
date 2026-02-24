@@ -35,6 +35,7 @@ namespace Util {
     Camera* getCamera();
     CameraModule* getCameraModule();
     inline Matrix4x4 viewProjMat;
+    inline Matrix4x4 orthoProjMat;
 
     inline float cursorPosX = 0;
     inline float cursorPosY = 0;

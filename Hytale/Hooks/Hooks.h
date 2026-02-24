@@ -33,5 +33,8 @@ namespace Hooks {
 	typedef void(__thiscall* SetActiveHotbarSlot)(__int64 thisptr, unsigned int slot, bool triggerInteraction);
 	inline static SetActiveHotbarSlot oSetActiveHotbarSlot = nullptr;
 
+	typedef void(__thiscall* OnChat)(__int64 a1, __int64 a2);
+	inline static OnChat oOnChat = nullptr;
+
 	bool CreateHooks();
 }

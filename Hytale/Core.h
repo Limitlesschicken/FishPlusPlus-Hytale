@@ -8,6 +8,7 @@
 #include <iostream>
 #include <memory>
 #include <Windows.h>
+#include <algorithm>
 #include <mutex>
 
 #include "sdk/App.h"

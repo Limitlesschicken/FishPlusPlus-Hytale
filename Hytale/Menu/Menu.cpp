@@ -65,6 +65,29 @@ void Menu::OnMenuClose() {
     m_justClosed = true;
 }
 
+void CallComponentFuncs(double deltaTime, Component* component) {
+    bool lbuttonDown = GetAsyncKeyState(VK_LBUTTON);
+    bool rbuttonDown = GetAsyncKeyState(VK_RBUTTON);
+
+    if (lbuttonDown && !lbuttonWasDown)
+        component->MouseClicked(Util::cursorPosX, Util::cursorPosY, VK_LBUTTON);
+    if (rbuttonDown && !rbuttonWasDown)
+        component->MouseClicked(Util::cursorPosX, Util::cursorPosY, VK_RBUTTON);
+    if (!lbuttonDown && lbuttonWasDown)
+        component->MouseReleased(Util::cursorPosX, Util::cursorPosY, VK_LBUTTON);
+    if (!rbuttonDown && rbuttonWasDown)
+        component->MouseReleased(Util::cursorPosX, Util::cursorPosY, VK_RBUTTON);
+
+    if (lbuttonDown) {
+        float deltaX = Util::cursorPosX - prevXPos;
+        float deltaY = Util::cursorPosY - prevYPos;
+        component->MouseDragged(Util::cursorPosX, Util::cursorPosY, VK_LBUTTON, Util::cursorPosX - prevXPos, Util::cursorPosY - prevYPos);
+    }
+
+    component->Update(Util::cursorPosX, Util::cursorPosY);
+    component->Render(deltaTime);
+}
+
 void Menu::Run(double deltaTime) {
     ListenOpenInput();
     ListenForKeybinds();
@@ -75,22 +98,7 @@ void Menu::Run(double deltaTime) {
     bool lbuttonDown = GetAsyncKeyState(VK_LBUTTON);
     bool rbuttonDown = GetAsyncKeyState(VK_RBUTTON);
 
-
-    if (lbuttonDown && !lbuttonWasDown)
-        mainComponent->MouseClicked(Util::cursorPosX, Util::cursorPosY, VK_LBUTTON);
-    if (rbuttonDown && !rbuttonWasDown)
-        mainComponent->MouseClicked(Util::cursorPosX, Util::cursorPosY, VK_RBUTTON);
-    if (!lbuttonDown && lbuttonWasDown)
-        mainComponent->MouseReleased(Util::cursorPosX, Util::cursorPosY, VK_LBUTTON);
-    if (!rbuttonDown && rbuttonWasDown)
-        mainComponent->MouseReleased(Util::cursorPosX, Util::cursorPosY, VK_RBUTTON);
-
-    if (lbuttonDown) {
-        float deltaX = Util::cursorPosX - prevXPos;
-        float deltaY = Util::cursorPosY - prevYPos;
-        mainComponent->MouseDragged(Util::cursorPosX, Util::cursorPosY, VK_LBUTTON, Util::cursorPosX - prevXPos, Util::cursorPosY - prevYPos);
-    }
-
+    CallComponentFuncs(deltaTime, mainComponent.get());
     lbuttonWasDown = lbuttonDown;
     rbuttonWasDown = rbuttonDown;
     prevXPos = Util::cursorPosX;

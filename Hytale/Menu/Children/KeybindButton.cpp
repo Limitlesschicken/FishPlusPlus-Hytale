@@ -34,9 +34,9 @@ void KeybindButton::Render(double deltaTime) {
 	Renderer2D::colored->Square(Vector2(x, y), width, height, Color::Normalize(Style::moduleHoverColor.r, Style::moduleHoverColor.g, Style::moduleHoverColor.b, m_hoverAlpha));
 	Renderer2D::colored->Render();
 
-	Fonts::Figtree->RenderTextShadow(s->GetName(), x + Style::settingsNamePadding.x, y + Style::settingsNamePadding.y, 1.0f, Color::Normalize(textColor));
+	Fonts::Figtree->RenderText(s->GetName(), x + Style::settingsNamePadding.x, y + Style::settingsNamePadding.y, 1.0f, Color::Normalize(textColor));
 	std::string keyText = this->choosingBind ? "..." : Util::GetKeyName(s->GetValue());
-	Fonts::Figtree->RenderTextShadow(keyText, x + width - Fonts::Figtree->getWidth(keyText) - 6.0f, y + Style::settingsNamePadding.y, 1.0f, Color::Normalize(textColor));
+	Fonts::Figtree->RenderText(keyText, x + width - Fonts::Figtree->getWidth(keyText) - 6.0f, y + Style::settingsNamePadding.y, 1.0f, Color::Normalize(textColor));
 }
 void KeybindButton::Update(float mouseX, float mouseY) {
 	m_hovered = this->IsHovered(mouseX, mouseY);

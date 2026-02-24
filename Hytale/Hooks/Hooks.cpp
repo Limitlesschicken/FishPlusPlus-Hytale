@@ -71,22 +71,21 @@ BOOL WINAPI HWglSwapBuffers(HDC hdc) {
     Util::cursorPosX = current.x;
     Util::cursorPosY = current.y;
 
+    Util::orthoProjMat = Matrix4x4::Orthographic(0.0f, Util::app->Engine->Window->WindowWidth, Util::app->Engine->Window->WindowHeight, 0.0f, -1.0f, 1.0f);
+
     SDK::Main();
 
-    if (Util::IsValidPtr(Util::app)) {
-        Renderer3D renderer3D;
-        Render3DEvent render3DEvent(renderer3D);
-        FeatureDispatcher::DispatchEvent(render3DEvent);
-        renderer3D.Render();
-    }
+    Entity* localplayer = Util::getLocalPlayer();
+    Renderer3D renderer3D;
+    Render3DEvent render3DEvent(renderer3D);
+    FeatureDispatcher::DispatchEvent(render3DEvent);
+    renderer3D.Render();
 
-    if (Util::IsValidPtr(Util::app)) {
-        Fonts::Figtree->RenderText(std::format("App: 0x{:x}", reinterpret_cast<uintptr_t>(Util::app)), 0.0f, 10.0f, 0.5f, Color::White());
-        Fonts::Figtree->RenderText(std::format("AppInGame: 0x{:x}", reinterpret_cast<uintptr_t>(Util::app->appInGame)), 0.0f, 20.0f, 0.5f, Color::White());
-        Fonts::Figtree->RenderText(std::format("GameInstance: 0x{:x}", reinterpret_cast<uintptr_t>(Util::getGameInstance())), 0.0f, 30.0f, 0.5f, Color::White());
-        Fonts::Figtree->RenderText(std::format("LocalPlayer: 0x{:x}", reinterpret_cast<uintptr_t>(Util::getLocalPlayer())), 0.0f, 40.0f, 0.5f, Color::White());
-        Fonts::Figtree->RenderText(std::format("DMC: 0x{:x}", reinterpret_cast<uintptr_t>(Util::GetMovementController())), 0.0f, 50.0f, 0.5f, Color::White());
-    }
+    Fonts::Figtree->RenderText(std::format("App: 0x{:x}", reinterpret_cast<uintptr_t>(Util::app)), 0.0f, 10.0f, 0.5f, Color::White());
+    Fonts::Figtree->RenderText(std::format("AppInGame: 0x{:x}", reinterpret_cast<uintptr_t>(Util::app->appInGame)), 0.0f, 20.0f, 0.5f, Color::White());
+    Fonts::Figtree->RenderText(std::format("GameInstance: 0x{:x}", reinterpret_cast<uintptr_t>(Util::getGameInstance())), 0.0f, 30.0f, 0.5f, Color::White());
+    Fonts::Figtree->RenderText(std::format("LocalPlayer: 0x{:x}", reinterpret_cast<uintptr_t>(Util::getLocalPlayer())), 0.0f, 40.0f, 0.5f, Color::White());
+    Fonts::Figtree->RenderText(std::format("DMC: 0x{:x}", reinterpret_cast<uintptr_t>(Util::GetMovementController())), 0.0f, 50.0f, 0.5f, Color::White());
 
     Fonts::Figtree->RenderText(std::format("Fish++ Hytale by LimitlessChicken aka milaq", reinterpret_cast<uintptr_t>(Util::app)), 500.0f, 10.0f, 0.5f, Color::White());
 
@@ -100,10 +99,11 @@ BOOL WINAPI HWglSwapBuffers(HDC hdc) {
 
 __int64 __fastcall HDoMoveCycle(__int64 thisptr, Vector3* offset) {
     DefaultMovementController* dmc = (DefaultMovementController*)thisptr;
-    if (Util::IsValidPtr(dmc)) {
-        MoveCycleEvent event(*dmc, *offset);
-        FeatureDispatcher::DispatchEvent(event);
-    }
+    MoveCycleEvent event(*dmc, *offset);
+    FeatureDispatcher::DispatchEvent(event);
+
+    //if (Util::IsValidPtr(Util::getGameInstance()))
+        //std::cout << Util::getGameInstance()->Chat << "\n";
 
     return Hooks::oDoMoveCycle(thisptr, offset);
 }
@@ -173,6 +173,30 @@ void __fastcall HSetActiveHotbarSlot(__int64 thisptr, unsigned int slot, bool tr
     Hooks::oSetActiveHotbarSlot(thisptr, slot, triggerInteraction);
 }
 
+void __fastcall HOnChat(__int64 thisptr, __int64 a2) {
+    //Temporary teleport feature
+    HytaleString* stringTest = (HytaleString*)a2;
+
+    if (!stringTest->getName().starts_with('!')) {
+        Hooks::oOnChat(thisptr, a2);
+        return;
+    }
+
+    std::string message = stringTest->getName();
+
+    std::istringstream iss(message.substr(1));
+    float x;
+    float y;
+    float z;
+
+    if (iss >> x >> y >> z) {
+        GameInstance* instance = Util::getGameInstance();
+        Entity* player = Util::getLocalPlayer();
+        ValidPtrVoid(player);
+        player->SetPositionTeleport(Vector3(x, y, z));
+    }
+}
+
 bool Hooks::CreateHooks() {
     if (MH_Initialize() != MH_OK) {
         std::cout << "Failed to initialize minhook";
@@ -192,6 +216,8 @@ bool Hooks::CreateHooks() {
     //CREATE_HOOK(UpdateInputStates, "57 56 53 48 83 EC ? 48 8B D9 8B F2 48 8B 4B ? 48 85 C9 0F 84");
     //CREATE_HOOK(SetActiveHotbarSlot, "55 41 56 57 56 53 48 83 EC ? 48 8D 6C 24 ? 48 8B D9 8B F2 48 83 7B");
     //CREATE_HOOK(WeatherUpdate, "57 56 55 53 48 83 EC ? 0F 29 74 24 ? 48 8B D9 48 8B F2 48 8B 4B ? 48 8B 89 ? ? ? ? 48 8B 79 ? 80 BB ? ? ? ? ? 74 ? 80 7B ? ? 0F 85 ? ? ? ? 48 8B CF 4C 8D 1D ? ? ? ? 41 FF 13 85 C0 0F 85 ? ? ? ? 0F B6 83 ? ? ? ? 88 83 ? ? ? ? F3 0F 10 76 ? 0F 16 F6 0F 12 36 0F 57 C0 0F 28 CE 0F C6 C8 ? 0F 28 C6 0F C6 C1 ? 0F 59 C0 0F 28 C8 0F C6 C8 ? 0F 58 C8 0F 28 C1 0F C6 C1 ? 0F 58 C1 F3 0F 51 C0 F3 0F 59 05 ? ? ? ? F3 0F 5A C0 E8 ? ? ? ? 0F 28 C8 F2 0F C2 C8 07 66 0F 54 C8 BA ? ? ? ? F2 0F 2C C9 66 0F 2E 05 ? ? ? ? 0F 42 D1 8B F2 0F 57 C0 F3 0F 2A C6 0F C6 C0 ? 0F 5E F0 85 F6 7E ? 8B EE 0F 29 74 24 ? 48 8D 54 24 ? 48 8B CB E8 ? ? ? ? FF CD 75 ? 85 F6 0F 85");
+
+    CREATE_HOOK(OnChat, "56 53 48 83 EC ? 48 8B F1 48 8B DA 38 1B 48 8B CB");
     
 
 

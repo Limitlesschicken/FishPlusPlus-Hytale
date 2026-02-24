@@ -28,7 +28,6 @@ GameInstance* Util::getGameInstance() {
 Entity* Util::getLocalPlayer() {
 	GameInstance* gameInstance = getGameInstance();
 	ValidPtr(gameInstance);
-
 	return gameInstance->Player;
 }
 

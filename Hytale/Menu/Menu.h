@@ -5,7 +5,6 @@
 #include <Windows.h>
 
 #include "Component.h"
-
 class Menu {
 public:
 	Menu(HDC hdc);

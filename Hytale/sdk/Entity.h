@@ -46,7 +46,9 @@ public:
 	EntityPlayerType entityPlayerType; //0x01C8
 	char pad_01CC[8]; //0x01CC
 	EntityType entityType; // 0x01D4
-	char pad_1D8[28]; //0x01D8
+	char pad_01D8[12]; //0x01D8
+	float MoveProgress; //0x01E4
+	char pad_01E8[12]; //0x01E8
 	float Scale; //0x01F4
 	char pad_01F8[78]; //0x01F8
 	bool wasOnGround; //0x0246
@@ -71,5 +73,12 @@ public:
 	float pitchRadOld; //0x03E8
 	float yawRadOld; //0x03EC
 	char pad_0388[1268]; //0x0388
+
+	void SetPositionTeleport(Vector3 nextPosition) {
+		OldPos = Position;
+		NextPos = nextPosition;
+		MoveProgress = 1.0f;
+		Position = NextPos;
+	}
 
 }; //Size: 0x087C

@@ -34,7 +34,7 @@ void ToggleButton::Render(double deltaTime) {
 	Renderer2D::colored->Square(Vector2(x, y), width, height, Color::Normalize(Style::moduleHoverColor.r, Style::moduleHoverColor.g, Style::moduleHoverColor.b, m_hoverAlpha));
 	Renderer2D::colored->Render();
 
-	Fonts::Figtree->RenderTextShadow(s->GetName(), x + Style::settingsNamePadding.x, y + Style::settingsNamePadding.y, 1.0f, Color::Normalize(textColor));
+	Fonts::Figtree->RenderText(s->GetName(), x + Style::settingsNamePadding.x, y + Style::settingsNamePadding.y, 1.0f, Color::Normalize(textColor));
 
 }
 void ToggleButton::Update(float mouseX, float mouseY) {

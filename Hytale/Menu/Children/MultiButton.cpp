@@ -23,8 +23,8 @@ void MultiButton::Render(double deltaTime) {
 	Renderer2D::colored->Square(Vector2(x, y), width, height, Color::Normalize(Style::moduleHoverColor.r, Style::moduleHoverColor.g, Style::moduleHoverColor.b, m_hoverAlpha));
 	Renderer2D::colored->Render();
 
-	Fonts::Figtree->RenderTextShadow(s->GetName(), x + Style::settingsNamePadding.x, y + Style::settingsNamePadding.y, 1.0f, Color::Normalize(Color::White()));
-	Fonts::Figtree->RenderTextShadow(s->GetValueName(), x + width - Fonts::Figtree->getWidth(s->GetValueName()) - 6.0f, y + Style::settingsNamePadding.y, 1.0f, Color::Normalize(Color::White()));
+	Fonts::Figtree->RenderText(s->GetName(), x + Style::settingsNamePadding.x, y + Style::settingsNamePadding.y, 1.0f, Color::Normalize(Color::White()));
+	Fonts::Figtree->RenderText(s->GetValueName(), x + width - Fonts::Figtree->getWidth(s->GetValueName()) - 6.0f, y + Style::settingsNamePadding.y, 1.0f, Color::Normalize(Color::White()));
 }
 
 void MultiButton::Update(float mouseX, float mouseY) {

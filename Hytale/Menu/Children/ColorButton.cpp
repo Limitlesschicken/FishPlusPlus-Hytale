@@ -41,7 +41,7 @@ void ColorButton::Render(double deltaTime) {
 	Renderer2D::colored->Square(Vector2(x + width - this->previewSize - 6.0f, (y + height / 2.0f) - previewSize / 2.0f), previewSize, previewSize, Color::Normalize(s->GetValue()));
 	Renderer2D::colored->Render();
 
-	Fonts::Figtree->RenderTextShadow(s->GetName(), x + Style::settingsNamePadding.x, y + Style::settingsNamePadding.y, 1.0f, Color::Normalize(Color::White()));
+	Fonts::Figtree->RenderText(s->GetName(), x + Style::settingsNamePadding.x, y + Style::settingsNamePadding.y, 1.0f, Color::Normalize(Color::White()));
 
 	if (this->body->open)
 		Component::Render(deltaTime);

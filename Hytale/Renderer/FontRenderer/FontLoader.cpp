@@ -36,33 +36,61 @@ Font FontLoader::LoadFont(Fonts font, int size)
 
 	std::map<char, Character> Characters;
 
-	for (unsigned char c = 0; c < 128; c++) {
+	FT_GlyphSlot g = face->glyph;
+	uint32_t w = 0;
+	uint32_t h = 0;
+
+	for (unsigned char c = 32; c < 128; c++) {
 		if (FT_Load_Char(face, c, FT_LOAD_RENDER)) {
 			std::cout << "Failed to load character: " << c << "\n";
 			continue;
 		}
 
-		uint32_t texture;
-		glGenTextures(1, &texture);
-		glBindTexture(GL_TEXTURE_2D, texture);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, face->glyph->bitmap.width, face->glyph->bitmap.rows, 0, GL_RED, GL_UNSIGNED_BYTE, face->glyph->bitmap.buffer);
+		FT_GlyphSlot g = face->glyph;
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		w += g->bitmap.width;
+		h = std::max(h, g->bitmap.rows);
+	}
+
+	uint32_t texture;
+	glActiveTexture(GL_TEXTURE0);
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w, h, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	int x = 0;
+
+	for (unsigned char c = 32; c < 128; c++) {
+		if (FT_Load_Char(face, c, FT_LOAD_RENDER))
+			continue;
+
+		FT_GlyphSlot g = face->glyph;
+
 
 		Character character = {
-			texture,
 			Vector2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
 			Vector2(face->glyph->bitmap_left, face->glyph->bitmap_top),
 			face->glyph->advance.x,
-			face->size->metrics.ascender >> 6
+			face->size->metrics.ascender >> 6,
+			(float)x / w,
+			(float)g->bitmap.width / (float)w
 		};
 		Characters.insert(std::pair<char, Character>(c, character));
+
+		glTexSubImage2D(GL_TEXTURE_2D, 0, x, 0, g->bitmap.width, g->bitmap.rows, GL_RED, GL_UNSIGNED_BYTE, g->bitmap.buffer);
+
+		x += g->bitmap.width;
+
 	}
 
 	FT_Done_Face(face);
 
-	return Font(Characters, size);
+	return Font(Characters, size, texture, w, h);
 }

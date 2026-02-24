@@ -26,9 +26,9 @@ void SliderButton::Render(double deltaTime) {
 
 	Renderer2D::colored->Square(Vector2(x, y), m_UIProgress, height, Color::Normalize(Style::sliderColor));
 	Renderer2D::colored->Render();
-	Fonts::Figtree->RenderTextShadow(setting->GetName(), x + Style::settingsNamePadding.x, y + Style::settingsNamePadding.y, 1.0f, Color::Normalize(textColor));
+	Fonts::Figtree->RenderText(setting->GetName(), x + Style::settingsNamePadding.x, y + Style::settingsNamePadding.y, 1.0f, Color::Normalize(textColor));
 	std::string stringValue = std::format("{:.1f}", s->GetValue());
-	Fonts::Figtree->RenderTextShadow(stringValue, x + width - Fonts::Figtree->getWidth(stringValue) - 6.0f, y + Style::settingsNamePadding.y, 1.0f, Color::Normalize(textColor));
+	Fonts::Figtree->RenderText(stringValue, x + width - Fonts::Figtree->getWidth(stringValue) - 6.0f, y + Style::settingsNamePadding.y, 1.0f, Color::Normalize(textColor));
 
 }
 void SliderButton::Update(float mouseX, float mouseY) {

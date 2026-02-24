@@ -49,8 +49,8 @@ void FeatureButton::Render(double deltaTime) {
 
 	std::string openName = m_body->IsOpened() ? "-" : "+";
 
-	Fonts::Figtree->RenderTextShadow(feature->GetName(), x + Style::moduleNamePadding.x, y + Style::moduleNamePadding.y, 1.0f, Color::Normalize(textColor));
-	Fonts::Figtree->RenderTextShadow(openName, x + width - Fonts::Figtree->getWidth(openName) - 6.0f, y + Style::moduleNamePadding.y, 1.0f, Color::Normalize(textColor));
+	Fonts::Figtree->RenderText(feature->GetName(), x + Style::moduleNamePadding.x, y + Style::moduleNamePadding.y, 1.0f, Color::Normalize(textColor));
+	Fonts::Figtree->RenderText(openName, x + width - Fonts::Figtree->getWidth(openName) - 6.0f, y + Style::moduleNamePadding.y, 1.0f, Color::Normalize(textColor));
 	
 	Component::Render(deltaTime);
 	Renderer2D::colored->EndScissor();

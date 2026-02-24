@@ -15,7 +15,7 @@
 
 class Font {
 public:
-	Font(std::map<char, Character> characters, int size);
+	Font(std::map<char, Character> characters, int size, uint32_t textureID, int atlasWidth, int atlasHeight);
 
 	void RenderText(std::string text, float x, float y, float scale, Color color);
 	void RenderTextShadow(std::string text, float x, float y, float scale, Color color);
@@ -26,6 +26,10 @@ private:
 	std::map<char, Character> m_characters;
 
 	int m_size;
+
+	uint32_t texture;
+	int atlasWidth;
+	int atlasHeight;
 
 	uint32_t vao;
 	uint32_t vbo;

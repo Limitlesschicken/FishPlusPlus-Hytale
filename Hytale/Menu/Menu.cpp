@@ -92,20 +92,19 @@ void Menu::Run(double deltaTime) {
     ListenOpenInput();
     ListenForKeybinds();
 
-    if (!Menu::isMenuOpen())
-        return;
+    
 
     bool lbuttonDown = GetAsyncKeyState(VK_LBUTTON);
     bool rbuttonDown = GetAsyncKeyState(VK_RBUTTON);
 
-    CallComponentFuncs(deltaTime, mainComponent.get());
+    if (Menu::isMenuOpen())
+        CallComponentFuncs(deltaTime, mainComponent.get());
+
+
     lbuttonWasDown = lbuttonDown;
     rbuttonWasDown = rbuttonDown;
     prevXPos = Util::cursorPosX;
     prevYPos = Util::cursorPosY;
-
-    mainComponent->Update(Util::cursorPosX, Util::cursorPosY);
-    mainComponent->Render(deltaTime);
 }
 
 void Menu::ListenForKeybinds() {

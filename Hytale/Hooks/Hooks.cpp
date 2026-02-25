@@ -9,6 +9,7 @@ typedef int SDL_bool;
 #define SDL_FALSE 0
 
 static bool initialized = false;
+static bool initialized3D = false;
 
 static std::unique_ptr<Menu> menu;
 
@@ -40,7 +41,6 @@ typedef BOOL(WINAPI* wglSwapBuffers_t)(HDC hdc);
 wglSwapBuffers_t oWglSwapBuffers = nullptr;
 BOOL WINAPI HWglSwapBuffers(HDC hdc) {
     if (!initialized) {
-
         if (!gladLoadGLLoader((GLADloadproc)GetAnyGLFuncAddress))
         {
             std::cout << "Failed to initialize GLAD" << std::endl;
@@ -74,12 +74,6 @@ BOOL WINAPI HWglSwapBuffers(HDC hdc) {
     Util::orthoProjMat = Matrix4x4::Orthographic(0.0f, Util::app->Engine->Window->WindowWidth, Util::app->Engine->Window->WindowHeight, 0.0f, -1.0f, 1.0f);
 
     SDK::Main();
-
-    Entity* localplayer = Util::getLocalPlayer();
-    Renderer3D renderer3D;
-    Render3DEvent render3DEvent(renderer3D);
-    FeatureDispatcher::DispatchEvent(render3DEvent);
-    renderer3D.Render();
 
     Fonts::Figtree->RenderText(std::format("App: 0x{:x}", reinterpret_cast<uintptr_t>(Util::app)), 0.0f, 10.0f, 0.5f, Color::White());
     Fonts::Figtree->RenderText(std::format("AppInGame: 0x{:x}", reinterpret_cast<uintptr_t>(Util::app->appInGame)), 0.0f, 20.0f, 0.5f, Color::White());
@@ -197,6 +191,15 @@ void __fastcall HOnChat(__int64 thisptr, __int64 a2) {
     }
 }
 
+void __fastcall HDrawScene(__int64 thisptr) {
+    Hooks::oDrawScene(thisptr);
+
+    Renderer3D renderer3D;
+    Render3DEvent render3DEvent(renderer3D);
+    FeatureDispatcher::DispatchEvent(render3DEvent);
+    renderer3D.Render();
+}
+
 bool Hooks::CreateHooks() {
     if (MH_Initialize() != MH_OK) {
         std::cout << "Failed to initialize minhook";
@@ -218,6 +221,7 @@ bool Hooks::CreateHooks() {
     //CREATE_HOOK(WeatherUpdate, "57 56 55 53 48 83 EC ? 0F 29 74 24 ? 48 8B D9 48 8B F2 48 8B 4B ? 48 8B 89 ? ? ? ? 48 8B 79 ? 80 BB ? ? ? ? ? 74 ? 80 7B ? ? 0F 85 ? ? ? ? 48 8B CF 4C 8D 1D ? ? ? ? 41 FF 13 85 C0 0F 85 ? ? ? ? 0F B6 83 ? ? ? ? 88 83 ? ? ? ? F3 0F 10 76 ? 0F 16 F6 0F 12 36 0F 57 C0 0F 28 CE 0F C6 C8 ? 0F 28 C6 0F C6 C1 ? 0F 59 C0 0F 28 C8 0F C6 C8 ? 0F 58 C8 0F 28 C1 0F C6 C1 ? 0F 58 C1 F3 0F 51 C0 F3 0F 59 05 ? ? ? ? F3 0F 5A C0 E8 ? ? ? ? 0F 28 C8 F2 0F C2 C8 07 66 0F 54 C8 BA ? ? ? ? F2 0F 2C C9 66 0F 2E 05 ? ? ? ? 0F 42 D1 8B F2 0F 57 C0 F3 0F 2A C6 0F C6 C0 ? 0F 5E F0 85 F6 7E ? 8B EE 0F 29 74 24 ? 48 8D 54 24 ? 48 8B CB E8 ? ? ? ? FF CD 75 ? 85 F6 0F 85");
 
     CREATE_HOOK(OnChat, "56 53 48 83 EC ? 48 8B F1 48 8B DA 38 1B 48 8B CB");
+    CREATE_HOOK(DrawScene, "57 56 55 53 48 81 EC ? ? ? ? 0F 29 B4 24 ? ? ? ? 0F 29 BC 24 ? ? ? ? 44 0F 29 84 24 ? ? ? ? 33 C0 48 89 84 24 ? ? ? ? 48 8B D9");
     
 
 

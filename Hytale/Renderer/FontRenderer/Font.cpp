@@ -39,9 +39,10 @@ void Font::RenderText(std::string text, float x, float y, float scale, Color col
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
 	glDepthRange(0.0, 1.0);
+	*/
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	*/
 
 	
 	Shaders::text->bind();

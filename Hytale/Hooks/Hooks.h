@@ -36,5 +36,8 @@ namespace Hooks {
 	typedef void(__thiscall* OnChat)(__int64 a1, __int64 a2);
 	inline static OnChat oOnChat = nullptr;
 
+	typedef void(__thiscall* DrawScene)(__int64 a1);
+	inline static DrawScene oDrawScene = nullptr;
+
 	bool CreateHooks();
 }

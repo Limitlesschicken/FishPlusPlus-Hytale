@@ -45,6 +45,7 @@ Menu::Menu(HDC hdc) {
     );
 
     mainComponent = std::make_unique<Component>();
+    hudComponent = std::make_unique<Component>();
 }
 
 void Menu::ListenOpenInput() {
@@ -96,6 +97,8 @@ void Menu::Run(double deltaTime) {
 
     bool lbuttonDown = GetAsyncKeyState(VK_LBUTTON);
     bool rbuttonDown = GetAsyncKeyState(VK_RBUTTON);
+
+    CallComponentFuncs(deltaTime, hudComponent.get());
 
     if (Menu::isMenuOpen())
         CallComponentFuncs(deltaTime, mainComponent.get());

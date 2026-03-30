@@ -210,6 +210,8 @@
     <ClCompile Include="Util\RenderUtils.cpp" />
     <ClCompile Include="Util\TimeUtil.cpp" />
     <ClCompile Include="Util\Util.cpp" />
+    <ClCompile Include="Util\AntiCrash.cpp" />
+    <ClCompile Include="Util\TrampolineUnwind.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Events\EventRegister.h" />
@@ -398,6 +400,8 @@
     <ClInclude Include="Core.h" />
     <ClInclude Include="Util\FileUtil.h" />
     <ClInclude Include="Util\Util.h" />
+    <ClInclude Include="Util\AntiCrash.h" />
+    <ClInclude Include="Util\TrampolineUnwind.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="external\imgui-1.92.5\examples\libs\emscripten\shell_minimal.html" />

@@ -18,6 +18,7 @@ bool __fastcall Hooks::hkFrameIterator_IsValid(GCInstance* instance) {
         instance->pConservativeStackRangeLowerBound = 0x0;
         instance->pConservativeStackRangeUpperBound = 0x0;
         instance->flags |= GCFlag::MethodStateCalculated;
+        instance->flags |= GCFlag::ActiveStackFrame;
         instance->flags |= GCFlag::SkipNativeFrames;
         return false;
     }

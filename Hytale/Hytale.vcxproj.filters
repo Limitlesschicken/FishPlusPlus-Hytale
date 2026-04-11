@@ -123,6 +123,9 @@
     <ClCompile Include="Features\ActualFeatures\NoFall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Features\ActualFeatures\Gamemode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="sdk\SDK.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -549,6 +552,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Features\ActualFeatures\NoFall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Features\ActualFeatures\Gamemode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="sdk\InventoryModule.h">

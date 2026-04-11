@@ -56,6 +56,7 @@ inline bool uninjecting = false;
 namespace Globals {
 	inline OptionsHelper* optionsHelper;
 	inline Paths* paths;
+	inline void* pGamemodeInstance = nullptr;
 }
 
 namespace SM { // Signature Methods

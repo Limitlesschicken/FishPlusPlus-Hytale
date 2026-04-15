@@ -179,6 +179,7 @@
     <ClCompile Include="Features\ActualFeatures\Flight.cpp" />
     <ClCompile Include="Features\ActualFeatures\Nametags.cpp" />
     <ClCompile Include="Features\ActualFeatures\NoFall.cpp" />
+    <ClCompile Include="Features\ActualFeatures\Gamemode.cpp" />
     <ClCompile Include="Features\ActualFeatures\Speed.cpp" />
     <ClCompile Include="Hooks\GCPatch.cpp" />
     <ClCompile Include="Hooks\HookedMethods\DoMoveCycle.cpp" />
@@ -357,6 +358,7 @@
     <ClInclude Include="Features\ActualFeatures\Flight.h" />
     <ClInclude Include="Features\ActualFeatures\Nametags.h" />
     <ClInclude Include="Features\ActualFeatures\NoFall.h" />
+    <ClInclude Include="Features\ActualFeatures\Gamemode.h" />
     <ClInclude Include="Features\ActualFeatures\Speed.h" />
     <ClInclude Include="Hooks\GCPatch.h" />
     <ClInclude Include="Hooks\Hooks.h" />

@@ -17,6 +17,7 @@
 #include "ActualFeatures/Tracers.h"
 #include "ActualFeatures/Scaffold.h"
 #include "ActualFeatures/HitBox.h"
+#include "ActualFeatures/Gamemode.h"
 
 void InitFeature(std::unique_ptr<Feature> feature, std::string tab) {
 	feature->setCategory(tab);
@@ -34,6 +35,7 @@ void FeatureHandler::Init() {
 	InitFeature(std::make_unique<Speed>(), "Movement");
 	InitFeature(std::make_unique<NoFall>(), "Movement");
 	InitFeature(std::make_unique<Scaffold>(), "Movement");
+	InitFeature(std::make_unique<Gamemode>(), "Movement");
 
 	InitFeature(std::make_unique<ESP>(), "Visuals");
 	InitFeature(std::make_unique<Nametags>(), "Visuals");

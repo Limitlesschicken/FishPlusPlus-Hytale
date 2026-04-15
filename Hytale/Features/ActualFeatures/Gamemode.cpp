@@ -7,51 +7,40 @@
 Gamemode::Gamemode() : Feature("Gamemode") {
 }
 
-void MemoryPatch(void* address, const uint8_t* patch, size_t size) {
-	DWORD oldProtect;
-	VirtualProtect(address, size, PAGE_EXECUTE_READWRITE, &oldProtect);
-	memcpy(address, patch, size);
-	VirtualProtect(address, size, oldProtect, &oldProtect);
+void Gamemode::Initialize() {
+    RegisterEvent(this);
+    Util::log("Initialized Gamemode feature\n");
 }
 
-void Gamemode::OnMoveCycle(DefaultMovementController* dmc, Vector3& offset) {
-	if (!Util::isFullyInitialized() || !Globals::pGamemodeInstance)
-		return;
+// Write the gamemode byte directly — bypasses SetGameMode's side-effects
+// (InGameView callbacks etc.) which crash if called during initialization.
+// Safe because we only write when the value actually differs.
+static void WriteGameMode(GameInstance* gi, GameMode mode) {
+    gi->GameMode = mode;
+}
 
-	void* targetObj = Globals::pGamemodeInstance;
-
-	// 0: Adventure, 1: Creative
-	uint8_t* gm = (uint8_t*)((uintptr_t)targetObj + 0x0A);
-	
-	if (this->IsActive()) {
-		if (*gm != 1) {
-			*gm = 1;
-			Util::log("Set gamemode to Creative at 0x%llX\n", (uintptr_t)targetObj);
-		}
-	} else {
-		if (*gm != 0) {
-			*gm = 0;
-			Util::log("Set gamemode to Adventure at 0x%llX\n", (uintptr_t)targetObj);
-		}
-	}
+void Gamemode::OnActivate() {
+    GameInstance* gi = Util::getGameInstance();
+    if (!gi) return;
+    WriteGameMode(gi, GameMode::Creative);
+    Util::log("Gamemode: set Creative\n");
 }
 
 void Gamemode::OnDeactivate() {
-	if (Globals::pGamemodeInstance) {
-		void* targetObj = Globals::pGamemodeInstance;
-		uint8_t* gm = (uint8_t*)((uintptr_t)targetObj + 0x0A);
-		if (*gm != 0) {
-			*gm = 0;
-			Util::log("Deactivated: Set gamemode to Adventure at 0x%llX\n", (uintptr_t)targetObj);
-		}
-	}
+    GameInstance* gi = Util::getGameInstance();
+    if (!gi) return;
+    WriteGameMode(gi, GameMode::Adventure);
+    Util::log("Gamemode: set Adventure\n");
 }
 
-void Gamemode::Initialize() {
-	Util::log("Initialized Gamemode feature\n");
-	RegisterEvent(this);
+// Re-applies on every tick in case the server overwrites the byte
+void Gamemode::OnMoveCycle(DefaultMovementController* dmc, Vector3& offset) {
+    GameInstance* gi = Util::getGameInstance();
+    if (!gi) return;
+    if (gi->GameMode != GameMode::Creative)
+        WriteGameMode(gi, GameMode::Creative);
 }
 
 bool Gamemode::CanExecute() {
-	return Util::isFullyInitialized();
+    return Util::isFullyInitialized();
 }

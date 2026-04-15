@@ -24,45 +24,6 @@ std::uintptr_t name##Address = Util::RelativeVirtualAddress(Util::PatternScan(pa
 Util::log("Found %s sig at: 0x%llX - 0x%llX = 0x%lX\n", #name, name##Address, gameBase, (name##Address - gameBase));\
 CREATE_HOOK(name)
 
-/* --- Vectored Exception Handler REMOVED ---
- * The old VEH caught ALL access violations at ANY 'movzx eax, byte ptr [rcx+rax]'
- * (0F B6 04 01) inside the Hytale module. There are 78 such instructions in the binary,
- * including 17+ inside the Brotli decompression engine. During world loading, the VEH
- * intercepted legitimate AVs in Brotli, set RAX=2 and skipped the instruction, corrupting
- * the decompression state. This produced garbage data on the managed heap, causing
- * FailFast (0xC0000602) in RhpNewArray_Char during the next GC allocation.
- *
- * If the ClientMovement validation crash resurfaces (flags-as-pointer AV), fix it with
- * a targeted NOP patch at the specific validation instruction instead of a global VEH. */
-static uint64_t g_targetIsCreativeAddr = 0;
-static uint8_t g_originalIsCreativeByte = 0;
-
-LONG WINAPI OneShotVectoredHandler(PEXCEPTION_POINTERS pExceptionInfo) {
-    if (pExceptionInfo->ExceptionRecord->ExceptionCode == EXCEPTION_BREAKPOINT) {
-        if (pExceptionInfo->ContextRecord->Rip == g_targetIsCreativeAddr) {
-            // rcx is the instance pointer at the comparison instruction:
-            // 80 79 0A 01 (cmp byte ptr [rcx+0A], 01)
-            Globals::pGamemodeInstance = (void*)pExceptionInfo->ContextRecord->Rcx;
-            
-            Util::log("One-shot capture successful: Gamemode Instance = 0x%llX\n", (uintptr_t)Globals::pGamemodeInstance);
-
-            // Restore the original code byte (0x80)
-            DWORD oldProt;
-            VirtualProtect((void*)g_targetIsCreativeAddr, 1, PAGE_EXECUTE_READWRITE, &oldProt);
-            *(uint8_t*)g_targetIsCreativeAddr = g_originalIsCreativeByte;
-            VirtualProtect((void*)g_targetIsCreativeAddr, 1, oldProt, &oldProt);
-
-            // Important: On x64, RIP points to the byte AFTER the INT 3 (0xCC). 
-            // We must set RIP back to the target address to re-execute the original '80' byte.
-            pExceptionInfo->ContextRecord->Rip = g_targetIsCreativeAddr;
-
-            return EXCEPTION_CONTINUE_EXECUTION;
-        }
-    }
-    return EXCEPTION_CONTINUE_SEARCH;
-}
-
-static PVOID s_vehHandle = nullptr;
 
 HytaleString* TempToString(void* ptr) {
     __try {
@@ -134,24 +95,6 @@ bool Hooks::CreateHooks() {
     //CREATE_SIG_HOOK_BY_REF(SetClientBlock, "E8 ? ? ? ? 48 8B CB 8B D6 44 8B C7 45 8B CE 48 83 C4");
 
     //CREATE_SIG_HOOK(ClassMethod6, "57 56 53 48 83 EC ? 0F 29 74 24 ? 0F 29 7C 24 ? 48 8B D9 48 8B F2 48 8B 4B ? 48 8B 89");
-
-    std::uintptr_t IsCreativeMid = Util::PatternScan("80 79 0A 01 41 0F 94 C5 45 0F B6 ED");
-    if (IsCreativeMid) {
-        // One-Shot VEH Capture Setup
-        g_targetIsCreativeAddr = (uint64_t)IsCreativeMid;
-        g_originalIsCreativeByte = *(uint8_t*)g_targetIsCreativeAddr; // Should be 0x80
-
-        s_vehHandle = AddVectoredExceptionHandler(1, OneShotVectoredHandler);
-        
-        DWORD oldProt;
-        VirtualProtect((void*)g_targetIsCreativeAddr, 1, PAGE_EXECUTE_READWRITE, &oldProt);
-        *(uint8_t*)g_targetIsCreativeAddr = 0xCC; // INT 3
-        VirtualProtect((void*)g_targetIsCreativeAddr, 1, oldProt, &oldProt);
-
-        Util::log("One-shot VEH capture initialized at: 0x%llX\n", g_targetIsCreativeAddr);
-    } else {
-        Util::log("WARNING: IsCreative signature failed!\n");
-    }
 
     MH_EnableHook(MH_ALL_HOOKS);
 

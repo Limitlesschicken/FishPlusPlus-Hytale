@@ -16,10 +16,17 @@
 #include "MapModule.h"
 #include "InteractionModule.h"
 
+enum class GameMode : uint8_t {
+	Adventure = 0,
+	Creative  = 1,
+};
+
 class GameInstance {
 public:
-	char pad_0[0x10];                                   //0x0
-	Entity* Player;                                     //0x10
+	char      pad_0[0x0A];                              //0x0
+	GameMode  GameMode;                                 //0xA  low byte of <GameMode>k__BackingField (0=Adventure, 1=Creative)
+	char      pad_0B[0x05];                             //0xB
+	Entity*   Player;                                   //0x10
 	void* App;                                          //0x18 HytaleClient.Application.App
 	Engine* Engine;                                     //0x20 HytaleClient.Core.Engine
 	Chat* Chat;                                         //0x28 HytaleClient.InGame.Chat

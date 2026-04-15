@@ -11,6 +11,7 @@ public:
 	Gamemode();
 
 	void OnMoveCycle(DefaultMovementController* dmc, Vector3& offset);
+	void OnActivate() override;
 	void OnDeactivate() override;
 	void Initialize() override;
 

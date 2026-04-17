@@ -6,7 +6,7 @@
 
 #include "Features/Settings/SliderSetting.h"
 #include "Features/Settings/ToggleSetting.h"
-#include "Features/Settings/BlockSetting.h"
+#include "Features/Settings/BlockSelection/BlockSetting.h"
 
 class BlockESP : public Feature {
 public:

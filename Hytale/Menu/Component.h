@@ -18,6 +18,7 @@ public:
 	virtual void MouseClicked(float mouseX, float mouseY, int virtualKeyCode);
 	virtual void MouseReleased(float mouseX, float mouseY, int virtualKeyCode);
 	virtual void MouseDragged(float mouseX, float mouseY, int virtualKeyCode, float deltaX, float deltaY);
+	virtual void MouseScrolled(int amount);
 
 	virtual void MenuOpened();
 	virtual void MenuClosed();

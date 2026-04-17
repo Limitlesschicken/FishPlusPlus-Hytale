@@ -4,13 +4,14 @@
 
 #include "BlockSelectionButton.h"
 
-#include "../Style.h"
+#include "../../Style.h"
 #include "Renderer/Renderer2D.h"
 #include "Renderer/FontRenderer/Fonts.h"
-#include "Features/Settings/BlockSetting.h"
+#include "Features/Settings/BlockSelection/BlockSetting.h"
 
-BlockSelectionButton::BlockSelectionButton(Setting<std::vector<ClientBlockType*>>* setting) : SettingButton(setting) {
-	this->screen = std::make_unique<BlockSelectionScreen>();
+BlockSelectionButton::BlockSelectionButton(Setting<std::vector<BlockSelection>>* setting) : SettingButton(setting) {
+	this->screen = std::make_unique<BlockSelectionScreen>(setting);
+
 }
 
 void BlockSelectionButton::Render(double deltaTime) {
@@ -47,16 +48,4 @@ void BlockSelectionButton::MouseClicked(float mouseX, float mouseY, int vk) {
 		if (vk == VK_LBUTTON)
 			Menu::SetMainComponent(screen.get());
 	}
-}
-
-void BlockSelectionScreen::Render(double deltaTime) {
-	Renderer2D::colored->Square(Vector2(710, 80), 500, 800, Color::Normalize(Style::tabBgColor));
-	Renderer2D::colored->Render();
-}
-void BlockSelectionScreen::Update(float mouseX, float mouseY) {
-
-}
-
-void BlockSelectionScreen::MouseClicked(float mouseX, float mouseY, int vk) {
-
 }

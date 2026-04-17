@@ -56,6 +56,12 @@ void Component::MouseDragged(float mouseX, float mouseY, int virtualKeyCode, flo
 	}
 }
 
+void Component::MouseScrolled(int amount) {
+	for (auto& children : m_children) {
+		children->MouseScrolled(amount);
+	}
+}
+
 void Component::MenuOpened() {
 	for (auto& children : m_children) {
 		children->MenuOpened();

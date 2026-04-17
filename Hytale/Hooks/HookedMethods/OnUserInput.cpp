@@ -10,6 +10,13 @@ __declspec(safebuffers) __declspec(noinline)
 void __fastcall Hooks::hkOnUserInput(uint64_t instance, SDL_Event event) {
     Hooks::oOnUserInput(instance, event);
 
+    if (event.type == SDL_MOUSEWHEEL) {
+        InputSystem::inputMutex.lock();
+        InputSystem::scrolled = true;
+        InputSystem::scrollAmount = event.wheel.y;
+        InputSystem::inputMutex.unlock();
+    }
+
     if (event.type != SDL_KEYDOWN && event.type != SDL_KEYUP)
         return;
 

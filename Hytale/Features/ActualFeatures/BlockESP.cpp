@@ -7,7 +7,7 @@
 
 BlockESP::BlockESP() : Feature("BlockESP") {
 
-	this->blockSetting = this->RegisterSetting<BlockSetting>("BlockSetting");
+	this->blockSetting = this->RegisterSetting<BlockSetting>("BlockSetting", "None", std::vector<std::string>{"None", "Chests"});
 
 	this->radius   = this->RegisterSetting<SliderSetting>("Radius", 50.f, 5.f, 500.f);
 	this->showName = this->RegisterSetting<ToggleSetting>("Show Name", false);

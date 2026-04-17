@@ -236,4 +236,18 @@ void SDK::Main() {
 		filterInitialized = true;
 		blockESP->refreshList->SetValue(false);
 	}
+
+	static bool test = true;
+	if (test && Util::app->Stage == AppStage::InGame) {
+		test = false;
+
+		for (int i = 0; i < Util::getGameInstance()->MapModule->ClientBlockTypes->count; i++) {
+			ClientBlockType* type = Util::getGameInstance()->MapModule->ClientBlockTypes->get(i);
+			std::string name = type->Name->getString();
+			name.erase(std::remove(name.begin(), name.end(), '*'), name.end());
+			name.erase(std::remove_if(name.begin(), name.end(), ::isspace), name.end());
+
+			std::cout << "{\"" << name << "\", " << type->Id << "},\n";
+		}
+	}
 }

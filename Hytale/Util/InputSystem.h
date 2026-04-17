@@ -6,6 +6,9 @@
 #include <unordered_set>
 #include <mutex>
 
+typedef uint32_t SDL_WindowID;
+typedef uint32_t SDL_MouseID;
+
 typedef enum SDL_Scancode {
     SDL_SCANCODE_UNKNOWN = 0,
 
@@ -523,6 +526,12 @@ typedef enum SDL_EventType {
     SDL_LASTEVENT    = 0xFFFF
 } SDL_EventType;
 
+typedef enum SDL_MouseWheelDirection
+{
+    SDL_MOUSEWHEEL_NORMAL,    /**< The scroll direction is normal */
+    SDL_MOUSEWHEEL_FLIPPED    /**< The scroll direction is flipped / natural */
+} SDL_MouseWheelDirection;
+
 typedef struct SDL_KeyboardEvent {
     SDL_EventType type;     /**< SDL_EVENT_KEY_DOWN or SDL_EVENT_KEY_UP */
     uint32_t reserved;
@@ -537,10 +546,27 @@ typedef struct SDL_KeyboardEvent {
     bool repeat;            /**< true if this is a key repeat */
 } SDL_KeyboardEvent;
 
+typedef struct SDL_MouseWheelEvent
+{
+    SDL_EventType type; /**< SDL_EVENT_MOUSE_WHEEL */
+    uint32_t reserved;
+    uint64_t timestamp;   /**< In nanoseconds, populated using SDL_GetTicksNS() */
+    SDL_WindowID windowID; /**< The window with mouse focus, if any */
+    SDL_MouseID which;  /**< The mouse instance id in relative mode or 0 */
+    float x;            /**< The amount scrolled horizontally, positive to the right and negative to the left */
+    float y;            /**< The amount scrolled vertically, positive away from the user and negative toward the user */
+    SDL_MouseWheelDirection direction; /**< Set to one of the SDL_MOUSEWHEEL_* defines. When FLIPPED the values in X and Y will be opposite. Multiply by -1 to change them back */
+    float mouse_x;      /**< X coordinate, relative to window */
+    float mouse_y;      /**< Y coordinate, relative to window */
+    int32_t integer_x;   /**< The amount scrolled horizontally, accumulated to whole scroll "ticks" (added in 3.2.12) */
+    int32_t integer_y;   /**< The amount scrolled vertically, accumulated to whole scroll "ticks" (added in 3.2.12) */
+} SDL_MouseWheelEvent;
+
 
 typedef union SDL_Event {
     uint32_t type;                            /**< Event type, shared with all events */
     SDL_KeyboardEvent key;                  /**< Keyboard event data */
+    SDL_MouseWheelEvent wheel;              /**< Mouse wheel event data */
 
     uint8_t padding[128];
 } SDL_Event;
@@ -554,6 +580,10 @@ namespace InputSystem {
 	inline std::unordered_set<SDL_Scancode> keysPressed;
 	inline std::unordered_set<SDL_Scancode> keysUnheld;
 	inline std::unordered_set<SDL_Scancode> keysDepressed;
+
+    inline bool scrolled = false;
+    inline int scrollAmount = 0;
+    inline 
 
 	static bool IsKeyPressed(SDL_Scancode key) {
 		inputMutex.lock();
@@ -572,6 +602,8 @@ namespace InputSystem {
         InputSystem::inputMutex.lock();
         InputSystem::keysPressed.clear();
         InputSystem::keysDepressed.clear();
+        InputSystem::scrolled = false;
+        InputSystem::scrollAmount = 0;
         InputSystem::inputMutex.unlock();
     }
 

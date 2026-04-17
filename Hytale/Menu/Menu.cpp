@@ -81,6 +81,9 @@ void CallComponentFuncs(double deltaTime, Component* component) {
     if (!rbuttonDown && rbuttonWasDown)
         component->MouseReleased(Util::cursorPosX, Util::cursorPosY, VK_RBUTTON);
 
+    if (InputSystem::scrolled)
+        component->MouseScrolled(InputSystem::scrollAmount);
+
     if (lbuttonDown) {
         float deltaX = Util::cursorPosX - prevXPos;
         float deltaY = Util::cursorPosY - prevYPos;
@@ -125,9 +128,6 @@ void Menu::Run(double deltaTime) {
         }
         Menu::m_justOpened = false;
     }
-
-    
-
 
     lbuttonWasDown = lbuttonDown;
     rbuttonWasDown = rbuttonDown;

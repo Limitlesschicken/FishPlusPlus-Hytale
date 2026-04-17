@@ -216,10 +216,13 @@
     <ClCompile Include="Features\ActualFeatures\HitBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Menu\Children\BlockSelectionbutton.cpp">
+    <ClCompile Include="Menu\Children\BlockSelection\BlockSelectionbutton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Features\ActualFeatures\ItemMagnet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu\Children\BlockSelection\BlockSelectionWIndow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -896,13 +899,19 @@
     <ClInclude Include="Features\ActualFeatures\HitBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Features\Settings\BlockSetting.h">
+    <ClInclude Include="Features\Settings\BlockSelection\BlockSetting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Menu\Children\BlockSelectionButton.h">
+    <ClInclude Include="Menu\Children\BlockSelection\BlockSelectionButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Features\ActualFeatures\ItemMagnet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Features\Settings\BlockSelection\BlockSelection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu\Children\BlockSelection\BlockSelectionWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

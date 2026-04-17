@@ -196,7 +196,8 @@
     <ClCompile Include="Hooks\HookedMethods\WglSwapBuffers.cpp" />
     <ClCompile Include="Hooks\Hooks.cpp" />
     <ClCompile Include="Math\Vector4.h" />
-    <ClCompile Include="Menu\Children\BlockSelectionbutton.cpp" />
+    <ClCompile Include="Menu\Children\BlockSelection\BlockSelectionbutton.cpp" />
+    <ClCompile Include="Menu\Children\BlockSelection\BlockSelectionWIndow.cpp" />
     <ClCompile Include="Menu\Children\ColorButton.cpp" />
     <ClCompile Include="Menu\Children\FeatureButton.cpp" />
     <ClCompile Include="Menu\Children\KeybindButton.cpp" />
@@ -349,7 +350,8 @@
     <ClInclude Include="Features\ConfigHandler.h" />
     <ClInclude Include="Features\Feature.h" />
     <ClInclude Include="Features\Setting.h" />
-    <ClInclude Include="Features\Settings\BlockSetting.h" />
+    <ClInclude Include="Features\Settings\BlockSelection\BlockSelection.h" />
+    <ClInclude Include="Features\Settings\BlockSelection\BlockSetting.h" />
     <ClInclude Include="Features\Settings\ColorSetting.h" />
     <ClInclude Include="Features\Settings\KeybindSetting.h" />
     <ClInclude Include="Features\Settings\MultiSetting.h" />
@@ -366,7 +368,8 @@
     <ClInclude Include="Features\ActualFeatures\Speed.h" />
     <ClInclude Include="Hooks\GCPatch.h" />
     <ClInclude Include="Hooks\Hooks.h" />
-    <ClInclude Include="Menu\Children\BlockSelectionButton.h" />
+    <ClInclude Include="Menu\Children\BlockSelection\BlockSelectionButton.h" />
+    <ClInclude Include="Menu\Children\BlockSelection\BlockSelectionWindow.h" />
     <ClInclude Include="sdk\BaseDataTypes\Object.h" />
     <ClInclude Include="sdk\Packets\Structs\Enums.h" />
     <ClInclude Include="sdk\Packets\Structs\IndependentStructs.h" />

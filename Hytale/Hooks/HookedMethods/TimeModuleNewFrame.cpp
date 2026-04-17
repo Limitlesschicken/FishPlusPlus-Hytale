@@ -15,8 +15,12 @@ void __fastcall Hooks::hkTimeModuleNewFrame(void* instance, float deltaTime) {
         return;
     if (Util::app->Stage != AppStage::InGame)
         return;
+
     WorldModulate* worldModulate = static_cast<WorldModulate*>(FeatureHandler::GetFeatureFromName("WorldModulate"));
     if (!worldModulate)
+        return;
+
+    if (!worldModulate->IsActive())
         return;
 
     RecursiveSetting* timeChanger = static_cast<RecursiveSetting*>(worldModulate->GetSettingFromName("Time Changer"));

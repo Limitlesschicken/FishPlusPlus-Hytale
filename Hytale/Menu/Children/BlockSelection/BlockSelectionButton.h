@@ -7,16 +7,14 @@
 
 #include <memory>
 
-#include "SettingButton.h"
+#include "../SettingButton.h"
 #include "Features/Setting.h"
-#include <sdk/Hytale/ClientBlockType.h>
-
-
-class BlockSelectionScreen;
+#include "Features/Settings/BlockSelection/BlockSelection.h"
+#include "BlockSelectionWindow.h"
 
 class BlockSelectionButton : public SettingButton {
 public:
-	BlockSelectionButton(Setting<std::vector<ClientBlockType*>>* setting);
+	BlockSelectionButton(Setting<std::vector<BlockSelection>>* setting);
 
 	void Render(double deltaTime) override;
 	void Update(float mouseX, float mouseY) override;
@@ -26,9 +24,3 @@ public:
 	std::unique_ptr<BlockSelectionScreen> screen;
 };
 
-class BlockSelectionScreen : public Component {
-	void Render(double deltaTime) override;
-	void Update(float mouseX, float mouseY) override;
-
-	void MouseClicked(float mouseX, float mouseY, int vk);
-};

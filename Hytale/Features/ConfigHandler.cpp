@@ -38,6 +38,8 @@ void addSetting(nlohmann::json& json, ISetting* setting) {
 		json[setting->GetName()] = multiSetting->GetValue();
 	else if (auto sliderSetting = dynamic_cast<SliderSetting*>(setting))
 		json[setting->GetName()] = sliderSetting->GetValue();
+	else if (auto keybindSetting = dynamic_cast<KeybindSetting*>(setting))
+		json[setting->GetName()] = keybindSetting->GetValue();
 	else if (auto colorSetting = dynamic_cast<ColorSetting*>(setting)) {
 		Color c = colorSetting->GetValue();
 		json[setting->GetName()] = { {"r", c.r}, {"g", c.g}, {"b", c.b}, {"a", c.a}};
@@ -87,6 +89,8 @@ void loadSetting(json settingData, ISetting* setting) {
 		multiSetting->SetValue(settingData.get<int>());
 	else if (auto sliderSetting = dynamic_cast<SliderSetting*>(setting))
 		sliderSetting->SetValue(settingData.get<float>());
+	else if (auto sliderSetting = dynamic_cast<KeybindSetting*>(setting))
+		sliderSetting->SetValue(settingData.get<SDL_Scancode>());
 	else if (auto colorSetting = dynamic_cast<ColorSetting*>(setting)) {
 		colorSetting->SetValue(Color(
 			settingData["r"].get<float>(),

@@ -50,7 +50,7 @@ void BlockESP::OnRender3D(Renderer3D& renderer3D) {
 
 		if (this->showName->GetValue()) {
 			Vector2 screenPos;
-			std::string text = Util::string_format("%s (%.1fm)", block.displayName, sqrtf(distSq));
+			std::string text = Util::string_format("%s (%.1fm)", block.displayName.c_str(), sqrtf(distSq));
 			if (Util::WorldToScreen(blockCenter, screenPos)) {
 				Fonts::Figtree->RenderText(
 					text,

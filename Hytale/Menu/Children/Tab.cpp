@@ -16,7 +16,7 @@
 
 #include "../../Features/FeatureHandler.h"
 
-Tab::Tab(std::string name, float x, float y) : Component(x, y, 200, Style::headerHeight) {
+Tab::Tab(std::string name, float x, float y, float w) : Component(x, y, w, Style::headerHeight) {
 	this->name = name;
 	this->m_dragging = false;
 
@@ -73,7 +73,7 @@ Body::Body(Tab* tab) {
 			continue;
 		this->AddChild(std::make_unique<FeatureButton>(feature.get()));
 	}
-	this->width = 200;
+	this->width = tab->width;
 	this->height = this->m_children.size() * Style::featureHeight;
 }
 

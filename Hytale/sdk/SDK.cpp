@@ -208,84 +208,14 @@ void SDK::Main() {
 	entities = getEntities(Util::getLocalPlayer());
 	global_mutex.unlock();
 
+	if ((GetAsyncKeyState(VK_F6) & 1)) {
+		Util::log("InteractionModule: 0x%llX\n", Util::getGameInstance()->InteractionModule);
+	}
+
 	static bool firstScan = false;
 	if (firstScan || (GetAsyncKeyState(VK_F5) & 1)) {
-		Vector3 playerPos = Util::getLocalPlayer()->Position.toFloor().add(0,-1,0);
-		Util::log("Player position: (%.1f, %.1f, %.1f)\n", playerPos.x, playerPos.y, playerPos.z);
-		Util::log("Block at player position: %s\n", Util::getGameInstance()->MapModule->GetBlockType(playerPos)->Name->getString().c_str());
-
-		SyncInteractionChainsPacket* packet = CreatePacket<SyncInteractionChainsPacket*>(SyncInteractionChains_BI);
-
-		BlockPosition* blockPos = API::RHPNewFast<BlockPosition*>(SM::BlockPosition_MTAddress);
-		blockPos->x = (int) playerPos.x;
-		blockPos->y = (int) playerPos.y;
-		blockPos->z = (int) playerPos.z;
-
-		InteractionChainData* data = API::RHPNewFast<InteractionChainData*>(SM::InteractionChainData_MTAddress);
-		data->block_position = blockPos;
-		data->entity_id = -1;
-		data->target_slot = INT_MIN;
-
-		auto CreateInteractionSyncData = [&]() -> InteractionSyncData* {
-			auto* sd = API::RHPNewFast<InteractionSyncData*>(SM::InteractionSyncData_MTAddress);
-			sd->entered_root_interaction = INT_MIN;
-			sd->placed_block_id          = INT_MIN;
-			sd->charge_value             = -1.0f;
-			sd->chaining_index           = -1;
-			sd->flag_index               = -1;
-			return sd;
-		};
-
-		InteractionSyncData* syncData0 = CreateInteractionSyncData();
-		syncData0->operation_counter = 0;
-		syncData0->root_interaction = 2829;
-		syncData0->state = kInteractionStateFinished;
-
-		InteractionSyncData* syncData1 = CreateInteractionSyncData();
-		syncData1->operation_counter = 1;
-		syncData1->root_interaction = 2829;
-		syncData1->block_position = blockPos;
-		syncData1->block_face = BlockFace::kBlockFaceUp;
-		syncData1->state = kInteractionStateFinished;
-
-		InteractionSyncData* syncData2 = CreateInteractionSyncData();
-		syncData2->operation_counter = 0;
-		syncData2->root_interaction = 2628;
-		syncData2->block_position = blockPos;
-		syncData2->block_face = BlockFace::kBlockFaceUp;
-		syncData2->state = kInteractionStateFinished;
-
-		InteractionSyncData* syncData3 = CreateInteractionSyncData();
-		syncData3->operation_counter = 2;
-		syncData3->root_interaction = 2829;
-		syncData3->state = kInteractionStateFinished;
-
-		Array<InteractionSyncData*>* updatesArray = API::RHPNewArray<Array<InteractionSyncData*>*>(SM::Array_InteractionSyncData_MTAddress, 4);
-		updatesArray->list[0] = syncData0;
-		updatesArray->list[1] = syncData1;
-		updatesArray->list[2] = syncData2;
-		updatesArray->list[3] = syncData3;
-
-		SyncInteractionChain* chain = API::RHPNewFast<SyncInteractionChain*>(SM::SyncInteractionChain_MTAddress);
-		chain->interaction_type = InteractionType::kInteractionTypeUse;
-		chain->active_hotbar_slot = Util::getGameInstance()->InventoryModule->HotbarActiveSlot;
-		chain->active_utility_slot = -1;
-		chain->active_tools_slot = -1;
-		chain->override_root_interaction = INT_MIN;
-		chain->equip_slot = Util::getGameInstance()->InventoryModule->HotbarActiveSlot;
-		chain->chain_id = ChainID;
-		chain->operation_base_index = 0;
-		chain->initial = true;
-		chain->data = data;
-		chain->interaction_data = updatesArray;
-
-		Array<SyncInteractionChain*>* updates = API::RHPNewArray<Array<SyncInteractionChain*>*>(SM::Array_SyncInteractionChain_MTAddress, 1);
-		updates->list[0] = chain;
-
-		packet->updates = updates;
-
-		Packets::SendPacketImmediate(packet);
-		Util::log("Sent SyncInteractionChainsPacket with test data\n");
+		Vector3 playerPos = Util::getGameInstance()->Player->Position.toFloor().add(0, -1, 0);
+		SyncInteractionChainsPacket::SendOpenContainer(playerPos);
 
 		firstScan = false;
 	}

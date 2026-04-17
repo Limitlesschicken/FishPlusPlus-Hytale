@@ -1,4 +1,5 @@
 #pragma once
+#include "Util/NativeAOTAPI.h"
 #include "sdk/BaseDataTypes/Object.h"
 #include "Enums.h"	
 
@@ -17,6 +18,14 @@ struct BlockPosition : Object { // Struct from pEric
 		this->x = (int) vec.x;
 		this->y = (int) vec.y;
 		this->z = (int) vec.z;
+	}
+
+	static BlockPosition* CreateBlockPos(int x, int y, int z) {
+		BlockPosition* blockPos = API::RHPNewFast<BlockPosition*>(SM::BlockPosition_MTAddress);
+		blockPos->x = x;
+		blockPos->y = y;
+		blockPos->z = z;
+		return blockPos;
 	}
 };
 

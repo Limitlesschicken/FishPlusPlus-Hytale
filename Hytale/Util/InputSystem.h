@@ -556,12 +556,16 @@ namespace InputSystem {
 	inline std::unordered_set<SDL_Scancode> keysDepressed;
 
 	static bool IsKeyPressed(SDL_Scancode key) {
+        if (key == SDL_SCANCODE_UNKNOWN)
+			return false;
 		inputMutex.lock();
 		int result = (int)keysPressed.count(key);
 		inputMutex.unlock();
 		return result;
 	}
 	static bool IsKeyHeld(SDL_Scancode key) {
+        if (key == SDL_SCANCODE_UNKNOWN)
+            return false;
         inputMutex.lock();
         int result = (int)keysHeld.count(key);
         inputMutex.unlock();

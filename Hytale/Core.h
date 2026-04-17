@@ -20,6 +20,7 @@ inline bool uninjecting = false;
 
 #include "Util/SigManager.h"
 #include "Util/NativeAOTAPI.h"
+#include "Util/Hash.h"
 #include "sdk/Hytale/App.h"
 #include "sdk/Hytale/DefaultMovementController.h"
 #include "sdk/Hytale/OptionsHelper.h"

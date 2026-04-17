@@ -17,7 +17,7 @@ struct EntityData {
 struct FilteredBlockResult {
 	Vector3 position;
 	int blockId;
-	const char* displayName;
+	std::string displayName;
 	Color color;
 };
 

@@ -44,8 +44,6 @@ namespace HookData {
         { { }, "Crystal", Color::Normalize(255, 0, 255), 11 },
         { { }, "Gem", Color::Normalize(255, 0, 255), 12 }
     };
-    
-    inline int ChainID = 0;
 }
 
 using namespace HookData;

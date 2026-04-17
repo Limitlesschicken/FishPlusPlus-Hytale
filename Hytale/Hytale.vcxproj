@@ -170,6 +170,7 @@
     <ClCompile Include="Features\ActualFeatures\HitBox.cpp" />
     <ClCompile Include="Features\ActualFeatures\ItemMagnet.cpp" />
     <ClCompile Include="Features\ActualFeatures\Outline.cpp" />
+    <ClCompile Include="Features\ActualFeatures\RemoteChest.cpp" />
     <ClCompile Include="Features\ActualFeatures\Tracers.cpp" />
     <ClCompile Include="Features\ActualFeatures\WorldModulate.cpp" />
     <ClCompile Include="Features\ConfigHandler.cpp" />
@@ -344,6 +345,7 @@
     <ClInclude Include="Features\ActualFeatures\HitBox.h" />
     <ClInclude Include="Features\ActualFeatures\ItemMagnet.h" />
     <ClInclude Include="Features\ActualFeatures\Outline.h" />
+    <ClInclude Include="Features\ActualFeatures\RemoteChest.h" />
     <ClInclude Include="Features\ActualFeatures\Tracers.h" />
     <ClInclude Include="Features\ActualFeatures\WorldModulate.h" />
     <ClInclude Include="Features\ConfigHandler.h" />
@@ -368,6 +370,8 @@
     <ClInclude Include="Hooks\Hooks.h" />
     <ClInclude Include="Menu\Children\BlockSelectionButton.h" />
     <ClInclude Include="sdk\BaseDataTypes\Object.h" />
+    <ClInclude Include="sdk\Hytale\ClientRootInteraction.h" />
+    <ClInclude Include="sdk\Hytale\RaycastHit.h" />
     <ClInclude Include="sdk\Packets\Structs\Enums.h" />
     <ClInclude Include="sdk\Packets\Structs\IndependentStructs.h" />
     <ClInclude Include="Math\BoundingBox.h" />
@@ -447,6 +451,7 @@
     <ClInclude Include="sdk\SDK.h" />
     <ClInclude Include="sdk\Hytale\Window.h" />
     <ClInclude Include="Events\EventSystem.h" />
+    <ClInclude Include="Util\Hash.h" />
     <ClInclude Include="Util\InputSystem.h" />
     <ClInclude Include="Util\NativeAOTAPI.h" />
     <ClInclude Include="Util\Packet.h" />

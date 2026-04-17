@@ -11,7 +11,7 @@
 
 class Tab : public Component {
 public:
-	Tab(std::string name, float x, float y);
+	Tab(std::string name, float x, float y, float w);
 
 	void Render(double deltaTime) override;
 	void Update(float mouseX, float mouseY) override;

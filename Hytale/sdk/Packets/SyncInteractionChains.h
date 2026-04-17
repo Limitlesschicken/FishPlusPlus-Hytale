@@ -53,6 +53,14 @@ struct InteractionChainData : Object { // Struct from pEric
 	int target_slot;
 	Guuid proxy_id;
 
+	static InteractionChainData* CreateBlockPosData(BlockPosition* blockPos) {
+		InteractionChainData* data = API::RHPNewFast<InteractionChainData*>(SM::InteractionChainData_MTAddress);
+		data->block_position = blockPos;
+		data->entity_id = -1;
+		data->target_slot = INT_MIN;
+		return data;
+	}
+
 	void DBGPrint(int indent = 0) {
 		std::string prefix(indent, ' ');
 		Util::log("%sInteractionChainData:\n", prefix.c_str());
@@ -92,6 +100,45 @@ struct InteractionSyncData : Object { // Struct from pEric
 	MovementDirection movement_direction;
 	ApplyForceState apply_force_state;
 	Guuid generated_u_u_i_d;
+
+	static InteractionSyncData* CreateInteractionSyncData() {
+		InteractionSyncData* syncData = API::RHPNewFast<InteractionSyncData*>(SM::InteractionSyncData_MTAddress);
+		syncData->entered_root_interaction = INT_MIN;
+		syncData->placed_block_id          = INT_MIN;
+		syncData->charge_value             = -1.0f;
+		syncData->chaining_index           = -1;
+		syncData->flag_index               = -1;
+		return syncData;
+	}
+
+	static Array<InteractionSyncData*>* CreateOpenContainerArray(InteractionModule* interaction, BlockPosition* blockPos) {
+		InteractionSyncData* syncData0 = CreateInteractionSyncData();
+		syncData0->operation_counter = 0;
+		syncData0->root_interaction = interaction->getInteractionID("*Empty_Interactions_Use"_hash);
+		syncData0->state = kInteractionStateFinished;
+		InteractionSyncData* syncData1 = CreateInteractionSyncData();
+		syncData1->operation_counter = 1;
+		syncData1->root_interaction = interaction->getInteractionID("*Empty_Interactions_Use"_hash);
+		syncData1->block_position = blockPos;
+		syncData1->block_face = BlockFace::kBlockFaceNorth;
+		syncData1->state = kInteractionStateFinished;
+		InteractionSyncData* syncData2 = CreateInteractionSyncData();
+		syncData2->operation_counter = 0;
+		syncData2->root_interaction = interaction->getInteractionID("Open_Container"_hash);
+		syncData2->block_position = blockPos;
+		syncData2->block_face = BlockFace::kBlockFaceNorth;
+		syncData2->state = kInteractionStateFinished;
+		InteractionSyncData* syncData3 = CreateInteractionSyncData();
+		syncData3->operation_counter = 2;
+		syncData3->root_interaction = interaction->getInteractionID("*Empty_Interactions_Use"_hash);
+		Array<InteractionSyncData*>* arrayData = API::RHPNewArray<Array<InteractionSyncData*>*>(SM::Array_InteractionSyncData_MTAddress, 4);
+		arrayData->list[0] = syncData0;
+		arrayData->list[1] = syncData1;
+		arrayData->list[2] = syncData2;
+		arrayData->list[3] = syncData3;
+
+		return arrayData;
+	}
 
 	void DBGPrint(int indent = 0) {
 		std::string prefix(indent, ' ');
@@ -203,28 +250,33 @@ struct SyncInteractionChain : Object { // Struct from pEric
 struct SyncInteractionChainsPacket : Object { // Struct from pEric
 	Array<SyncInteractionChain*>* updates;
 
-	static void Send(Vector3 pos, int placedBlockId = 0, bool quickReplace = false) {
+	static void SendOpenContainer(Vector3 pos) {
+		GameInstance* gameInstance = Util::getGameInstance();
+		Entity* player = gameInstance->Player;
+		InteractionModule* interactionModule = gameInstance->InteractionModule;
+		BlockPosition* blockPos = BlockPosition::CreateBlockPos(pos.x, pos.y, pos.z);
+		SyncInteractionChain* chain = API::RHPNewFast<SyncInteractionChain*>(SM::SyncInteractionChain_MTAddress);
+		chain->interaction_type = InteractionType::kInteractionTypeUse;
+		if (player->PrimaryItem && player->PrimaryItem->Id)
+			chain->item_in_hand_id = player->PrimaryItem->Id;
+		chain->active_hotbar_slot = Util::getGameInstance()->InventoryModule->HotbarActiveSlot;
+		chain->active_utility_slot = 0;
+		chain->active_tools_slot = -1;
+		chain->override_root_interaction = INT_MIN;
+		chain->equip_slot = Util::getGameInstance()->InventoryModule->HotbarActiveSlot;
+		chain->chain_id = (interactionModule->InteractionChainCounter + 1);
+		chain->operation_base_index = 0;
+		chain->initial = true;
+		chain->data = InteractionChainData::CreateBlockPosData(blockPos);
+		chain->interaction_data = InteractionSyncData::CreateOpenContainerArray(interactionModule, blockPos);
+
+		Array<SyncInteractionChain*>* updates = API::RHPNewArray<Array<SyncInteractionChain*>*>(SM::Array_SyncInteractionChain_MTAddress, 1);
+		updates->list[0] = chain;
+
 		SyncInteractionChainsPacket* packet = CreatePacket<SyncInteractionChainsPacket*>(SyncInteractionChains_BI);
-		Array<SyncInteractionChain*>* updates = new Array<SyncInteractionChain*>();
 		packet->updates = updates;
-
+		interactionModule->InteractionChainCounter++;
 		Packets::SendPacketImmediate(packet);
-
-		delete updates;
-	}
-
-	int getLastestChainID() {
-		if (!updates || updates->count == 0) {
-			return -1; 
-		}
-		int maxChainID = 0;
-		for (int i = 0; i < updates->count; i++) {
-			SyncInteractionChain* chain = updates->get(i);
-			if (chain && chain->chain_id > maxChainID)
-				maxChainID = chain->chain_id;
-		}
-
-		return maxChainID;
 	}
 
 	void DBGPrint() {

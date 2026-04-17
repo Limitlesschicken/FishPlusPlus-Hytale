@@ -25,6 +25,7 @@ inline bool uninjecting = false;
 #include "sdk/Hytale/DefaultMovementController.h"
 #include "sdk/Hytale/OptionsHelper.h"
 #include "sdk/Hytale/Paths.h"
+#include "sdk/Hytale/BuildInfo.h"
 
 #include "Events/EventSystem.h"
 
@@ -52,6 +53,7 @@ inline bool uninjecting = false;
 namespace Globals {
 	inline OptionsHelper* optionsHelper;
 	inline Paths* paths;
+	inline BuildInfo* buildInfo;
 }
 
 // Helper macros for validating pointers

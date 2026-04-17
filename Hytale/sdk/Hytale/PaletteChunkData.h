@@ -77,7 +77,7 @@ struct PaletteChunkData {
 
 		int blockDataCount = chunkSection->GetBlockDataCount();
 		int paletteCount = chunkSection->internalToExternal->count;
-		//printf("Getting block ID at index %d (blockData count: %d, palette count: %d)\n", idx, blockDataCount, paletteCount);
+		//printf("Getting block ID at index %d (blockData count: %d, palette count: %d)", idx, blockDataCount, paletteCount);
 		int paletteIdx = 0;
 		if (blockDataCount == 16384) {
 			Abstract4BitPaletteChunkData* data4bit = (Abstract4BitPaletteChunkData*)chunkSection;

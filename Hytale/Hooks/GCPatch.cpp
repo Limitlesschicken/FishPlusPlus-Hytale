@@ -151,7 +151,7 @@ static char __fastcall FakeUnwindStackFrame(
 
     LONG count = InterlockedIncrement(&g_fakeUnwindCount);
     if (count <= 10)
-        Util::log("[FakeUnwind] #%d called for IP=0x%llX (flags=0x%X) — %s\n", count, pReg->IP, flags, pFunc ? "RUNTIME_FUNCTION found" : "no RUNTIME_FUNCTION");
+        Util::log("[FakeUnwind] #%d called for IP=0x%llX (flags=0x%X) — %s", count, pReg->IP, flags, pFunc ? "RUNTIME_FUNCTION found" : "no RUNTIME_FUNCTION");
 
     if (!pFunc) {
         // No RUNTIME_FUNCTION → treat as leaf function (return addr at [RSP])
@@ -164,7 +164,7 @@ static char __fastcall FakeUnwindStackFrame(
     ManualUnwindFrame(pReg, pFunc, imageBase);
 
     if (count <= 10)
-		Util::log("[FakeUnwind] Unwound to IP=0x%llX, SP=0x%llX\n", pReg->IP, pReg->SP);
+		Util::log("[FakeUnwind] Unwound to IP=0x%llX, SP=0x%llX", pReg->IP, pReg->SP);
 
     return 1;
 }
@@ -255,7 +255,7 @@ static char __fastcall SafeUnwind1(__int64 codeManager, __int64 ctx_ptr,
         // Fall back to manual unwind using our registered UNWIND_INFO.
         LONG count = InterlockedIncrement(&g_safeUnwind1FallbackCount);
         if (count <= 5)
-            Util::log("[SafeUnwind1] WARNING: UnwindStackFrame AV at IP=0x%llX, flags=0x%llX — falling back to manual unwind (count=%d)\n", saved_regdisplay + 0x80, flags, count);
+            Util::log("[SafeUnwind1] WARNING: UnwindStackFrame AV at IP=0x%llX, flags=0x%llX — falling back to manual unwind (count=%d)", saved_regdisplay + 0x80, flags, count);
 
         NativeAOTRegDisplay* pReg = reinterpret_cast<NativeAOTRegDisplay*>(saved_regdisplay);
         __int64 a1 = saved_regdisplay - 0x20;
@@ -272,7 +272,7 @@ static char __fastcall SafeUnwind1(__int64 codeManager, __int64 ctx_ptr,
 
         // No RUNTIME_FUNCTION found — stop scanning this thread (last resort)
         if (count <= 5)
-			Util::log("[SafeUnwind1] WARNING: RtlLookupFunctionEntry failed for IP=0x%llX — stopping thread scan (count=%d)\n", pReg->IP, count);
+			Util::log("[SafeUnwind1] WARNING: RtlLookupFunctionEntry failed for IP=0x%llX — stopping thread scan (count=%d)", pReg->IP, count);
 
         *reinterpret_cast<uintptr_t*>(a1 + 0xA0) = 0;
         *reinterpret_cast<uint32_t*>(a1 + 0x1B8) |= 0x10;  // done flag
@@ -320,14 +320,14 @@ bool PatchGCStackWalker() {
 
     uint64_t found = Util::PatternScan(failFastPattern);
     if (!found) {
-		Util::log("WARNING: GC patch failed! FailFast pattern not found in HytaleClient.exe\n");
+		Util::log("WARNING: GC patch failed! FailFast pattern not found in HytaleClient.exe");
         return false;
     }
 
     // found = EEB4 equivalent (start of mov [rsi], rax)
     uint64_t patchBase = found;  // 27 bytes to patch: EEB4 through EECE
 
-	Util::log("[GC-Patch] Found pattern at: 0x%llX\n", found);
+	Util::log("[GC-Patch] Found pattern at: 0x%llX", found);
 
     // Allocate executable code cave near the patch site (within ±2GB for rel32)
     uintptr_t targetAddr = (uintptr_t) patchBase;
@@ -341,7 +341,7 @@ bool PatchGCStackWalker() {
         if (g_gcPatchCave) break;
     }
     if (!g_gcPatchCave) {
-		Util::log("WARNING: GC patch failed! Could not allocate code cave near patch site\n");
+		Util::log("WARNING: GC patch failed! Could not allocate code cave near patch site");
         return false;
     }
 
@@ -395,7 +395,7 @@ bool PatchGCStackWalker() {
     emit({ 0x5B });                            // pop rbx
     emit({ 0xC3 });                            // ret
 
-	Util::log("[GC-Patch] Built code cave at 0x%llX (size: %d bytes)\n", g_gcPatchCave, idx);
+	Util::log("[GC-Patch] Built code cave at 0x%llX (size: %d bytes)", g_gcPatchCave, idx);
 
     // ─── Patch the original 27 bytes ───
     // Calculate jump offset for the cave redirect (from EEC2+5 to cave)
@@ -403,7 +403,7 @@ bool PatchGCStackWalker() {
     intptr_t relOffset = (intptr_t) g_gcPatchCave - (intptr_t) (caveJmpSrc + 5);
 
     if (relOffset > INT32_MAX || relOffset < INT32_MIN) {
-		Util::log("WARNING: GC patch failed! Code cave too far for rel32 jump (offset=0x%llX)\n", relOffset);
+		Util::log("WARNING: GC patch failed! Code cave too far for rel32 jump (offset=0x%llX)", relOffset);
         VirtualFree((void*)g_gcPatchCave, 0, MEM_RELEASE);
         g_gcPatchCave = 0;
         return false;
@@ -435,7 +435,7 @@ bool PatchGCStackWalker() {
 
     VirtualProtect((void*)patchBase, 27, oldProt, &oldProt);
 
-	Util::log("[GC-Patch] Patched original code at 0x%llX → cave at 0x%llX\n", patchBase, g_gcPatchCave);
+	Util::log("[GC-Patch] Patched original code at 0x%llX → cave at 0x%llX", patchBase, g_gcPatchCave);
     return true;
 }
 
@@ -460,7 +460,7 @@ bool PatchGCStackWalkerKeepUnwinding() {
     int32_t rel32 = *reinterpret_cast<int32_t*>(foundPtr + 9);
     void** gotEntry = reinterpret_cast<void**>(foundPtr + 13 + rel32);
     if (!*gotEntry) {
-		Util::log("[GC-Patch2] WARNING: GOT entry for _1() is null at 0x%llX\n", (uintptr_t) gotEntry);
+		Util::log("[GC-Patch2] WARNING: GOT entry for _1() is null at 0x%llX", (uintptr_t) gotEntry);
         return false;
     }
 
@@ -482,7 +482,7 @@ bool PatchGCStackWalkerKeepUnwinding() {
         if (g_keepUnwindingCave) break;
     }
     if (!g_keepUnwindingCave) {
-		Util::log("[GC-Patch2] KeepUnwinding code cave alloc failed\n");
+		Util::log("[GC-Patch2] KeepUnwinding code cave alloc failed");
         return false;
     }
 
@@ -511,14 +511,14 @@ bool PatchGCStackWalkerKeepUnwinding() {
 
     DWORD oldProt;
     if (!VirtualProtect(callInstr, 6, PAGE_EXECUTE_READWRITE, &oldProt)) {
-		Util::log("[GC-Patch2] WARNING: VirtualProtect failed for call-site patch\n");
+		Util::log("[GC-Patch2] WARNING: VirtualProtect failed for call-site patch");
         return false;
     }
     callInstr[0] = 0xE8;  // call rel32
     *reinterpret_cast<int32_t*>(callInstr + 1) = (int32_t) callRel32;
     callInstr[5] = 0x90;  // NOP (replaces 6th byte of FF 15 xx xx xx xx)
     VirtualProtect(callInstr, 6, oldProt, &oldProt);
-    Util::log("[GC-Patch2] Patched SafeUnwind1 call-site at 0x%llX → jump pad at 0x%llX\n",
+    Util::log("[GC-Patch2] Patched SafeUnwind1 call-site at 0x%llX → jump pad at 0x%llX",
 		(uintptr_t) callInstr, (uintptr_t) jumpPad);
 
     // ── FailFast code cave (cave+0x00): safety net if SafeUnwind1 returns 0 ──
@@ -561,7 +561,7 @@ bool PatchGCStackWalkerKeepUnwinding() {
     memset(patchStart + 5, 0x90, 11);  // nops over rest of FailFast block (xor/call = 16 bytes)
     VirtualProtect(patchStart, 16, oldProt, &oldProt);
 
-	Util::log("[GC-Patch2] Patched KeepUnwinding FailFast block at 0x%llX → cave at 0x%llX\n", (uintptr_t) patchStart, (uintptr_t) g_keepUnwindingCave);
+	Util::log("[GC-Patch2] Patched KeepUnwinding FailFast block at 0x%llX → cave at 0x%llX", (uintptr_t) patchStart, (uintptr_t) g_keepUnwindingCave);
     return true;
 }
 
@@ -653,7 +653,7 @@ void RegisterAllTrampolinePages(const std::vector<std::pair<void*, void*>>& hook
             DWORD64 ImageBase;
             PRUNTIME_FUNCTION pOrigRuntimeFunc = RtlLookupFunctionEntry((DWORD64) pOriginal, &ImageBase, NULL);
             if (!pOrigRuntimeFunc) {
-				Util::log("[Hooks] WARNING: No RUNTIME_FUNCTION found for 0x%p (trampoline at 0x%p)\n", pOriginal, pTrampoline);
+				Util::log("[Hooks] WARNING: No RUNTIME_FUNCTION found for 0x%p (trampoline at 0x%p)", pOriginal, pTrampoline);
                 // Even without UNWIND_INFO, it's safer to register a leaf function than crash.
                 continue;
             }
@@ -665,7 +665,7 @@ void RegisterAllTrampolinePages(const std::vector<std::pair<void*, void*>>& hook
 
             uint32_t copiedSize = GetCopiedSize((uint8_t*) pTrampoline, (uint8_t*) pOriginal);
             if (copiedSize == 0) {
-				Util::log("[Hooks] WARNING: Could not determine copied size for 0x%p (trampoline at 0x%p), defaulting to 32 bytes\n", pOriginal, pTrampoline);
+				Util::log("[Hooks] WARNING: Could not determine copied size for 0x%p (trampoline at 0x%p), defaulting to 32 bytes", pOriginal, pTrampoline);
                 copiedSize = 32; // Fallback bound
             }
 
@@ -755,20 +755,20 @@ void RegisterAllTrampolinePages(const std::vector<std::pair<void*, void*>>& hook
         VirtualProtect((void*) pageBase, 4096, oldProt, &oldProt);
 
         if (RtlAddFunctionTable(pRuntimeFuncArray, (DWORD) count, pageBase)) {
-			Util::log("[Hooks] Registered %i trampolines in UNWIND_INFO table for page 0x%p\n", (int) trampData.size(), (void*) pageBase);
+			Util::log("[Hooks] Registered %i trampolines in UNWIND_INFO table for page 0x%p", (int) trampData.size(), (void*) pageBase);
         } else {
-			Util::log("[Hooks] WARNING: RtlAddFunctionTable failed for page 0x%p (error code: %d)\n", (void*) pageBase, GetLastError());
+			Util::log("[Hooks] WARNING: RtlAddFunctionTable failed for page 0x%p (error code: %d)", (void*) pageBase, GetLastError());
         }
     }
 }
 
 void PatchGC() {
     if (!PatchGCStackWalker()) {
-        Util::log("WARNING: GC patch #1 failed! Hooks on NativeAOT functions may crash due to GC FailFast.\n");
+        Util::log("WARNING: GC patch #1 failed! Hooks on NativeAOT functions may crash due to GC FailFast.");
     }
 
     if (!PatchGCStackWalkerKeepUnwinding()) {
-        Util::log("WARNING: GC patch #2 failed! Store-Packets may crash due to unwinder AVs.\n");
+        Util::log("WARNING: GC patch #2 failed! Store-Packets may crash due to unwinder AVs.");
     }
 }
 
@@ -785,10 +785,10 @@ void RegisterTrampolines(std::vector<std::pair<void*, void*>> allHooks) {
         }
         else {
             failed++;
-            Util::log("WARNING: RtlLookupFunctionEntry failed for trampoline at 0x%llX\n", (uint64_t)tramp);
+            Util::log("WARNING: RtlLookupFunctionEntry failed for trampoline at 0x%llX", (uint64_t)tramp);
         }
     }
-    Util::log("[Hooks] UNWIND_INFO verification: %i OK, %i FAILED\n", verified, failed);
+    Util::log("[Hooks] UNWIND_INFO verification: %i OK, %i FAILED", verified, failed);
 
-    Util::log("Finished creating hooks (GC stack-walker patched).\n");
+    Util::log("Finished creating hooks (GC stack-walker patched).");
 }

@@ -16,6 +16,6 @@ bool NoFall::CanExecute() {
 
 
 void NoFall::Initialize() {
-	Util::log("Initialized Nofall feature\n");
+	Util::log("Initialized Nofall feature");
 	RegisterEvent(this);
 }

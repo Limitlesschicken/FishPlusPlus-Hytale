@@ -72,7 +72,7 @@ bool BlockESP::CanExecute() {
 }
 
 void BlockESP::Initialize() {
-	Util::log("Initialized BlockESP feature\n");
+	Util::log("Initialized BlockESP feature");
 	RegisterEvent(this);
 }
 

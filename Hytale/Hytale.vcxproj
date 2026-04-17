@@ -370,6 +370,7 @@
     <ClInclude Include="Hooks\Hooks.h" />
     <ClInclude Include="Menu\Children\BlockSelectionButton.h" />
     <ClInclude Include="sdk\BaseDataTypes\Object.h" />
+    <ClInclude Include="sdk\Hytale\BuildInfo.h" />
     <ClInclude Include="sdk\Hytale\ClientRootInteraction.h" />
     <ClInclude Include="sdk\Hytale\RaycastHit.h" />
     <ClInclude Include="sdk\Packets\Structs\Enums.h" />

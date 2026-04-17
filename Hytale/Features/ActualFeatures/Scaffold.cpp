@@ -45,5 +45,5 @@ bool Scaffold::CanExecute() {
 
 void Scaffold::Initialize() {
 	RegisterEvent(this);
-	Util::log("Initialized Scaffold feature\n");
+	Util::log("Initialized Scaffold feature");
 }

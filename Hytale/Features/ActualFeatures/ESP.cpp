@@ -41,6 +41,6 @@ bool ESP::CanExecute() {
 }
 
 void ESP::Initialize() {
-	Util::log("Initialized ESP feature\n");
+	Util::log("Initialized ESP feature");
 	RegisterEvent(this);
 }

@@ -42,6 +42,6 @@ void ItemMagnet::OnFrame() {
 }
 
 void ItemMagnet::Initialize() {
-	Util::log("Initialized ItemMagnet feature\n");
+	Util::log("Initialized ItemMagnet feature");
 	RegisterEvent(this);
 }

@@ -1,3 +1,6 @@
+/*
+ * Copyright (c) FishPlusPlus.
+ */
 #pragma once
 #include <cstdint>
 #include <string>

@@ -28,6 +28,6 @@ bool WorldModulate::CanExecute() {
 
 
 void WorldModulate::Initialize() {
-    Util::log("Initialized WorldModulate feature\n");
+    Util::log("Initialized WorldModulate feature");
     RegisterEvent(this);
 }

@@ -35,24 +35,24 @@ struct ClientItemBase {
 	}
 
 	void DBGPrint() {
-		printf("ClientItemBase at: 0x%p\n", this);
+		printf("ClientItemBase at: 0x%p", this);
 		if (Id)
-			printf("Id: %s\n", Id->getString().c_str());
+			printf("Id: %s", Id->getString().c_str());
 		if (Set)
-			printf("Set: %s\n", Set->getString().c_str());
+			printf("Set: %s", Set->getString().c_str());
 		if (ItemIconPNG)
-			printf("ItemIconPNG: %s\n", ItemIconPNG->getString().c_str());
+			printf("ItemIconPNG: %s", ItemIconPNG->getString().c_str());
 		if (StringPtr3)
-			printf("StringPtr3: %s\n", StringPtr3->getString().c_str());
+			printf("StringPtr3: %s", StringPtr3->getString().c_str());
 		if (ActualItemIconPNG)
-			printf("ActualItemIconPNG: %s\n", ActualItemIconPNG->getString().c_str());
+			printf("ActualItemIconPNG: %s", ActualItemIconPNG->getString().c_str());
 
-		printf("Durability: %f\n", Durability);
-		printf("BlockId: %d\n", BlockId);
-		printf("maxStackSize: %d\n", maxStackSize);
-		printf("intUnknown: %d\n", intUnknown);
-		printf("intUnknown2: %d\n", intUnknown2);
-		printf("intUnknown3: %d\n", intUnknown3);
+		printf("Durability: %f", Durability);
+		printf("BlockId: %d", BlockId);
+		printf("maxStackSize: %d", maxStackSize);
+		printf("intUnknown: %d", intUnknown);
+		printf("intUnknown2: %d", intUnknown2);
+		printf("intUnknown3: %d", intUnknown3);
 	}
 
 }; // Size: 0x134

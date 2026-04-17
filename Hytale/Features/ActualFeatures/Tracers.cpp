@@ -65,6 +65,6 @@ bool Tracers::CanExecute() {
 }
 
 void Tracers::Initialize() {
-	Util::log("Initialized Tracers feature\n");
+	Util::log("Initialized Tracers feature");
 	RegisterEvent(this);
 }

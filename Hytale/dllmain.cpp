@@ -6,27 +6,27 @@
 #include "sdk/BaseDataTypes/ConcurrentDictionary.h"
 
 #define GetSig(name, pattern) SM::name##Address = Util::PatternScan(pattern); \
-Util::log("Found %s sig at: 0x%llX - 0x%llX = 0x%lX\n", #name, SM::name##Address, gameBase, (SM::name##Address - gameBase));\
+Util::log("Found %s sig at: 0x%llX - 0x%llX = 0x%lX", #name, SM::name##Address, gameBase, (SM::name##Address - gameBase));\
 if (!Util::IsValidPtr(SM::name##Address)) {                             \
-    Util::log("Failed to get %s address\n", #name);                     \
+    Util::log("Failed to get %s address", #name);                     \
     return false;                                                       \
 }
 
-#define GetMethodSigByRef(name, pattern) SM::name##Address = Util::RelativeVirtualAddress(Util::PatternScan(pattern), 1, 5); \
-Util::log("Found Method %s sig at: 0x%llX - 0x%llX = 0x%lX\n", #name, SM::name##Address, gameBase, (SM::name##Address - gameBase));\
+#define GetMethodSigByRef(name, pattern) SM::name##Address = Util::RelativeVirtualAddress(Util::PatternScan(pattern), 0x1, 0x5); \
+Util::log("Found Method %s sig at: 0x%llX - 0x%llX = 0x%lX", #name, SM::name##Address, gameBase, (SM::name##Address - gameBase));\
 if (!Util::IsValidPtr(SM::name##Address)) {                             \
-    Util::log("Failed to get %s address\n", #name);                     \
+    Util::log("Failed to get %s address", #name);                     \
     return false;                                                       \
 }
 
-#define GetGlobalSigByRef(name, pattern) SM::name##Address = Util::RelativeVirtualAddress(Util::PatternScan(pattern), 3, 7); \
-Util::log("Found Global %s sig at: 0x%llX - 0x%llX = 0x%lX\n", #name, SM::name##Address, gameBase, (SM::name##Address - gameBase));\
+#define GetGlobalSigByRef(name, pattern) SM::name##Address = Util::RelativeVirtualAddress(Util::PatternScan(pattern), 0x3); \
+Util::log("Found Global %s sig at: 0x%llX - 0x%llX = 0x%lX", #name, SM::name##Address, gameBase, (SM::name##Address - gameBase));\
 if (!Util::IsValidPtr(SM::name##Address)) {                             \
-    Util::log("Failed to get %s address\n", #name);                     \
+    Util::log("Failed to get %s address", #name);                     \
     return false;                                                       \
 }
 
-#define DEFINE_PATTERN(name, pattern) API::name = (API::name##_t)Util::PatternScan(pattern); Util::log("Found " #name " at: 0x%llX\n", API::name);
+#define DEFINE_PATTERN(name, pattern) API::name = (API::name##_t)Util::PatternScan(pattern); Util::log("Found " #name " at: 0x%llX", API::name);
 /*// Available GC Registered Thread
 void __fastcall GCThread(void* pArg) {
     while (!uninjecting) {
@@ -63,19 +63,21 @@ bool InitSigs() {
     GetGlobalSigByRef(Array_InteractionSyncData_MT, "48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8B F0 45 33 FF"); 
     GetGlobalSigByRef(InteractionSyncData_MT, "48 8D 0D ? ? ? ? E8 ? ? ? ? C7 40 ? ? ? ? ? 48 B9");
 
-	Util::log("Finished initializing signatures\n");
+	Util::log("Finished initializing signatures");
 	return true;
 }
 
 DWORD WINAPI startPoint(LPVOID lpParam) {
 	Util::allocate_console();
 
-    Globals::optionsHelper = *(OptionsHelper**)Util::RelativeVirtualAddress(Util::PatternScan("48 8B 35 ? ? ? ? 48 8B 56 ? 48 85 D2 75 ? 48 8B 4B"), 3, 7);
-    Globals::paths = *(Paths**)Util::RelativeVirtualAddress(Util::PatternScan("48 8B 0D ? ? ? ? 48 8B 49 ? E8 ? ? ? ? 48 8D 35"), 3, 7);
-    Util::log("Found game directory at: %s\n", Globals::paths->ClientGameDirectory->getString().c_str());
+    Globals::optionsHelper = *(OptionsHelper**)Util::RelativeVirtualAddress(Util::PatternScan("48 8B 35 ? ? ? ? 48 8B 56 ? 48 85 D2 75 ? 48 8B 4B"), 0x3);
+    Globals::paths = *(Paths**)Util::RelativeVirtualAddress(Util::PatternScan("48 8B 0D ? ? ? ? 48 8B 49 ? E8 ? ? ? ? 48 8D 35"), 0x3);
+    Globals::buildInfo = *(BuildInfo**)Util::RelativeVirtualAddress(Util::PatternScan("48 8B 1D ? ? ? ? 48 8B 73 ? 48 8B 4B"), 0x3);
+    Util::log("Found game directory at: %s", Globals::paths->ClientGameDirectory->getString().c_str());
+    Util::log("The games build-date and githash are: %s", Globals::buildInfo->getVersion->getString().c_str());
 
     if (!InitSigs()){
-        Util::log("Failed to Init Sigs\n");
+        Util::log("Failed to Init Sigs");
         Util::free_console();
         return 0;
     }
@@ -85,7 +87,7 @@ DWORD WINAPI startPoint(LPVOID lpParam) {
     }
 
     if (!Hooks::CreateHooks()) {
-		Util::log("Failed to create hooks\n");
+		Util::log("Failed to create hooks");
         Util::free_console();
         return 0;
     }
@@ -101,7 +103,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
     switch (ul_reason_for_call) {
     case DLL_PROCESS_ATTACH:
 		dllBase = (uint64_t) hModule;
-		gameBase = (uint64_t) GetModuleHandleA(0);
+		gameBase = (uint64_t) GetModuleHandleA(nullptr);
 
         MODULEINFO moduleInfo;
         if (GetModuleInformation(GetCurrentProcess(), hModule, &moduleInfo, sizeof(MODULEINFO))) {

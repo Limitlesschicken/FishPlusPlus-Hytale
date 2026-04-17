@@ -94,7 +94,7 @@ bool RemoteChest::CanExecute() {
 }
 
 void RemoteChest::Initialize() {
-	Util::log("Initialized RemoteChest feature\n");
+	Util::log("Initialized RemoteChest feature");
 	RegisterEvent(this);
 	LoadChests();
 }
@@ -110,11 +110,11 @@ void RemoteChest::AddOrRemoveChest(const Vector3& pos, const std::string& blockN
 		savedChests.erase(savedChests.begin() + existingIndex);
 		if (selectedChestIndex > existingIndex)
 			selectedChestIndex--;
-		Util::log("Removed chest at (%.1f, %.1f, %.1f)\n", pos.x, pos.y, pos.z);
+		Util::log("Removed chest at (%.1f, %.1f, %.1f)", pos.x, pos.y, pos.z);
 	} else {
 		std::string chestName = Util::string_format("Chest #%d", (int)savedChests.size() + 1);
 		savedChests.push_back(SavedChest(pos, chestName));
-		Util::log("Added chest at (%.1f, %.1f, %.1f)\n", pos.x, pos.y, pos.z);
+		Util::log("Added chest at (%.1f, %.1f, %.1f)", pos.x, pos.y, pos.z);
 	}
 	SaveChests();
 }
@@ -169,7 +169,7 @@ void RemoteChest::OpenSelectedChest() {
 
 	Vector3 chestPos = savedChests[selectedChestIndex].position;
 	SyncInteractionChainsPacket::SendOpenContainer(chestPos);
-	Util::log("Opening chest: %s at (%.1f, %.1f, %.1f)\n", savedChests[selectedChestIndex].name.c_str(), chestPos.x, chestPos.y, chestPos.z);
+	Util::log("Opening chest: %s at (%.1f, %.1f, %.1f)", savedChests[selectedChestIndex].name.c_str(), chestPos.x, chestPos.y, chestPos.z);
 }
 
 void RemoteChest::SaveChests() {
@@ -205,13 +205,13 @@ void RemoteChest::LoadChests() {
 	std::filesystem::path chestsFile = configPath / "Fish++" / "remote_chests.json";
 
 	if (!std::filesystem::exists(chestsFile)) {
-		Util::log("No saved chests file found\n");
+		Util::log("No saved chests file found");
 		return;
 	}
 
 	std::ifstream file(chestsFile);
 	if (!file.is_open()) {
-		Util::log("Failed to load chests from file\n");
+		Util::log("Failed to load chests from file");
 		return;
 	}
 
@@ -231,9 +231,9 @@ void RemoteChest::LoadChests() {
 		else
 			selectedChestIndex = -1;
 
-		Util::log("Loaded %d chests from file\n", (int)savedChests.size());
+		Util::log("Loaded %d chests from file", (int)savedChests.size());
 	} catch (const std::exception& e) {
-		Util::log("Error parsing chests file: %s\n", e.what());
+		Util::log("Error parsing chests file: %s", e.what());
 	}
 }
 

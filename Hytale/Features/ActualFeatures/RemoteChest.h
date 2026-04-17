@@ -6,7 +6,7 @@
 
 #include "Features/Settings/SliderSetting.h"
 #include "Features/Settings/ToggleSetting.h"
-#include "Features/Settings/BlockSetting.h"
+#include "Features/Settings/BlockSelection/BlockSetting.h"
 #include "Features/Settings/KeybindSetting.h"
 #include "Math/Vector3.h"
 #include <vector>

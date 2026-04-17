@@ -11,19 +11,19 @@
 // These macros simplify the process of creating hooks by combining pattern scanning and hook creation into a single step. They also log the addresses found for easier debugging.
 #define CREATE_HOOK(name) \
 if (MH_CreateHook((LPVOID)name##Address, &hk##name, reinterpret_cast<LPVOID*>(&o##name)) != MH_OK) {\
-    Util::log("Failed to hook %s\n", #name);\
+    Util::log("Failed to hook %s", #name);\
     return false;\
 } else \
     allHooks.push_back(std::make_pair((void*)o##name, (void*)name##Address));
 
 #define CREATE_SIG_HOOK(name, pattern) \
 std::uintptr_t name##Address = Util::PatternScan(pattern);\
-Util::log("Found %s sig at: 0x%llX - 0x%llX = 0x%lX\n", #name, name##Address, gameBase, (name##Address - gameBase));\
+Util::log("Found %s sig at: 0x%llX - 0x%llX = 0x%lX", #name, name##Address, gameBase, (name##Address - gameBase));\
 CREATE_HOOK(name)
 
 #define CREATE_SIG_HOOK_BY_REF(name, pattern) \
-std::uintptr_t name##Address = Util::RelativeVirtualAddress(Util::PatternScan(pattern), 1, 5);\
-Util::log("Found %s sig at: 0x%llX - 0x%llX = 0x%lX\n", #name, name##Address, gameBase, (name##Address - gameBase));\
+std::uintptr_t name##Address = Util::RelativeVirtualAddress(Util::PatternScan(pattern), 0x1, 0x5);\
+Util::log("Found %s sig at: 0x%llX - 0x%llX = 0x%lX", #name, name##Address, gameBase, (name##Address - gameBase));\
 CREATE_HOOK(name)
 
 
@@ -50,7 +50,7 @@ void RebuildPacketsFromBuffer(void* byteArray) {
 			if (!ClientPlaceBlockRebuild)
                 return;
 
-			Util::log("Rebuilding packet from buffer with packet ID 117 (ClientPlaceBlock)\n");
+			Util::log("Rebuilding packet from buffer with packet ID 117 (ClientPlaceBlock)");
 
             int dataSize = *(int*)(buffer + 0x10);
             uint64_t payloadPtr = buffer + 0x18;
@@ -58,8 +58,8 @@ void RebuildPacketsFromBuffer(void* byteArray) {
 				return;
 
             ClientPlaceBlockPacketBuffer* packet = (ClientPlaceBlockPacketBuffer*)(payloadPtr);
-            Util::log("  position: (%i, %i, %i)\n", packet->posX, packet->posY, packet->posZ);
-            Util::log("  placedBlockId: %d\n", packet->placedBlockId);
+            Util::log("  position: (%i, %i, %i)", packet->posX, packet->posY, packet->posZ);
+            Util::log("  placedBlockId: %d", packet->placedBlockId);
         }
         else if (packetID == 4) { // Pong packet, sent by the client in response to a server ping. Contains a timestamp that can be used to measure latency.
 			return; // This packet is sent very frequently and isn't very interesting, so we can skip logging it to avoid spamming the logs.
@@ -68,12 +68,14 @@ void RebuildPacketsFromBuffer(void* byteArray) {
 			return; // This packet is also sent very frequently and isn't very interesting on its own, so we can skip logging it as well.        
         }
         else if (packetID == 290) { // SyncInteractionChains packet
+            int dataSize = *(int*) (buffer + 0x10);
+			Util::log("SyncInteractionChains packet sent by client with data size: %d", dataSize);
             return;
         }
         else {
 			bool logPacket = false;
             if (logPacket)
-            Util::log("Packet with ID %d sent by client\n", packetID);
+            Util::log("Packet with ID %d sent by client", packetID);
 		}
     }
 }
@@ -86,10 +88,11 @@ void* __fastcall Hooks::hkSocketSend(void* instance, void* error, void* byteArra
 void __fastcall Hooks::hktemp(void* instance, void* object) {
 	HytaleString* name = Util::ObjectToString(object);
 	std::string nameStr = name ? name->getString() : "nullptr";
-    if (nameStr == "Hytale.Protocol.Packets.Interaction.SyncInteractionChains") {
+    if (Hash::Hash(nameStr) == "Hytale.Protocol.Packets.Interaction.SyncInteractionChains"_hash) {
 		SyncInteractionChainsPacket* packet = (SyncInteractionChainsPacket*) object;
-        packet->DBGPrint();
+		//packet->DBGPrint();
 	}
+	Hooks::otemp(instance, object);
 }
 
 /*
@@ -101,7 +104,7 @@ bool Hooks::CreateHooks() {
     
     std::vector<std::pair<void*, void*>> allHooks;
 
-    Util::log("Creating Hooks\n");
+    Util::log("Creating Hooks");
 
     if (MH_Initialize() != MH_OK) {
         Util::log("Failed to initialize MinHook");
@@ -124,9 +127,9 @@ bool Hooks::CreateHooks() {
     CREATE_SIG_HOOK_BY_REF(ProcessPacket, "E8 ? ? ? ? 90 48 83 C4 ? 5B 5E C3 48 8D 4C 24");
     CREATE_SIG_HOOK_BY_REF(SocketSend, "E8 ? ? ? ? 0F 10 45 ? 0F 11 45 ? EB ? 48 89 85");
 
-/*    if (MH_CreateHook((LPVOID) SM::SendPacketImmediateAddress, &hktemp, reinterpret_cast<LPVOID*>(&otemp)) != MH_OK) {
-        Util::log("Failed to hook %s\n", "temp"); return false;
-    } else allHooks.push_back(std::make_pair((void*) otemp, (void*) SM::SendPacketImmediateAddress));*/
+    if (MH_CreateHook((LPVOID) SM::SendPacketImmediateAddress, &hktemp, reinterpret_cast<LPVOID*>(&otemp)) != MH_OK) {
+        Util::log("Failed to hook %s", "temp"); return false;
+    } else allHooks.push_back(std::make_pair((void*) otemp, (void*) SM::SendPacketImmediateAddress));
 
     MH_EnableHook(MH_ALL_HOOKS);
 

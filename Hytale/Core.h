@@ -19,10 +19,13 @@ inline uint64_t dllBaseEnd;
 inline bool uninjecting = false;
 
 #include "Util/SigManager.h"
+#include "Util/NativeAOTAPI.h"
+#include "Util/Hash.h"
 #include "sdk/Hytale/App.h"
 #include "sdk/Hytale/DefaultMovementController.h"
 #include "sdk/Hytale/OptionsHelper.h"
 #include "sdk/Hytale/Paths.h"
+#include "sdk/Hytale/BuildInfo.h"
 
 #include "Events/EventSystem.h"
 
@@ -50,6 +53,7 @@ inline bool uninjecting = false;
 namespace Globals {
 	inline OptionsHelper* optionsHelper;
 	inline Paths* paths;
+	inline BuildInfo* buildInfo;
 }
 
 // Helper macros for validating pointers

@@ -23,7 +23,7 @@ void ConfigHandler::CreateFishDirectory() {
 	std::filesystem::path configPath = Globals::paths->ClientGameDirectory->getString();
 	std::filesystem::create_directory(configPath / "Fish++");
 	std::filesystem::create_directory(configPath / "Fish++" / "configs");
-	Util::log("Created Fish++ directory in client game path\n");
+	Util::log("Created Fish++ directory in client game path");
 }
 
 bool ConfigHandler::FishDirectoryExists() {
@@ -60,7 +60,7 @@ void ConfigHandler::SaveConfig(std::string name, bool inConfigDirectory) {
 	name += ".json";
 	std::ofstream configFile(inConfigDirectory ? base / "configs" / name : base / name);
 	if (!configFile.is_open()) {
-		Util::log("Failed to open config file for writing\n");
+		Util::log("Failed to open config file for writing");
 		return;
 	}
 	json config;
@@ -115,7 +115,7 @@ void ConfigHandler::LoadConfig(std::string name, bool inConfigDirectory) {
 	std::ifstream configFile(inConfigDirectory ? base / "configs" / name : base / name);
 
 	if (!configFile.is_open()) {
-		Util::log("Failed to open config file for reading\n");
+		Util::log("Failed to open config file for reading");
 		return;
 	}
 	json config;
@@ -125,7 +125,7 @@ void ConfigHandler::LoadConfig(std::string name, bool inConfigDirectory) {
 		for (auto& [featureName, featureData] : categoryData.items()) {
 			Feature* feature = FeatureHandler::GetFeatureFromName(featureName);
 			if (!feature) {
-				Util::log("Warning: Feature '%s' found in config but not registered in cheat. Skipping.\n", featureName.c_str());
+				Util::log("Warning: Feature '%s' found in config but not registered in cheat. Skipping.", featureName.c_str());
 				continue;
 			}
 			feature->setActive(featureData.value("enabled", false));

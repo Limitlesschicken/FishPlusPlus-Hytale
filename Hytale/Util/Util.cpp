@@ -47,6 +47,7 @@ void Util::log(const char* fmt, ...) {
 	va_start(args, fmt);
 	vprintf(fmt, args);
 	va_end(args);
+	printf("\n");
 }
 
 bool Util::IsValidPtr(void* ptr) {
@@ -144,8 +145,8 @@ uint64_t Util::RelativeVirtualAddress(uint64_t address, int opcode_size, int opc
 	return (uint64_t) (*(int*) (address + opcode_size) + address + opcode_length);
 }
 
-uint64_t Util::PatternScan(const char* signature, const char* module) {
-	const auto module_handle = GetModuleHandleA(module); // instead of using the string to find the handle, we're a dll and injected into the process already we can simplify it by using nullptr instead
+uint64_t Util::PatternScan(const char* signature) {
+	const auto module_handle = GetModuleHandleA(nullptr); 
 
 	static auto pattern_to_byte = [](const char* pattern) {
 		auto bytes = std::vector<int>{ };

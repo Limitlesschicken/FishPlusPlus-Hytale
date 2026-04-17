@@ -19,6 +19,7 @@
 #include "ActualFeatures/HitBox.h"
 #include "ActualFeatures/Gamemode.h"
 #include "ActualFeatures/ItemMagnet.h"
+#include "ActualFeatures/RemoteChest.h"
 
 void InitFeature(std::unique_ptr<Feature> feature, std::string tab) {
 	feature->setCategory(tab);
@@ -45,12 +46,15 @@ void FeatureHandler::Init() {
 	InitFeature(std::make_unique<BlockESP>(), "Visuals");
 	InitFeature(std::make_unique<Tracers>(), "Visuals");
 
+	InitFeature(std::make_unique<RemoteChest>(), "QOL");
+
 	//InitFeature(std::make_unique<ItemMagnet>(), "Misc");
 
-	Menu::mainComponent->AddChild(std::make_unique<Tab>("Combat", 200, 200));
-	Menu::mainComponent->AddChild(std::make_unique<Tab>("Movement", 410, 200));
-	Menu::mainComponent->AddChild(std::make_unique<Tab>("Visuals", 620, 200));
-	//Menu::mainComponent->AddChild(std::make_unique<Tab>("Misc", 830, 200));
+	Menu::mainComponent->AddChild(std::make_unique<Tab>("Combat", 200, 200, 300));
+	Menu::mainComponent->AddChild(std::make_unique<Tab>("Movement", 510, 200, 300));
+	Menu::mainComponent->AddChild(std::make_unique<Tab>("Visuals", 820, 200, 300));
+	Menu::mainComponent->AddChild(std::make_unique<Tab>("QOL", 1130, 200, 300));
+	//Menu::mainComponent->AddChild(std::make_unique<Tab>("Misc", 830, 200, 300));
 }
 
 bool FeatureHandler::FeaturesLoaded() {

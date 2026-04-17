@@ -50,6 +50,6 @@ bool Nametags::CanExecute() {
 	return true;
 }
 void Nametags::Initialize() {
-	Util::log("Initialized Nametags feature\n");
+	Util::log("Initialized Nametags feature");
 	RegisterEvent(this);
 }

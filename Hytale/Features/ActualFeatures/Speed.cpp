@@ -51,6 +51,6 @@ bool Speed::CanExecute() {
 }
 
 void Speed::Initialize() {
-	Util::log("Initialized Speed feature\n");
+	Util::log("Initialized Speed feature");
     RegisterEvent(this);
 }	

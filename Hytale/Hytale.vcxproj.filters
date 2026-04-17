@@ -222,6 +222,9 @@
     <ClCompile Include="Features\ActualFeatures\ItemMagnet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Features\ActualFeatures\RemoteChest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Menu\Children\BlockSelection\BlockSelectionWIndow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -906,12 +909,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Features\ActualFeatures\ItemMagnet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Features\Settings\BlockSelection\BlockSelection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Menu\Children\BlockSelection\BlockSelectionWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

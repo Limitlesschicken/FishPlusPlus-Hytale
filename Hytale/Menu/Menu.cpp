@@ -80,9 +80,27 @@ void CallComponentFuncs(double deltaTime, Component* component) {
         component->MouseReleased(Util::cursorPosX, Util::cursorPosY, VK_LBUTTON);
     if (!rbuttonDown && rbuttonWasDown)
         component->MouseReleased(Util::cursorPosX, Util::cursorPosY, VK_RBUTTON);
+    ///TODO: add pos clamp to stop dragging components out of bounds. Like below
+    /*
+        void GuiWindow::onDrag(int32_t deltaX, int32_t deltaY) {
+            Vec2 windowSize = SDK::getWindow()->getWindowSize();
+
+            float x = pos.x + (float)deltaX;
+            float y = pos.y + (float)deltaY;
+
+            float totalHeight = HEADER_HEIGHT + (collapsed ? 0.f : size.y);
+            //clamps pos to screen bounds
+            x = std::clamp(x, 0.f, (float)windowSize.x - size.x);
+            y = std::clamp(y, 0.f, (float)windowSize.y - totalHeight);
+
+            pos.x = x;
+            pos.y = y;
+        }
+    */
 
     if (InputSystem::scrolled)
         component->MouseScrolled(InputSystem::scrollAmount);
+
 
     if (lbuttonDown) {
         float deltaX = Util::cursorPosX - prevXPos;

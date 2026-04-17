@@ -16,7 +16,7 @@
 
 FontLoader::FontLoader() {
 	if (FT_Init_FreeType(&m_ft)) {
-		Util::log("Failed to initialize FreeType\n");
+		Util::log("Failed to initialize FreeType");
 		return;
 	}
 }
@@ -26,7 +26,7 @@ Font FontLoader::LoadFont(Fonts font, int size) {
 	switch (font) {
 	case Figtree:
 		if (FT_New_Memory_Face(m_ft, FigtreeData, figtreeSize, 0, &face)) 
-			Util::log("Failed to load font: Figtree\n");
+			Util::log("Failed to load font: Figtree");
 		break;
 	}
 
@@ -42,7 +42,7 @@ Font FontLoader::LoadFont(Fonts font, int size) {
 
 	for (unsigned char c = 32; c < 128; c++) {
 		if (FT_Load_Char(face, c, FT_LOAD_RENDER)) {
-			Util::log("Failed to load character: %c\n", c);
+			Util::log("Failed to load character: %c", c);
 			continue;
 		}
 

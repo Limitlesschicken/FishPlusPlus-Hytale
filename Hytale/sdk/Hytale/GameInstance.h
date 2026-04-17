@@ -44,7 +44,7 @@ public:
 	void* List;                                         //0x68 System.Collections.Generic.List`1[System.ValueTuple`2[HytaleClient.Data.InputSystem.InputAction,System.Boolean]]
 	void* some_String;                                  //0x70 System.String
 	SceneRenderer* SceneRenderer;                       //0x78 HytaleClient.Graphics.SceneRenderer
-	char pad_80[0x88];                                  //0x80
+	char pad_80[0x88];                                  //0x80 
 	Time* TimeModule;                                   //0x108 HytaleClient.InGame.Modules.TimeModule
 	void* AudioModule;                                  //0x110 HytaleClient.InGame.Modules.Audio.AudioModule
 	MapModule* MapModule;								//0x118 HytaleClient.InGame.Modules.Map.MapModule

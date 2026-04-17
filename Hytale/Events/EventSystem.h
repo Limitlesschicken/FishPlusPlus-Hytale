@@ -74,6 +74,6 @@ public:
 
 // Example usage:
 // Event<int, std::string> myEvent;
-// auto id = myEvent.Subscribe([](int x, std::string s) { printf("%d: %s\n", x, s.c_str()); });
+// auto id = myEvent.Subscribe([](int x, std::string s) { printf("%d: %s", x, s.c_str()); });
 // myEvent.Invoke(42, "Hello");
 // myEvent.Unsubscribe(id);

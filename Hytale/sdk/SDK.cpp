@@ -9,6 +9,7 @@
 #include "Packets/ClientBlockPlace.h"
 #include "Hooks/Hooks.h"
 #include "BaseDataTypes/MethodTable.h"
+#include "Packets/SyncInteractionChains.h"
 #include <fstream>
 #include <shlobj.h>
 #include <algorithm>
@@ -207,12 +208,15 @@ void SDK::Main() {
 	entities = getEntities(Util::getLocalPlayer());
 	global_mutex.unlock();
 
+	if ((GetAsyncKeyState(VK_F6) & 1)) {
+		Util::log("InteractionModule: 0x%llX\n", Util::getGameInstance()->InteractionModule);
+	}
+
 	static bool firstScan = false;
 	if (firstScan || (GetAsyncKeyState(VK_F5) & 1)) {
-		if (ClientItemBase* primaryItem = Util::getGameInstance()->Player->PrimaryItem; primaryItem && primaryItem->IsBlock()) {
-			Vector3 pos = Util::getLocalPlayer()->Position.add(0, -1, 0);
-			ClientPlaceBlockPacket::Send(pos, primaryItem->BlockId);
-		}
+		Vector3 playerPos = Util::getGameInstance()->Player->Position.toFloor().add(0, -1, 0);
+		SyncInteractionChainsPacket::SendOpenContainer(playerPos);
+
 		firstScan = false;
 	}
 

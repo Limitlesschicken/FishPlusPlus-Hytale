@@ -29,7 +29,7 @@ BOOL WINAPI Hooks::hkWglSwapBuffers(HDC hdc) {
             return Hooks::oWglSwapBuffers(hdc);
 
         if (!gladLoadGLLoader((GLADloadproc) GetAnyGLFuncAddress)) {
-			Util::log("Failed to initialize GLAD\n");
+			Util::log("Failed to initialize GLAD");
             return -1;
         }
 

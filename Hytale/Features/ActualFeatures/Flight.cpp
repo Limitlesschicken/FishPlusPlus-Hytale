@@ -68,6 +68,6 @@ bool Flight::CanExecute() {
 }
 
 void Flight::Initialize() {
-	Util::log("Initialized Flight feature\n");
+	Util::log("Initialized Flight feature");
 	RegisterEvent(this);
 }

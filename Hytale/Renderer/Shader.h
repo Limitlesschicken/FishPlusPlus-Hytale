@@ -38,7 +38,7 @@ public:
         if (!success)
         {
             glGetShaderInfoLog(vertex, 512, NULL, infoLog);
-			Util::log("ERROR::SHADER::VERTEX::COMPILATION_FAILED\n%s\n", infoLog);
+			Util::log("ERROR::SHADER::VERTEX::COMPILATION_FAILED\n%s", infoLog);
         };
 
         fragment = glCreateShader(GL_FRAGMENT_SHADER);
@@ -49,7 +49,7 @@ public:
         if (!success)
         {
             glGetShaderInfoLog(fragment, 512, NULL, infoLog);
-			Util::log("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n%s\n", infoLog);
+			Util::log("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n%s", infoLog);
         };
 
 
@@ -63,7 +63,7 @@ public:
         if (!success)
         {
             glGetProgramInfoLog(id, 512, NULL, infoLog);
-			Util::log("ERROR::SHADER::PROGRAM::LINKING_FAILED\n%s\n", infoLog);
+			Util::log("ERROR::SHADER::PROGRAM::LINKING_FAILED\n%s", infoLog);
         }
 
         // delete the shaders as they're linked into our program now and no longer necessary

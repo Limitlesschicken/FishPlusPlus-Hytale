@@ -76,6 +76,6 @@ void HitBox::OnDeactivate() {
 }
 
 void HitBox::Initialize() {
-	Util::log("Initialized Hitbox feature\n");
+	Util::log("Initialized Hitbox feature");
 	RegisterEvent(this);
 }

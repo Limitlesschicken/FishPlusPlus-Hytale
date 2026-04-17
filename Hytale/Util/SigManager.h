@@ -20,4 +20,11 @@ namespace SM {
 	inline uint64_t RhpNewFastAddress = 0;
 	inline uint64_t RhpNewArray_GenericAddress = 0;
 	inline uint64_t SetClientBlockAddress = 0;
+
+	inline uint64_t Array_SyncInteractionChain_MTAddress = 0;
+	inline uint64_t SyncInteractionChain_MTAddress = 0;
+	inline uint64_t InteractionChainData_MTAddress = 0;
+	inline uint64_t BlockPosition_MTAddress = 0;
+	inline uint64_t Array_InteractionSyncData_MTAddress = 0;
+	inline uint64_t InteractionSyncData_MTAddress = 0;
 }

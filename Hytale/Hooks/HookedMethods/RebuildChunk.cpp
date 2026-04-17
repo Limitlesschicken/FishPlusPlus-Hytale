@@ -28,7 +28,7 @@ void __fastcall Hooks::hkBuildGeometry(void* instance, ChunkColumn* a2, int chun
 	if (allTargetBlockIds.empty())
 		return;
 
-	//Util::log("Rebuilt chunk at: %i, %i, %i\n", chunkX, chunkY, chunkZ);
+	//Util::log("Rebuilt chunk at: %i, %i, %i", chunkX, chunkY, chunkZ);
 
 	int num = 0x4A7;
 	int num2 = 0;

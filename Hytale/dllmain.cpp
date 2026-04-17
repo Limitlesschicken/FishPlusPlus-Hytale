@@ -6,27 +6,27 @@
 #include "sdk/BaseDataTypes/ConcurrentDictionary.h"
 
 #define GetSig(name, pattern) SM::name##Address = Util::PatternScan(pattern); \
-Util::log("Found %s sig at: 0x%llX - 0x%llX = 0x%lX\n", #name, SM::name##Address, gameBase, (SM::name##Address - gameBase));\
+Util::log("Found %s sig at: 0x%llX - 0x%llX = 0x%lX", #name, SM::name##Address, gameBase, (SM::name##Address - gameBase));\
 if (!Util::IsValidPtr(SM::name##Address)) {                             \
-    Util::log("Failed to get %s address\n", #name);                     \
+    Util::log("Failed to get %s address", #name);                     \
     return false;                                                       \
 }
 
-#define GetMethodSigByRef(name, pattern) SM::name##Address = Util::RelativeVirtualAddress(Util::PatternScan(pattern), 1, 5); \
-Util::log("Found Method %s sig at: 0x%llX - 0x%llX = 0x%lX\n", #name, SM::name##Address, gameBase, (SM::name##Address - gameBase));\
+#define GetMethodSigByRef(name, pattern) SM::name##Address = Util::RelativeVirtualAddress(Util::PatternScan(pattern), 0x1, 0x5); \
+Util::log("Found Method %s sig at: 0x%llX - 0x%llX = 0x%lX", #name, SM::name##Address, gameBase, (SM::name##Address - gameBase));\
 if (!Util::IsValidPtr(SM::name##Address)) {                             \
-    Util::log("Failed to get %s address\n", #name);                     \
+    Util::log("Failed to get %s address", #name);                     \
     return false;                                                       \
 }
 
-#define GetGlobalSigByRef(name, pattern) SM::name##Address = Util::RelativeVirtualAddress(Util::PatternScan(pattern), 3, 7); \
-Util::log("Found Global %s sig at: 0x%llX - 0x%llX = 0x%lX\n", #name, SM::name##Address, gameBase, (SM::name##Address - gameBase));\
+#define GetGlobalSigByRef(name, pattern) SM::name##Address = Util::RelativeVirtualAddress(Util::PatternScan(pattern), 0x3); \
+Util::log("Found Global %s sig at: 0x%llX - 0x%llX = 0x%lX", #name, SM::name##Address, gameBase, (SM::name##Address - gameBase));\
 if (!Util::IsValidPtr(SM::name##Address)) {                             \
-    Util::log("Failed to get %s address\n", #name);                     \
+    Util::log("Failed to get %s address", #name);                     \
     return false;                                                       \
 }
 
-#define DEFINE_PATTERN(name, pattern) API::name = (API::name##_t)Util::PatternScan(pattern); Util::log("Found " #name " at: 0x%llX\n", API::name);
+#define DEFINE_PATTERN(name, pattern) API::name = (API::name##_t)Util::PatternScan(pattern); Util::log("Found " #name " at: 0x%llX", API::name);
 /*// Available GC Registered Thread
 void __fastcall GCThread(void* pArg) {
     while (!uninjecting) {
@@ -54,19 +54,30 @@ bool InitSigs() {
     GetSig(SendPacketImmediate, "55 41 57 41 56 41 55 41 54 57 56 53 48 81 EC ? ? ? ? 48 8D AC 24 ? ? ? ? 0F 57 E4 0F 29 65 ? 0F 29 65 ? 0F 29 65 ? 0F 29 65 ? 33 C0 48 89 45 ? 48 89 4D ? 48 8B D9"); //48 8b d9 48 8b f2 48 8d 0d ? ? ? ? e8 ? ? ? ? 48 89 85 ? ? ? ? 48 8d 48 08 48 8b d3 e8 ? ? ? ? 48 85 f6
     GetSig(RhpNewArray_Generic, "48 81 FA ? ? ? ? 73 ? 67 8D 04 D5");
 
-	Util::log("Finished initializing signatures\n");
+    GetGlobalSigByRef(g_GlobalStateTable, "48 8D 05 ? ? ? ? 48 83 78 ? ? 0F 85 ? ? ? ? 48 8B 0D ? ? ? ? 48 8B 49 ? 45 8B 07");
+
+    GetGlobalSigByRef(Array_SyncInteractionChain_MT, "48 8D 0D ? ? ? ? E8 ? ? ? ? 4C 8B F0 45 33 ED 48 8B 53");
+    GetGlobalSigByRef(SyncInteractionChain_MT, "48 8D 0D ? ? ? ? E8 ? ? ? ? 4C 8B F8 41 C7 47 ? ? ? ? ? 8B 8B");
+    GetGlobalSigByRef(InteractionChainData_MT, "48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8B F0 48 BA"); // or 48 8D 0D ? ? ? ? E8 ? ? ? ? 4C 8B F8 48 B9 // 48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8B CB 48 BA
+    GetGlobalSigByRef(BlockPosition_MT, "48 8D 0D ? ? ? ? E8 ? ? ? ? 8B 0B 89 48 ? 8B 4B"); // or 48 8D 0D ? ? ? ? E8 ? ? ? ? 8B 4B ? 8B D6
+    GetGlobalSigByRef(Array_InteractionSyncData_MT, "48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8B F0 45 33 FF"); 
+    GetGlobalSigByRef(InteractionSyncData_MT, "48 8D 0D ? ? ? ? E8 ? ? ? ? C7 40 ? ? ? ? ? 48 B9");
+
+	Util::log("Finished initializing signatures");
 	return true;
 }
 
 DWORD WINAPI startPoint(LPVOID lpParam) {
 	Util::allocate_console();
 
-    Globals::optionsHelper = *(OptionsHelper**)Util::RelativeVirtualAddress(Util::PatternScan("48 8B 35 ? ? ? ? 48 8B 56 ? 48 85 D2 75 ? 48 8B 4B"), 3, 7);
-    Globals::paths = *(Paths**)Util::RelativeVirtualAddress(Util::PatternScan("48 8B 0D ? ? ? ? 48 8B 49 ? E8 ? ? ? ? 48 8D 35"), 3, 7);
-    Util::log("Found game directory at: %s\n", Globals::paths->ClientGameDirectory->getString().c_str());
+    Globals::optionsHelper = *(OptionsHelper**)Util::RelativeVirtualAddress(Util::PatternScan("48 8B 35 ? ? ? ? 48 8B 56 ? 48 85 D2 75 ? 48 8B 4B"), 0x3);
+    Globals::paths = *(Paths**)Util::RelativeVirtualAddress(Util::PatternScan("48 8B 0D ? ? ? ? 48 8B 49 ? E8 ? ? ? ? 48 8D 35"), 0x3);
+    Globals::buildInfo = *(BuildInfo**)Util::RelativeVirtualAddress(Util::PatternScan("48 8B 1D ? ? ? ? 48 8B 73 ? 48 8B 4B"), 0x3);
+    Util::log("Found game directory at: %s", Globals::paths->ClientGameDirectory->getString().c_str());
+    Util::log("The games build-date and githash are: %s", Globals::buildInfo->getVersion->getString().c_str());
 
     if (!InitSigs()){
-        Util::log("Failed to Init Sigs\n");
+        Util::log("Failed to Init Sigs");
         Util::free_console();
         return 0;
     }
@@ -76,7 +87,7 @@ DWORD WINAPI startPoint(LPVOID lpParam) {
     }
 
     if (!Hooks::CreateHooks()) {
-		Util::log("Failed to create hooks\n");
+		Util::log("Failed to create hooks");
         Util::free_console();
         return 0;
     }
@@ -92,7 +103,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
     switch (ul_reason_for_call) {
     case DLL_PROCESS_ATTACH:
 		dllBase = (uint64_t) hModule;
-		gameBase = (uint64_t) GetModuleHandleA(0);
+		gameBase = (uint64_t) GetModuleHandleA(nullptr);
 
         MODULEINFO moduleInfo;
         if (GetModuleInformation(GetCurrentProcess(), hModule, &moduleInfo, sizeof(MODULEINFO))) {

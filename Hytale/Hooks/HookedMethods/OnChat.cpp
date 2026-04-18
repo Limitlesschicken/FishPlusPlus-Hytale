@@ -45,10 +45,8 @@ void renameCommand(std::string command) {
 	}
 
 	std::string newName = command;
-	if (newName.empty()) {
-		Util::log("Usage: !rename <new name>");
+	if (newName.empty())
 		return;
-	}
 
 	remoteChest->savedChests[remoteChest->selectedChestIndex].name = newName;
 	remoteChest->SaveChests();
@@ -62,6 +60,52 @@ void deleteChestCommand() {
 		return;
 	}
 	remoteChest->RemoveCurrentChest();
+}
+
+void saveChestsCommand(std::string command) {
+	RemoteChest* remoteChest = (RemoteChest*)FeatureHandler::GetFeatureFromName("RemoteChest");
+	if (!remoteChest) {
+		Util::log("RemoteChest feature not found");
+		return;
+	}
+
+	std::string profileName = command;
+	if (profileName.empty()) 
+		return;
+
+	remoteChest->SaveChests(profileName);
+}
+
+void loadChestsCommand(std::string command) {
+	RemoteChest* remoteChest = (RemoteChest*)FeatureHandler::GetFeatureFromName("RemoteChest");
+	if (!remoteChest)
+		return;
+
+	std::string profileName = command;
+	if (profileName.empty())
+		return;
+
+	remoteChest->LoadChests(profileName);
+}
+
+void listChestsCommand() {
+	RemoteChest* remoteChest = (RemoteChest*)FeatureHandler::GetFeatureFromName("RemoteChest");
+	if (!remoteChest) {
+		Util::log("RemoteChest feature not found");
+		return;
+	}
+
+	remoteChest->ShowChestLists();
+}
+
+void clearChestsCommand() {
+	RemoteChest* remoteChest = (RemoteChest*) FeatureHandler::GetFeatureFromName("RemoteChest");
+	if (!remoteChest) {
+		Util::log("RemoteChest feature not found");
+		return;
+	}
+
+	remoteChest->ClearChests();
 }
 
 __declspec(safebuffers) __declspec(noinline)
@@ -87,6 +131,18 @@ void __fastcall Hooks::hkOnChat(uint64_t instance, HytaleString* chatString) {
 
 	else if (command.starts_with("delchest"))
 		deleteChestCommand();
+
+	else if (command.starts_with("savechests "))
+		saveChestsCommand(command.substr(12));
+
+	else if (command.starts_with("loadchests "))
+		loadChestsCommand(command.substr(12));
+
+	else if (command.starts_with("listchests"))
+		listChestsCommand();
+
+	else if (command.starts_with("clearchests"))
+		clearChestsCommand();
 }
 #pragma runtime_checks("", restore)
 #pragma optimize("", on)

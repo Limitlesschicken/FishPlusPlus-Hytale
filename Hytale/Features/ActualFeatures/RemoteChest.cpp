@@ -169,7 +169,11 @@ void RemoteChest::OpenSelectedChest() {
 
 	Vector3 chestPos = savedChests[selectedChestIndex].position;
 	SyncInteractionChainsPacket::SendOpenContainer(chestPos);
-	Util::log("Opening chest: %s at (%.1f, %.1f, %.1f)", savedChests[selectedChestIndex].name.c_str(), chestPos.x, chestPos.y, chestPos.z);
+}
+
+void RemoteChest::ClearChests() {
+	savedChests.clear();
+	selectedChestIndex = -1;
 }
 
 void RemoteChest::SaveChests() {
@@ -246,4 +250,115 @@ void RemoteChest::RemoveCurrentChest() {
 	selectedChestIndex = -1;
 
 	SaveChests();
+}
+
+void RemoteChest::SaveChests(const std::string& listName) {
+	if (listName.empty()) {
+		Util::log("List name cannot be empty");
+		return;
+	}
+
+	if (savedChests.empty()) {
+		Util::log("No chests to save");
+		return;
+	}
+
+	std::filesystem::path configPath = Globals::paths->ClientGameDirectory->getString();
+	std::filesystem::path fishDir = configPath / "Fish++" / "ChestLists";
+
+	if (!std::filesystem::exists(fishDir))
+		std::filesystem::create_directories(fishDir);
+
+	std::filesystem::path listFile = fishDir / (listName + ".json");
+	std::ofstream file(listFile);
+	if (!file.is_open()) {
+		Util::log("Failed to save list: %s", listName.c_str());
+		return;
+	}
+
+	json data;
+	data["selectedIndex"] = selectedChestIndex;
+	data["chests"] = json::array();
+
+	for (const auto& chest : savedChests) {
+		json chestData;
+		chestData["name"] = chest.name;
+		chestData["x"] = chest.position.x;
+		chestData["y"] = chest.position.y;
+		chestData["z"] = chest.position.z;
+		data["chests"].push_back(chestData);
+	}
+
+	file << data.dump(4);
+	Util::log("Saved %d chests to list: %s", (int)savedChests.size(), listName.c_str());
+}
+
+void RemoteChest::LoadChests(const std::string& listName) {
+	if (listName.empty()) {
+		Util::log("List name cannot be empty");
+		return;
+	}
+
+	std::filesystem::path configPath = Globals::paths->ClientGameDirectory->getString();
+	std::filesystem::path listFile = configPath / "Fish++" / "ChestLists" / (listName + ".json");
+
+	if (!std::filesystem::exists(listFile)) {
+		Util::log("List not found: %s", listName.c_str());
+		return;
+	}
+
+	std::ifstream file(listFile);
+	if (!file.is_open()) {
+		Util::log("Failed to load list: %s", listName.c_str());
+		return;
+	}
+
+	try {
+		json data = json::parse(file);
+		savedChests.clear();
+
+		for (const auto& chestData : data["chests"]) {
+			Vector3 pos(chestData["x"].get<float>(), chestData["y"].get<float>(), chestData["z"].get<float>());
+			std::string name = chestData["name"].get<std::string>();
+			savedChests.push_back(SavedChest(pos, name));
+		}
+
+		selectedChestIndex = data.value("selectedIndex", -1);
+		if (selectedChestIndex >= 0 && selectedChestIndex < (int)savedChests.size())
+			savedChests[selectedChestIndex].selected = true;
+		else
+			selectedChestIndex = -1;
+
+		Util::log("Loaded %d chests from list: %s", (int)savedChests.size(), listName.c_str());
+		SaveChests();
+	} catch (const std::exception& e) {
+		Util::log("Error parsing list file: %s", e.what());
+	}
+}
+
+void RemoteChest::ShowChestLists() {
+	std::filesystem::path configPath = Globals::paths->ClientGameDirectory->getString();
+	std::filesystem::path listsDir = configPath / "Fish++" / "ChestLists";
+
+	if (!std::filesystem::exists(listsDir)) {
+		Util::log("No chest lists found");
+		return;
+	}
+
+	std::vector<std::string> lists;
+	for (const auto& entry : std::filesystem::directory_iterator(listsDir)) {
+		if (entry.is_regular_file() && entry.path().extension() == ".json") {
+			lists.push_back(entry.path().stem().string());
+		}
+	}
+
+	if (lists.empty()) {
+		Util::log("No chest lists found");
+		return;
+	}
+
+	Util::log("Available chest lists:");
+	for (const auto& list : lists) {
+		Util::log("  - %s", list.c_str());
+	}
 }

@@ -167,6 +167,7 @@
     <ClCompile Include="external\minhook\hde\hde64.c" />
     <ClCompile Include="external\minhook\hook.c" />
     <ClCompile Include="external\minhook\trampoline.c" />
+    <ClCompile Include="Features\ActualFeatures\NoDeath.cpp" />
     <ClCompile Include="Features\ActualFeatures\HitBox.cpp" />
     <ClCompile Include="Features\ActualFeatures\ItemMagnet.cpp" />
     <ClCompile Include="Features\ActualFeatures\Outline.cpp" />
@@ -343,6 +344,7 @@
     <ClInclude Include="external\minhook\trampoline.h" />
     <ClInclude Include="external\nhollman\json.hpp" />
     <ClInclude Include="external\nlohman\json.hpp" />
+    <ClInclude Include="Features\ActualFeatures\NoDeath.h" />
     <ClInclude Include="Features\ActualFeatures\HitBox.h" />
     <ClInclude Include="Features\ActualFeatures\ItemMagnet.h" />
     <ClInclude Include="Features\ActualFeatures\Outline.h" />

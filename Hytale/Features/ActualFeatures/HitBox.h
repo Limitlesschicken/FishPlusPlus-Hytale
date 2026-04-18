@@ -14,7 +14,6 @@ public:
 
 	void OnFrame();
 
-
 	void OnDeactivate() override;
 	void Initialize() override;
 private:

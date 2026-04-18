@@ -209,13 +209,11 @@ void SDK::Main() {
 	global_mutex.unlock();
 
 	if ((GetAsyncKeyState(VK_F6) & 1)) {
-		Util::log("InteractionModule: 0x%llX\n", Util::getGameInstance()->InteractionModule);
+
 	}
 
-	static bool firstScan = false;
+	static bool firstScan = true;
 	if (firstScan || (GetAsyncKeyState(VK_F5) & 1)) {
-		Vector3 playerPos = Util::getGameInstance()->Player->Position.toFloor().add(0, -1, 0);
-		SyncInteractionChainsPacket::SendOpenContainer(playerPos);
 
 		firstScan = false;
 	}
@@ -239,19 +237,5 @@ void SDK::Main() {
 		}
 		filterInitialized = true;
 		blockESP->refreshList->SetValue(false);
-	}
-
-	static bool test = true;
-	if (test && Util::app->Stage == AppStage::InGame) {
-		test = false;
-
-		for (int i = 0; i < Util::getGameInstance()->MapModule->ClientBlockTypes->count; i++) {
-			ClientBlockType* type = Util::getGameInstance()->MapModule->ClientBlockTypes->get(i);
-			std::string name = type->Name->getString();
-			name.erase(std::remove(name.begin(), name.end(), '*'), name.end());
-			name.erase(std::remove_if(name.begin(), name.end(), ::isspace), name.end());
-
-			std::cout << "{\"" << name << "\", " << type->Id << "},\n";
-		}
 	}
 }

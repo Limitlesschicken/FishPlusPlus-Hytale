@@ -20,6 +20,7 @@
 #include "ActualFeatures/Gamemode.h"
 #include "ActualFeatures/ItemMagnet.h"
 #include "ActualFeatures/RemoteChest.h"
+#include "ActualFeatures/NoDeath.h"
 
 void InitFeature(std::unique_ptr<Feature> feature, std::string tab) {
 	feature->setCategory(tab);
@@ -32,6 +33,7 @@ void InitFeature(std::unique_ptr<Feature> feature, std::string tab) {
 
 void FeatureHandler::Init() {
 	InitFeature(std::make_unique<HitBox>(), "Combat");
+	InitFeature(std::make_unique<NoDeath>(), "Combat");
 
 	InitFeature(std::make_unique<Flight>(), "Movement");
 	InitFeature(std::make_unique<Speed>(), "Movement");

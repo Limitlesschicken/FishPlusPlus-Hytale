@@ -254,13 +254,13 @@ struct SyncInteractionChainsPacket : Object { // Struct from pEric
 		GameInstance* gameInstance = Util::getGameInstance();
 		Entity* player = gameInstance->Player;
 		InteractionModule* interactionModule = gameInstance->InteractionModule;
-		BlockPosition* blockPos = BlockPosition::CreateBlockPos(pos.x, pos.y, pos.z);
+		BlockPosition* blockPos = BlockPosition::CreateBlockPos((int)pos.x, (int)pos.y, (int)pos.z);
 		SyncInteractionChain* chain = API::RHPNewFast<SyncInteractionChain*>(SM::SyncInteractionChain_MTAddress);
 		chain->interaction_type = InteractionType::kInteractionTypeUse;
 		if (player->PrimaryItem && player->PrimaryItem->Id)
 			chain->item_in_hand_id = player->PrimaryItem->Id;
 		chain->active_hotbar_slot = Util::getGameInstance()->InventoryModule->HotbarActiveSlot;
-		chain->active_utility_slot = 0;
+		chain->active_utility_slot = Util::getGameInstance()->InventoryModule->UtilityActiveSlot;
 		chain->active_tools_slot = -1;
 		chain->override_root_interaction = INT_MIN;
 		chain->equip_slot = Util::getGameInstance()->InventoryModule->HotbarActiveSlot;

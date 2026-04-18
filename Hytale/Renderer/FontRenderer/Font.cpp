@@ -113,5 +113,5 @@ float Font::getWidth(std::string text) {
 	return width;
 }
 float Font::getHeight() {
-	return m_size;
+	return (float)m_size;
 }

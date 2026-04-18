@@ -39,11 +39,12 @@ public:
 	std::vector<SavedChest> savedChests;
 	int selectedChestIndex = -1;
 
-	void AddOrRemoveChest(const Vector3& pos, const std::string& blockName);
+	void AddOrRemoveChest(const Vector3& pos);
 	int FindChestIndex(const Vector3& pos);
 	void SelectNextChest();
 	void SelectPrevChest();
 	void OpenSelectedChest();
 	void SaveChests();
 	void LoadChests();
+	void RemoveCurrentChest();
 };

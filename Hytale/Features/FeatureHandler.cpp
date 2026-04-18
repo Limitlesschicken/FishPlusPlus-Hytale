@@ -20,11 +20,11 @@
 #include "ActualFeatures/Gamemode.h"
 #include "ActualFeatures/ItemMagnet.h"
 #include "ActualFeatures/RemoteChest.h"
+#include "ActualFeatures/NoMapClear.h"
 
 void InitFeature(std::unique_ptr<Feature> feature, std::string tab) {
 	feature->setCategory(tab);
 	feature->CreateForcedKeybind();
-	feature->RegisterEvent(feature.get());
 	feature->Initialize();
 
 	FeatureHandler::features.push_back(std::move(feature));
@@ -46,14 +46,15 @@ void FeatureHandler::Init() {
 	InitFeature(std::make_unique<BlockESP>(), "Visuals");
 	InitFeature(std::make_unique<Tracers>(), "Visuals");
 
-	InitFeature(std::make_unique<RemoteChest>(), "QOL");
+	InitFeature(std::make_unique<RemoteChest>(), "Misc");
+	InitFeature(std::make_unique<NoMapClear>(), "Misc");
 
 	//InitFeature(std::make_unique<ItemMagnet>(), "Misc");
 
-	Menu::mainComponent->AddChild(std::make_unique<Tab>("Combat", 200, 200, 300));
-	Menu::mainComponent->AddChild(std::make_unique<Tab>("Movement", 510, 200, 300));
-	Menu::mainComponent->AddChild(std::make_unique<Tab>("Visuals", 820, 200, 300));
-	Menu::mainComponent->AddChild(std::make_unique<Tab>("QOL", 1130, 200, 300));
+	Menu::mainComponent->AddChild(std::make_unique<Tab>("Combat", 200, 200));
+	Menu::mainComponent->AddChild(std::make_unique<Tab>("Movement", 460, 200));
+	Menu::mainComponent->AddChild(std::make_unique<Tab>("Visuals", 720, 200));
+	Menu::mainComponent->AddChild(std::make_unique<Tab>("Misc", 980, 200));
 	//Menu::mainComponent->AddChild(std::make_unique<Tab>("Misc", 830, 200, 300));
 }
 

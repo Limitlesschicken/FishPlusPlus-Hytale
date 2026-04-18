@@ -169,6 +169,7 @@
     <ClCompile Include="external\minhook\trampoline.c" />
     <ClCompile Include="Features\ActualFeatures\HitBox.cpp" />
     <ClCompile Include="Features\ActualFeatures\ItemMagnet.cpp" />
+    <ClCompile Include="Features\ActualFeatures\NoMapClear.cpp" />
     <ClCompile Include="Features\ActualFeatures\Outline.cpp" />
     <ClCompile Include="Features\ActualFeatures\RemoteChest.cpp" />
     <ClCompile Include="Features\ActualFeatures\Tracers.cpp" />
@@ -198,7 +199,7 @@
     <ClCompile Include="Hooks\Hooks.cpp" />
     <ClCompile Include="Math\Vector4.h" />
     <ClCompile Include="Menu\Children\BlockSelection\BlockSelectionbutton.cpp" />
-    <ClCompile Include="Menu\Children\BlockSelection\BlockSelectionWIndow.cpp" />
+    <ClCompile Include="Menu\Children\BlockSelection\BlockSelectionWindow.cpp" />
     <ClCompile Include="Menu\Children\ColorButton.cpp" />
     <ClCompile Include="Menu\Children\FeatureButton.cpp" />
     <ClCompile Include="Menu\Children\KeybindButton.cpp" />
@@ -345,6 +346,7 @@
     <ClInclude Include="external\nlohman\json.hpp" />
     <ClInclude Include="Features\ActualFeatures\HitBox.h" />
     <ClInclude Include="Features\ActualFeatures\ItemMagnet.h" />
+    <ClInclude Include="Features\ActualFeatures\NoMapClear.h" />
     <ClInclude Include="Features\ActualFeatures\Outline.h" />
     <ClInclude Include="Features\ActualFeatures\RemoteChest.h" />
     <ClInclude Include="Features\ActualFeatures\Tracers.h" />

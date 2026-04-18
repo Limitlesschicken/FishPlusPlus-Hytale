@@ -9,7 +9,7 @@
 #include "Menu/Children/BlockSelection/BlockSelectionButton.h"
 #include "BlockSelection.h"
 
-class BlockSetting : public Setting<std::vector<BlockSelection>> {
+class BlockSetting : public Setting<std::vector<BlockResult>> {
 public:
 	BlockSetting(std::string name, std::string defaultCategory, std::vector<std::string> categories) : Setting(name, {}), defaultCategory(defaultCategory), categories(categories) {}
 

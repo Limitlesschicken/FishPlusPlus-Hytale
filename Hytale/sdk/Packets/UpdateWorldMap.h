@@ -9,7 +9,7 @@
 #include "../BaseDataTypes/HytaleString.h"
 
 struct UpdateWorldMap : Object {
-	Array<MapChunk>* chunks;
-	Array<void>* addedMarkers;
+	Array<MapChunk*>* chunks;
+	Array<void*>* addedMarkers;
 	Array<HytaleString>* removedMarkers;
 };

@@ -12,6 +12,7 @@ namespace Style {
 	constexpr float headerHeight = 30.0f;
 	constexpr Vector2 headerPadding(14.0f, 8.0f);
 
+	constexpr float tabWidth = 250;
 	constexpr Color tabBgColor(50.0f, 50.0f, 50.0f, 230.0f);
 	constexpr Color tabOutlineColor(255.0f, 100.0f, 100.0f, 255.0f);
 

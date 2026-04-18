@@ -17,6 +17,16 @@ void __fastcall Hooks::hkOnUserInput(uint64_t instance, SDL_Event event) {
         InputSystem::inputMutex.unlock();
     }
 
+    if (event.type == SDL_KEYDOWN) {
+        if (event.key.scancode == SDL_SCANCODE_LSHIFT || event.key.scancode == SDL_SCANCODE_RSHIFT)
+            InputSystem::shiftHeld = true;
+    }
+
+    if (event.type == SDL_KEYUP) {
+        if (event.key.scancode == SDL_SCANCODE_LSHIFT || event.key.scancode == SDL_SCANCODE_RSHIFT)
+            InputSystem::shiftHeld = false;
+    }
+
     if (event.type != SDL_KEYDOWN && event.type != SDL_KEYUP)
         return;
 

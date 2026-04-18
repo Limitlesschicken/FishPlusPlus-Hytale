@@ -20,6 +20,9 @@ struct Array : Object {
         return list[index];
     }
 
+    T* begin() { return list; }
+    T* end() { return list + count; }
+
     template<typename T>
     static Array<T>* createArray(int size) {
         size_t totalSize = sizeof(Array<T>) + sizeof(T) * (size - 1);

@@ -583,7 +583,38 @@ namespace InputSystem {
 
     inline bool scrolled = false;
     inline int scrollAmount = 0;
-    inline 
+    inline bool shiftHeld = false;
+    
+    inline static char ScancodeToChar(SDL_Scancode sc, bool shift) {
+        if (sc >= SDL_SCANCODE_A && sc <= SDL_SCANCODE_Z) {
+            char base = 'a' + (sc - SDL_SCANCODE_A);
+            return shift ? toupper(base) : base;
+        }
+
+        if (sc >= SDL_SCANCODE_1 && sc <= SDL_SCANCODE_0) {
+            const char* normal = "1234567890";
+            const char* shifted = "!@#$%^&*()";
+            int index = (sc - SDL_SCANCODE_1) % 10;
+            return shift ? shifted[index] : normal[index];
+        }
+
+        switch (sc) {
+        case SDL_SCANCODE_SPACE: return ' ';
+        case SDL_SCANCODE_MINUS: return shift ? '_' : '-';
+        case SDL_SCANCODE_EQUALS: return shift ? '+' : '=';
+        case SDL_SCANCODE_LEFTBRACKET: return shift ? '{' : '[';
+        case SDL_SCANCODE_RIGHTBRACKET: return shift ? '}' : ']';
+        case SDL_SCANCODE_SEMICOLON: return shift ? ':' : ';';
+        case SDL_SCANCODE_APOSTROPHE: return shift ? '"' : '\'';
+        case SDL_SCANCODE_COMMA: return shift ? '<' : ',';
+        case SDL_SCANCODE_PERIOD: return shift ? '>' : '.';
+        case SDL_SCANCODE_SLASH: return shift ? '?' : '/';
+        case SDL_SCANCODE_BACKSLASH: return shift ? '|' : '\\';
+        case SDL_SCANCODE_GRAVE: return shift ? '~' : '`';
+        default:
+            return 0;
+        }
+    }
 
 	static bool IsKeyPressed(SDL_Scancode key) {
         if (key == SDL_SCANCODE_UNKNOWN)

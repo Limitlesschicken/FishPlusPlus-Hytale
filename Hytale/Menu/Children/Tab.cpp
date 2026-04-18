@@ -16,7 +16,7 @@
 
 #include "../../Features/FeatureHandler.h"
 
-Tab::Tab(std::string name, float x, float y, float w) : Component(x, y, w, Style::headerHeight) {
+Tab::Tab(std::string name, float x, float y) : Component(x, y, Style::tabWidth, Style::headerHeight) {
 	this->name = name;
 	this->m_dragging = false;
 

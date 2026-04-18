@@ -3,8 +3,6 @@
  */
 #pragma once
 
-#include <Menu/Component.h>
-
 #include <memory>
 
 #include "../SettingButton.h"
@@ -14,7 +12,7 @@
 
 class BlockSelectionButton : public SettingButton {
 public:
-	BlockSelectionButton(Setting<std::vector<BlockSelection>>* setting);
+	BlockSelectionButton(Setting<std::vector<BlockResult>>* setting);
 
 	void Render(double deltaTime) override;
 	void Update(float mouseX, float mouseY) override;

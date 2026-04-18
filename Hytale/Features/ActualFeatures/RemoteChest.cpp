@@ -69,7 +69,7 @@ void RemoteChest::OnRender3D(Renderer3D& renderer3D) {
 		Color chestColor = chest.selected ? Color(0, 255, 0, 255) : Color(255, 0, 255, 255);
 
 		if (this->ShowTarget->GetValue() && dist <= maxDist)
-			renderer3D.BoxOutline(Vector3((int)chest.position.x, (int)chest.position.y, (int)chest.position.z), Vector3(1, 1, 1), chestColor);
+			renderer3D.BoxOutline(Vector3(chest.position.x, chest.position.y, chest.position.z), Vector3(1, 1, 1), chestColor);
 
 		if (this->ShowNames->GetValue() && dist <= maxDist) {
 			Vector2 screenPos;

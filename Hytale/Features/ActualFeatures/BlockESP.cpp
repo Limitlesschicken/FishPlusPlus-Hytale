@@ -43,7 +43,7 @@ void BlockESP::OnRender3D(Renderer3D& renderer3D) {
 			continue;
 
 		renderer3D.BoxOutline(
-			Vector3((int)block.position.x, (int)block.position.y, (int)block.position.z),
+			Vector3(block.position.x, block.position.y, block.position.z),
 			Vector3(1, 1, 1),
 			block.color
 		);

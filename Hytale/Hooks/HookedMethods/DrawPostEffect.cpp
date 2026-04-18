@@ -27,7 +27,7 @@ void __fastcall Hooks::hkDrawPostEffect(GameInstance* instance) {
         Vector3 renderPos = Util::getLocalPlayer()->Position.toFloor();
 		renderPos.y -= 1; // Adjust to get the block the player is standing on
         ClientBlockType* block = Util::getGameInstance()->MapModule->GetBlockType(renderPos);
-        renderer3D.BoxLines(Vector3((int)renderPos.x, (int)renderPos.y, (int)renderPos.z), Vector3(1, 1, 1), Color::Normalize(255, 0, 0, 50), Color::Normalize(Color::Red()));
+        renderer3D.BoxLines(Vector3(renderPos.x, renderPos.y, renderPos.z), Vector3(1.0f, 1.0f, 1.0f), Color::Normalize(255, 0, 0, 50), Color::Normalize(Color::Red()));
         Vector2 screenPos;
         if (Util::WorldToScreen(Vector3(renderPos.x + 0.5f, renderPos.y + 0.5f, renderPos.z + 0.5f), screenPos))
 		    Fonts::Figtree->RenderText(Util::string_format("%s (%i)", block->Name->getString().c_str(), block->Id), screenPos.x, screenPos.y, 1, Color::White());

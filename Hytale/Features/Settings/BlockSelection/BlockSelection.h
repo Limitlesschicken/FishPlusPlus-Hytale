@@ -14,3 +14,14 @@ struct BlockSelection {
 		this->category = category;
 	}
 };
+
+struct BlockResult {
+	uint64_t hashedName;
+	std::string category;
+
+	BlockResult(uint64_t hashedName, std::string category) {
+		this->hashedName = hashedName;
+		this->category = category;
+	}
+};
+

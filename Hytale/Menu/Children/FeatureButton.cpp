@@ -83,7 +83,7 @@ void FeatureButton::MouseClicked(float mouseX, float mouseY, int virtualKeyCode)
 }
 
 SettingsBody::SettingsBody(FeatureButton* featureButton, Feature* feature) {
-	this->width = 300.f;
+	this->width = Style::tabWidth;
 	this->featureButton = featureButton;
 	for (auto& setting : feature->GetSettings()) {
 		AddChild(setting->CreateButton());

@@ -9,9 +9,8 @@
 #include "Renderer/FontRenderer/Fonts.h"
 #include "Features/Settings/BlockSelection/BlockSetting.h"
 
-BlockSelectionButton::BlockSelectionButton(Setting<std::vector<BlockSelection>>* setting) : SettingButton(setting) {
+BlockSelectionButton::BlockSelectionButton(Setting<std::vector<BlockResult>>* setting) : SettingButton(setting) {
 	this->screen = std::make_unique<BlockSelectionScreen>(setting);
-
 }
 
 void BlockSelectionButton::Render(double deltaTime) {

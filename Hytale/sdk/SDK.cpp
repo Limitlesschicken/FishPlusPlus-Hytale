@@ -241,7 +241,7 @@ void SDK::Main() {
 		blockESP->refreshList->SetValue(false);
 	}
 
-	static bool test = true;
+	static bool test = false;
 	if (test && Util::app->Stage == AppStage::InGame) {
 		test = false;
 

@@ -49,7 +49,7 @@ void FeatureHandler::Init() {
 	InitFeature(std::make_unique<Tracers>(), "Visuals");
 
 	InitFeature(std::make_unique<RemoteChest>(), "Misc");
-	InitFeature(std::make_unique<NoMapClear>(), "Misc");
+	//InitFeature(std::make_unique<NoMapClear>(), "Misc");
 
 	//InitFeature(std::make_unique<ItemMagnet>(), "Misc");
 

@@ -55,6 +55,15 @@ void renameCommand(std::string command) {
 	Util::log("Renamed chest to: %s", newName.c_str());
 }
 
+void deleteChestCommand() {
+	RemoteChest* remoteChest = (RemoteChest*) FeatureHandler::GetFeatureFromName("RemoteChest");
+	if (!remoteChest) {
+		Util::log("RemoteChest feature not found");
+		return;
+	}
+	remoteChest->RemoveCurrentChest();
+}
+
 __declspec(safebuffers) __declspec(noinline)
 void __fastcall Hooks::hkOnChat(uint64_t instance, HytaleString* chatString) {
     std::string message = chatString->getString();
@@ -70,11 +79,14 @@ void __fastcall Hooks::hkOnChat(uint64_t instance, HytaleString* chatString) {
 	if (command.starts_with("tp "))
 		tpCommand(command.substr(3));
 
-	if (command.starts_with("config "))
+	else if (command.starts_with("config "))
 		configCommand(command.substr(7));
 
-	if (command.starts_with("rename "))
+	else if (command.starts_with("rename "))
 		renameCommand(command.substr(7));
+
+	else if (command.starts_with("delchest"))
+		deleteChestCommand();
 }
 #pragma runtime_checks("", restore)
 #pragma optimize("", on)

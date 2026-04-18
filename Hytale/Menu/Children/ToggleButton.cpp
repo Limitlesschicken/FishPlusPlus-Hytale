@@ -34,7 +34,7 @@ void ToggleButton::Render(double deltaTime) {
 	Color topColor = Color(Style::featureHoverColor.r, Style::featureHoverColor.g, Style::featureHoverColor.b, m_hoverAlpha);
 	Color bottomColor = Color(Style::featureHoverGradColor.r, Style::featureHoverGradColor.g, Style::featureHoverGradColor.b, m_hoverAlpha);
 
-	Renderer2D::colored->SquareMultiColor(Vector2(x + 1, y + 1), width - 2, height - 2,
+	Renderer2D::colored->SquareMultiColor(Vector2(x + 1, y + 1), width - 2.f, height - 2.f,
 		Color::Normalize(topColor), Color::Normalize(topColor),
 		Color::Normalize(bottomColor), Color::Normalize(bottomColor));
 	Renderer2D::colored->Render();

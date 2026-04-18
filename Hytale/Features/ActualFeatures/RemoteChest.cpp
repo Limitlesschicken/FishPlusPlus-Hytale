@@ -38,20 +38,20 @@ void RemoteChest::OnRender3D(Renderer3D& renderer3D) {
 			Vector3 targetPos = interactionModule->TargetedBlockRaycastHit.BlockPosition;
 
 			if (this->ShowTarget->GetValue()) 
-				renderer3D.BoxOutline(targetPos, Vector3(1, 1, 1), Color(255, 255, 0, 255));
+				renderer3D.BoxOutline(targetPos, Vector3(1.f, 1.f, 1.f), Color(255, 255, 0, 255));
 
 			if (InputSystem::IsKeyPressed(this->SaveChestKeybind->GetValue()))
-				AddOrRemoveChest(targetPos, blockName);
+				AddOrRemoveChest(targetPos);
 		}
 	}
 
 	if (InputSystem::IsKeyPressed(this->NextChestKeybind->GetValue()))
 		SelectNextChest();
 
-	if (InputSystem::IsKeyPressed(this->PrevChestKeybind->GetValue()))
+	else if (InputSystem::IsKeyPressed(this->PrevChestKeybind->GetValue()))
 		SelectPrevChest();
 
-	if (InputSystem::IsKeyPressed(this->OpenSelectedChestKeybind->GetValue()))
+	else if (InputSystem::IsKeyPressed(this->OpenSelectedChestKeybind->GetValue()))
 		OpenSelectedChest();
 
 	for (size_t i = 0; i < savedChests.size(); i++) {
@@ -75,15 +75,15 @@ void RemoteChest::OnRender3D(Renderer3D& renderer3D) {
 			Vector2 screenPos;
 			std::string text = Util::string_format("%s (%.1fm)", chest.name.c_str(), dist);
 			if (Util::WorldToScreen(chestCenter, screenPos)) {
-				Fonts::Figtree->RenderText(text, screenPos.x - Fonts::Figtree->getWidth(text) / 2, screenPos.y, 1, chest.selected ? Color(0, 255, 0, 255) : Color::White());
+				Fonts::Figtree->RenderText(text, screenPos.x - Fonts::Figtree->getWidth(text) / 2.f, screenPos.y, 1.f, chest.selected ? Color(0, 255, 0, 255) : Color::White());
 			}
 		}
 	}
 
-	if (selectedChestIndex != -1 && selectedChestIndex < (int)savedChests.size()) {
+	if (selectedChestIndex != -1 && selectedChestIndex < savedChests.size()) {
 		SavedChest& selected = savedChests[selectedChestIndex];
 		std::string displayText = Util::string_format("Selected: %s", selected.name.c_str());
-		Fonts::Figtree->RenderText(displayText, 10, 100, 1, Color(0, 255, 0, 255));
+		Fonts::Figtree->RenderText(displayText, 10.f, 100.f, 1.f, Color(0, 255, 0, 255));
 	}
 }
 
@@ -99,7 +99,7 @@ void RemoteChest::Initialize() {
 	LoadChests();
 }
 
-void RemoteChest::AddOrRemoveChest(const Vector3& pos, const std::string& blockName) {
+void RemoteChest::AddOrRemoveChest(const Vector3& pos) {
 	int existingIndex = FindChestIndex(pos);
 
 	if (existingIndex != -1) {
@@ -237,4 +237,13 @@ void RemoteChest::LoadChests() {
 	}
 }
 
+void RemoteChest::RemoveCurrentChest() {
+	if (selectedChestIndex == -1 || selectedChestIndex >= (int)savedChests.size())
+		return;
 
+	SavedChest& chest = savedChests[selectedChestIndex];
+	savedChests.erase(savedChests.begin() + selectedChestIndex);
+	selectedChestIndex = -1;
+
+	SaveChests();
+}

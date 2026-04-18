@@ -52,5 +52,6 @@ struct InteractionModule {
 			if (interactionHash == hashedName)
 				return interaction->interactionID;
 		}
+		return -1;
 	}
 };

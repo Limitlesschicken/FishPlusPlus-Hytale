@@ -214,7 +214,7 @@ public:
 
         DBGBlockData data;
         data.packedPos = IndexOfWorldBlockInChunk(worldX, worldY, worldZ);
-        data.unpackedPos = Vector3(worldX, worldY, worldZ);
+        data.unpackedPos = Vector3((float)worldX, (float)worldY, (float)worldZ);
         data.BlockID = chunk->Data->Blocks->GetBlockID(data.packedPos, 1);
 		data.blockName = ClientBlockTypes->get(data.BlockID)->Name->getString();
 		data.packingType = (BitPackingType) chunk->Data->Blocks->GetPackingType();

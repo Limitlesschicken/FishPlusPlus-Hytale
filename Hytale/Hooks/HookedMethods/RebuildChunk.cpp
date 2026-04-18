@@ -78,13 +78,10 @@ void __fastcall Hooks::hkBuildGeometry(void* instance, ChunkColumn* a2, int chun
 				}
 
 				int index = num - 0x4A7;
-
 				int size = 34;
-
 				int x = index % size;
 				int z = (index / size) % size;
 				int y = index / (size * size);
-
 				int worldX = chunkX * 32 + x;
 				int worldY = chunkY * 32 + y;
 				int worldZ = chunkZ * 32 + z;
@@ -102,7 +99,6 @@ void __fastcall Hooks::hkBuildGeometry(void* instance, ChunkColumn* a2, int chun
 						newBlocks.push_back(result);
 					}
 				}
-
 				num++;
 				num2++;
 			}
@@ -111,14 +107,10 @@ void __fastcall Hooks::hkBuildGeometry(void* instance, ChunkColumn* a2, int chun
 		num += 68;
 	}
 
-
-
 	SDK::filteredBlockMutex.lock();
 	SDK::filteredBlocks.erase(
-		std::remove_if(
-			SDK::filteredBlocks.begin(),
-			SDK::filteredBlocks.end(),
-			[&](const FilteredBlockResult& b) {
+		std::remove_if(SDK::filteredBlocks.begin(), SDK::filteredBlocks.end(), [&](const FilteredBlockResult& b) 
+	{
 		int chunkPosX = b.position.x >= 0 ? b.position.x / 32 : (b.position.x - 31) / 32;
 		int chunkPosY = b.position.y >= 0 ? b.position.y / 32 : (b.position.y - 31) / 32;
 		int chunkPosZ = b.position.z >= 0 ? b.position.z / 32 : (b.position.z - 31) / 32;
@@ -135,9 +127,7 @@ void __fastcall Hooks::hkBuildGeometry(void* instance, ChunkColumn* a2, int chun
 
 		return isOutsideViewDistance;
 	}
-		),
-		SDK::filteredBlocks.end()
-	);
+		), SDK::filteredBlocks.end());
 	SDK::filteredBlocks.insert(SDK::filteredBlocks.end(), newBlocks.begin(), newBlocks.end());
 	SDK::filteredBlockMutex.unlock();
 	

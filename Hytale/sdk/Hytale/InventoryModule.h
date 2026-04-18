@@ -14,9 +14,10 @@ struct InventoryModule {
 	void* ConsumableInventory;		//0x0038
 	void* ToolsInventory;			//0x0040
 	int HotbarActiveSlot;			//0x0048
-	int ConsumableActiveSlot;		//0x004C
+	int UtilityActiveSlot;			//0x004C
 	int ToolsActiveSlot;			//0x0050
-	float dropBindingHeldTick;		//0x0054
-	float inToolsMenuTimer;			//0x0058
-	bool hasDroppedStack;			//0x005C
+	int ConsumableActiveSlot;		//0x0054
+	float dropBindingHeldTick;		//0x0058
+	float inToolsMenuTimer;			//0x005C
+	bool hasDroppedStack;			//0x0060
 };

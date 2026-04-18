@@ -50,16 +50,12 @@ void RebuildPacketsFromBuffer(void* byteArray) {
 			if (!ClientPlaceBlockRebuild)
                 return;
 
-			//Util::log("Rebuilding packet from buffer with packet ID 117 (ClientPlaceBlock)");
-
             int dataSize = *(int*)(buffer + 0x10);
             uint64_t payloadPtr = buffer + 0x18;
             if (dataSize < sizeof(ClientPlaceBlockPacketBuffer))
 				return;
 
             ClientPlaceBlockPacketBuffer* packet = (ClientPlaceBlockPacketBuffer*)(payloadPtr);
-            //Util::log("  position: (%i, %i, %i)", packet->posX, packet->posY, packet->posZ);
-            //Util::log("  placedBlockId: %d", packet->placedBlockId);
         }
         else if (packetID == 4) { // Pong packet, sent by the client in response to a server ping. Contains a timestamp that can be used to measure latency.
 			return; // This packet is sent very frequently and isn't very interesting, so we can skip logging it to avoid spamming the logs.

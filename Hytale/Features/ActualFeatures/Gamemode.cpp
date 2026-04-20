@@ -20,14 +20,12 @@ void Gamemode::OnActivate() {
     GameInstance* gi = Util::getGameInstance();
     if (!gi) return;
     WriteGameMode(gi, GameMode::Creative);
-    Util::log("Gamemode: set Creative");
 }
 
 void Gamemode::OnDeactivate() {
     GameInstance* gi = Util::getGameInstance();
     if (!gi) return;
     WriteGameMode(gi, GameMode::Adventure);
-    Util::log("Gamemode: set Adventure");
 }
 
 void Gamemode::OnMoveCycle(DefaultMovementController* dmc, Vector3& offset) {

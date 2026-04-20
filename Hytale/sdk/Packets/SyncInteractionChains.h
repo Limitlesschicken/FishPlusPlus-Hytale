@@ -112,25 +112,27 @@ struct InteractionSyncData : Object { // Struct from pEric
 	}
 
 	static Array<InteractionSyncData*>* CreateOpenContainerArray(InteractionModule* interaction, BlockPosition* blockPos) {
+		constexpr uint64_t openContainerHash = Hash::Hash("Open_Container");
+		constexpr uint64_t emptyUseHash = Hash::Hash("*Empty_Interactions_Use");
 		InteractionSyncData* syncData0 = CreateInteractionSyncData();
 		syncData0->operation_counter = 0;
-		syncData0->root_interaction = interaction->getInteractionID("*Empty_Interactions_Use"_hash);
+		syncData0->root_interaction = interaction->getInteractionID(emptyUseHash);
 		syncData0->state = kInteractionStateFinished;
 		InteractionSyncData* syncData1 = CreateInteractionSyncData();
 		syncData1->operation_counter = 1;
-		syncData1->root_interaction = interaction->getInteractionID("*Empty_Interactions_Use"_hash);
+		syncData1->root_interaction = interaction->getInteractionID(emptyUseHash);
 		syncData1->block_position = blockPos;
 		syncData1->block_face = BlockFace::kBlockFaceNorth;
 		syncData1->state = kInteractionStateFinished;
 		InteractionSyncData* syncData2 = CreateInteractionSyncData();
 		syncData2->operation_counter = 0;
-		syncData2->root_interaction = interaction->getInteractionID("Open_Container"_hash);
+		syncData2->root_interaction = interaction->getInteractionID(openContainerHash);
 		syncData2->block_position = blockPos;
 		syncData2->block_face = BlockFace::kBlockFaceNorth;
 		syncData2->state = kInteractionStateFinished;
 		InteractionSyncData* syncData3 = CreateInteractionSyncData();
 		syncData3->operation_counter = 2;
-		syncData3->root_interaction = interaction->getInteractionID("*Empty_Interactions_Use"_hash);
+		syncData3->root_interaction = interaction->getInteractionID(emptyUseHash);
 		Array<InteractionSyncData*>* arrayData = API::RHPNewArray<Array<InteractionSyncData*>*>(SM::Array_InteractionSyncData_MTAddress, 4);
 		arrayData->list[0] = syncData0;
 		arrayData->list[1] = syncData1;

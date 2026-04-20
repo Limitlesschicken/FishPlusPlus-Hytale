@@ -44,7 +44,11 @@ public:
 	void SelectNextChest();
 	void SelectPrevChest();
 	void OpenSelectedChest();
+	void ClearChests();
 	void SaveChests();
 	void LoadChests();
 	void RemoveCurrentChest();
+	void SaveChests(const std::string& listName);
+	void LoadChests(const std::string& listName);
+	void ShowChestLists();
 };

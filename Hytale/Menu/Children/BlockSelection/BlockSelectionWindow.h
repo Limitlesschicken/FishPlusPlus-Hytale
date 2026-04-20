@@ -89,7 +89,7 @@ private:
 
 class SingleSelection : public Component {
 public:
-	SingleSelection(BlockSelection selection, std::vector<std::string>& categories) : selection(selection), categories(categories) {
+	SingleSelection(BlockSelection selection, std::vector<std::string>& categories, BlockSelectionScreen* setting) : selection(selection), categories(categories), screen(screen) {
 		this->SetWidth(1000.0f);
 		this->SetHeight(30.0f);
 	};
@@ -100,6 +100,7 @@ public:
 	void MouseClicked(float mouseX, float mouseY, int vk);
 
 	bool hovered = false;
+	BlockSelectionScreen* screen;
 	BlockSelection selection;
 
 private:

@@ -15,7 +15,7 @@ BlockSelectionScreen::BlockSelectionScreen(Setting<std::vector<BlockResult>>* se
 	auto* s = static_cast<BlockSetting*>(setting);
 	this->setting = s;
 	for (const OfflineBlock& block : VANILLA_BLOCKS) {
-		this->selections.emplace_back(BlockSelection((std::string)block.name, s->defaultCategory), s->categories);
+		this->selections.emplace_back(BlockSelection((std::string)block.name, s->defaultCategory), s->categories, this);
 	}
 
 	this->searchBar = std::make_unique<SearchBar>();
@@ -263,7 +263,7 @@ void SingleSelection::MouseClicked(float mouseX, float mouseY, int vk) {
 	
 	this->selection.category = this->categories.at(currentCategoryIndex);
 
-	//this->screen->SyncToSetting();
+	this->screen->SyncToSetting();
 }
 
 void ApplyButton::Render(double deltaTime) {

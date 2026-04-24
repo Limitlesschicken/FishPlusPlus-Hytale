@@ -8,6 +8,8 @@ void NoDeath::Initialize() {
 void NoDeath::OnPacketRecieved(Object* packet, PacketIndex& index, bool& cancel) { 
 	if (index == PlayAnimation_S2C) {
 		HytaleString* animName = *(HytaleString**)((uint64_t)packet + 0x10);
+		if (!animName)
+			return;
 		uint64_t animHash = Hash::Hash(animName->getString());
 		constexpr uint64_t laydownHash = "Laydown"_hash;
 		constexpr uint64_t sleepHash = "Sleep"_hash;

@@ -3,6 +3,7 @@
  */
 #pragma once
 #include "Feature.h"
+#include "HudFeature.h"
 
 namespace FeatureHandler {
 	inline std::vector<std::unique_ptr<Feature>> features;

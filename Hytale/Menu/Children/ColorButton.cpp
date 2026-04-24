@@ -24,10 +24,7 @@ void ColorButton::Render(double deltaTime) {
 	auto* s = static_cast<ColorSetting*>(this->setting);
 
 	m_hoverAlpha += (m_hovered ? 50.0f : -50.0f) * fastDeltaTime;
-	if (m_hoverAlpha > Style::featureHoverColor.a)
-		m_hoverAlpha = Style::featureHoverColor.a;
-	if (m_hoverAlpha < 0)
-		m_hoverAlpha = 0;
+	m_hoverAlpha = m_hoverAlpha > Style::featureHoverColor.a ? Style::featureHoverColor.a : (m_hoverAlpha < 0 ? 0 : m_hoverAlpha);
 
 	Color topColor = Color(Style::featureHoverColor.r, Style::featureHoverColor.g, Style::featureHoverColor.b, m_hoverAlpha);
 	Color bottomColor = Color(Style::featureHoverGradColor.r, Style::featureHoverGradColor.g, Style::featureHoverGradColor.b, m_hoverAlpha);

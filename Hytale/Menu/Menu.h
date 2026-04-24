@@ -19,6 +19,7 @@ public:
 
 	static inline std::unique_ptr<Component> mainComponent;
 	static inline std::unique_ptr<Component> hudComponent;
+	static inline std::unique_ptr<Component> hudTabComponent;
 
 	static inline Component* currentComponent ;
 	static inline Component* prevComponent;

@@ -167,6 +167,9 @@
     <ClCompile Include="external\minhook\hde\hde64.c" />
     <ClCompile Include="external\minhook\hook.c" />
     <ClCompile Include="external\minhook\trampoline.c" />
+    <ClCompile Include="Features\ActualFeatures\Hud\FeatureList.cpp" />
+    <ClCompile Include="Features\ActualFeatures\Hud\Position.cpp" />
+    <ClCompile Include="Features\ActualFeatures\Hud\WaterMark.cpp" />
     <ClCompile Include="Features\ActualFeatures\NoDeath.cpp" />
     <ClCompile Include="Features\ActualFeatures\HitBox.cpp" />
     <ClCompile Include="Features\ActualFeatures\ItemMagnet.cpp" />
@@ -185,6 +188,7 @@
     <ClCompile Include="Features\ActualFeatures\NoFall.cpp" />
     <ClCompile Include="Features\ActualFeatures\Gamemode.cpp" />
     <ClCompile Include="Features\ActualFeatures\Speed.cpp" />
+    <ClCompile Include="Features\ActualFeatures\Hud.cpp" />
     <ClCompile Include="Hooks\GCPatch.cpp" />
     <ClCompile Include="Hooks\HookedMethods\DoMoveCycle.cpp" />
     <ClCompile Include="Hooks\HookedMethods\DrawEntityCharactersAndItems.cpp" />
@@ -209,6 +213,7 @@
     <ClCompile Include="Menu\Children\SliderButton.cpp" />
     <ClCompile Include="Menu\Children\ToggleButton.cpp" />
     <ClCompile Include="Menu\Component.cpp" />
+    <ClCompile Include="Menu\Children\HudElement.cpp" />
     <ClCompile Include="Menu\Menu.cpp" />
     <ClCompile Include="Menu\Children\Tab.cpp" />
     <ClCompile Include="Renderer\FontRenderer\FontLoader.cpp" />
@@ -345,6 +350,10 @@
     <ClInclude Include="external\minhook\trampoline.h" />
     <ClInclude Include="external\nhollman\json.hpp" />
     <ClInclude Include="external\nlohman\json.hpp" />
+    <ClInclude Include="Features\ActualFeatures\Hud.h" />
+    <ClInclude Include="Features\ActualFeatures\Hud\FeatureList.h" />
+    <ClInclude Include="Features\ActualFeatures\Hud\Position.h" />
+    <ClInclude Include="Features\ActualFeatures\Hud\WaterMark.h" />
     <ClInclude Include="Features\ActualFeatures\NoDeath.h" />
     <ClInclude Include="Features\ActualFeatures\HitBox.h" />
     <ClInclude Include="Features\ActualFeatures\ItemMagnet.h" />
@@ -355,6 +364,7 @@
     <ClInclude Include="Features\ActualFeatures\WorldModulate.h" />
     <ClInclude Include="Features\ConfigHandler.h" />
     <ClInclude Include="Features\Feature.h" />
+    <ClInclude Include="Features\HudFeature.h" />
     <ClInclude Include="Features\Setting.h" />
     <ClInclude Include="Features\Settings\BlockSelection\BlockSelection.h" />
     <ClInclude Include="Features\Settings\BlockSelection\BlockSetting.h" />
@@ -376,6 +386,7 @@
     <ClInclude Include="Hooks\Hooks.h" />
     <ClInclude Include="Menu\Children\BlockSelection\BlockSelectionButton.h" />
     <ClInclude Include="Menu\Children\BlockSelection\BlockSelectionWindow.h" />
+    <ClInclude Include="Menu\Children\HudElement.h" />
     <ClInclude Include="sdk\BaseDataTypes\Object.h" />
     <ClInclude Include="sdk\Hytale\BuildInfo.h" />
     <ClInclude Include="sdk\Hytale\ClientRootInteraction.h" />

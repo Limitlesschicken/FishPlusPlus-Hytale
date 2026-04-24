@@ -35,6 +35,7 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 Menu::Menu() {
     mainComponent = std::make_unique<Component>();
     hudComponent = std::make_unique<Component>();
+    hudTabComponent = std::make_unique<Component>();
 
     currentComponent = mainComponent.get();
 }
@@ -139,6 +140,8 @@ void Menu::Run(double deltaTime) {
     bool rbuttonDown = GetAsyncKeyState(VK_RBUTTON);
 
     //CallComponentFuncs(deltaTime, hudComponent.get());
+
+	CallComponentFuncs(deltaTime, hudComponent.get());
 
     if (Menu::isMenuOpen()) {
         if (this->currentComponent) {

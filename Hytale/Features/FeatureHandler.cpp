@@ -22,6 +22,10 @@
 #include "ActualFeatures/RemoteChest.h"
 #include "ActualFeatures/NoDeath.h"
 #include "ActualFeatures/NoMapClear.h"
+#include "ActualFeatures/Hud.h"
+#include "ActualFeatures/Hud/WaterMark.h"
+#include "ActualFeatures/Hud/Position.h"
+#include "ActualFeatures/Hud/FeatureList.h"
 
 void InitFeature(std::unique_ptr<Feature> feature, std::string tab) {
 	feature->setCategory(tab);
@@ -53,11 +57,22 @@ void FeatureHandler::Init() {
 
 	//InitFeature(std::make_unique<ItemMagnet>(), "Misc");
 
+	InitFeature(std::make_unique<Hud>(), "Client");
+
+
+	//HUD Features
+	InitFeature(std::make_unique<WaterMark>(), "Hud");
+	InitFeature(std::make_unique<PositionHud>(), "Hud");
+	InitFeature(std::make_unique<FeatureList>(), "Hud");
+
 	Menu::mainComponent->AddChild(std::make_unique<Tab>("Combat", 200, 200));
 	Menu::mainComponent->AddChild(std::make_unique<Tab>("Movement", 460, 200));
 	Menu::mainComponent->AddChild(std::make_unique<Tab>("Visuals", 720, 200));
 	Menu::mainComponent->AddChild(std::make_unique<Tab>("Misc", 980, 200));
+	Menu::mainComponent->AddChild(std::make_unique<Tab>("Client", 1240, 200));
 	//Menu::mainComponent->AddChild(std::make_unique<Tab>("Misc", 830, 200, 300));
+
+	Menu::hudTabComponent->AddChild(std::make_unique<Tab>("Hud", 200, 200));
 }
 
 bool FeatureHandler::FeaturesLoaded() {

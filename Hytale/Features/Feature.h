@@ -24,6 +24,11 @@ concept HasRender3D = requires(T t, Renderer3D& renderer) {
 };
 
 template<typename T>
+concept HasRender2D = requires(T t) {
+	t->OnRender2D();
+};
+
+template<typename T>
 concept HasPacketRecieve = requires(T t, Object* packet, PacketIndex& index, bool& cancel) {
 	t->OnPacketRecieved(packet, index, cancel);
 };
@@ -58,6 +63,13 @@ public:
 			EventRegister::DoMoveCycleEvent.Subscribe([feature](DefaultMovementController* dmc, Vector3& dir) {
 				if (feature->IsActive() && feature->CanExecute())
 					feature->OnMoveCycle(dmc, dir);
+				});
+		}
+
+		if constexpr (HasRender2D<T>) {
+			EventRegister::Render2DEvent.Subscribe([feature]() {
+				if (feature->IsActive() && feature->CanExecute())
+					feature->OnRender2D();
 				});
 		}
 
@@ -116,7 +128,7 @@ public:
 
 	void setCategory(std::string category);
 	
-private:
+protected:
 	bool active;
 	SDL_Scancode keybind = SDL_SCANCODE_UNKNOWN;
 	std::string m_name;

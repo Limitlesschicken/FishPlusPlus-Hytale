@@ -38,8 +38,11 @@ void addSetting(nlohmann::json& json, ISetting* setting) {
 		json[setting->GetName()] = multiSetting->GetValue();
 	else if (auto sliderSetting = dynamic_cast<SliderSetting*>(setting))
 		json[setting->GetName()] = sliderSetting->GetValue();
-	else if (auto keybindSetting = dynamic_cast<KeybindSetting*>(setting))
+	else if (auto keybindSetting = dynamic_cast<KeybindSetting*>(setting)) {
+		if (keybindSetting->GetName() == "Keybind")
+			return;
 		json[setting->GetName()] = keybindSetting->GetValue();
+	}
 	else if (auto colorSetting = dynamic_cast<ColorSetting*>(setting)) {
 		Color c = colorSetting->GetValue();
 		json[setting->GetName()] = { {"r", c.r}, {"g", c.g}, {"b", c.b}, {"a", c.a}};
@@ -75,6 +78,17 @@ void ConfigHandler::SaveConfig(std::string name, bool inConfigDirectory) {
 
 		for (auto& setting : feature->GetSettings()) {
 			addSetting(jsonFeature, setting.get());
+		}
+
+		if (feature->GetCategory() == "Hud") {
+			HudFeature* hudFeature = static_cast<HudFeature*>(feature.get());
+			jsonFeature["position"] = {
+				{"x", hudFeature->GetElement()->GetX()},
+				{"y", hudFeature->GetElement()->GetY()},
+				{"width", hudFeature->GetElement()->GetWidth()},
+				{"height", hudFeature->GetElement()->GetHeight()}
+			};
+
 		}
 	}
 
@@ -137,6 +151,18 @@ void ConfigHandler::LoadConfig(std::string name, bool inConfigDirectory) {
 			KeybindSetting* keybindSetting = static_cast<KeybindSetting*>(feature->GetSettingFromName("Keybind"));
 			if (keybindSetting)
 				keybindSetting->SetValue(featureData.value("keybind", SDL_SCANCODE_UNKNOWN));
+
+			if (feature->GetCategory() == "Hud") {
+				HudFeature* hudFeature = static_cast<HudFeature*>(feature);
+				if (featureData.contains("position")) {
+					hudFeature->GetElement()->LoadConfigPosition(
+						featureData["position"].value("x", 0),
+						featureData["position"].value("y", 0),
+						featureData["position"].value("width", 0),
+						featureData["position"].value("height", 0)
+					);
+				}
+			}
 
 			for (auto& [settingName, settingData] : featureData.items()) {
 				if (settingName == "enabled")

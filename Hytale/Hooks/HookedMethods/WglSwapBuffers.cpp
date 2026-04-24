@@ -77,6 +77,8 @@ BOOL WINAPI Hooks::hkWglSwapBuffers(HDC hdc) {
 
     menu->Run(deltaTime);
 
+    EventRegister::Render2DEvent.Invoke();
+
     InputSystem::Reset();
 
 

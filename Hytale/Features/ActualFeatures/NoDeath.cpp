@@ -1,7 +1,7 @@
 #include "NoDeath.h"
 
 void NoDeath::Initialize() {
-	Util::log("Initialized NoDeath feature\n");
+	Util::log("Initialized NoDeath feature");
 	RegisterEvent(this);
 }
 

@@ -7,7 +7,7 @@
 #include "Features/HudFeature.h"
 
 void HudElement::Render(double deltaTime) {
-	if (!this->parentFeature->IsActive())
+	if (!ShouldInteract())
 		return;
 	double fastDeltaTime = deltaTime * 20.0;
 	hoverAlpha += (hovered ? 50.0f : -50.0f) * fastDeltaTime;
@@ -17,7 +17,7 @@ void HudElement::Render(double deltaTime) {
 	Renderer2D::colored->Render();
 }
 void HudElement::Update(float mouseX, float mouseY) {
-	if (!this->parentFeature->IsActive())
+	if (!ShouldInteract())
 		return;
 	this->hovered = this->IsHovered(mouseX, mouseY);
 
@@ -46,7 +46,7 @@ void HudElement::Update(float mouseX, float mouseY) {
 		this->SetY(Util::app->Engine->Window->WindowHeight - this->GetHeight());
 }
 void HudElement::MouseClicked(float mouseX, float mouseY, int virtualKeyCode) {
-	if (!this->parentFeature->IsActive())
+	if (!ShouldInteract())
 		return;
 
 	if (!hovered)
@@ -57,13 +57,13 @@ void HudElement::MouseClicked(float mouseX, float mouseY, int virtualKeyCode) {
 	}
 }
 void HudElement::MouseReleased(float mouseX, float mouseY, int virtualKeyCode) {
-	if (!this->parentFeature->IsActive())
+	if (!ShouldInteract())
 		return;
 
 	dragging = false;
 }
 void HudElement::MouseDragged(float mouseX, float mouseY, int virtualKeyCode, float deltaX, float deltaY) {
-	if (!this->parentFeature->IsActive())
+	if (!ShouldInteract())
 		return;
 
 	if (dragging && virtualKeyCode == VK_LBUTTON) {
@@ -83,4 +83,18 @@ void HudElement::LoadConfigPosition(float x, float y, float width, float height)
 		this->SetY(y - (this->GetHeight() - height));
 	else
 		this->SetY(y);
+}
+
+bool HudElement::ShouldInteract() {
+	if (!this->parentFeature->IsActive()) {
+		this->hoverAlpha = 0;
+		return false;
+	}
+
+	if (Menu::currentComponent != Menu::hudTabComponent.get()) {
+		this->hoverAlpha = 0;
+		return false;
+	}
+
+	return true;
 }

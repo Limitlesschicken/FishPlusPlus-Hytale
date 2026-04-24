@@ -32,6 +32,9 @@ public:
 
 	bool allowDynamicResize = true;
 private:
+
+	bool ShouldInteract();
+
 	HudFeature* parentFeature;
 
 	float hoverAlpha = 0;

@@ -43,8 +43,12 @@ std::vector<EntityData> getEntities(Entity* localPlayer) {
 		EntityData data;
 		data.entityPtr = entity;
 		data.player = entity->IsAPlayer();
-		if (data.player)
-			data.name = entity->Name->getString();
+		if (data.player) {
+			if (entity->Name)
+				data.name = entity->Name->getString();
+			else
+				data.name = "Unknown";
+		}
 		else if (Util::IsValidPtr(assetStruct)) {
 			HytaleString* entityString = assetStruct->entityString;
 			data.name = entityString->getString();

@@ -2,32 +2,38 @@
  * Copyright (c) FishPlusPlus.
  */
 
-#include "FeatureList.h"
-
-#include <algorithm>
+#include "PlayerList.h"
 
 #include "Renderer/FontRenderer/Fonts.h"
-#include "../../FeatureHandler.h"
 
-FeatureList::FeatureList() : HudFeature("FeatureList") {
-	this->onlyBound = RegisterSetting<ToggleSetting>("Only Bound", false);
-};
+PlayerList::PlayerList() : HudFeature("PlayerList") {
+	this->distance = RegisterSetting<ToggleSetting>("Distance", false);
+}
 
-void FeatureList::OnRender2D() {
-
+void PlayerList::OnRender2D() {
 	std::vector<std::string> list;
 
-	for (const auto& feature : FeatureHandler::features) {
-		if (!feature->IsActive())
+	if (Util::app->Stage != AppStage::InGame) {
+		this->GetElement()->SetSize(Fonts::Figtree->getWidth("PlayerList") + 6, Fonts::Figtree->getHeight() + 6);
+		Fonts::Figtree->RenderText("PlayerList", this->GetElement()->GetX() + 3, this->GetElement()->GetY() + 6, 1, Color::Normalize(Style::headerColor));
+		return;
+	}
+
+
+	
+	for (EntityData entity : SDK::entities) {
+		if (!entity.player)
 			continue;
 
-		if (feature->GetCategory() == "Hud")
+		if (entity.isLocalPlayer)
 			continue;
 
-		if (this->onlyBound->GetValue() && feature->GetKeybind() == SDL_SCANCODE_UNKNOWN)
-			continue;
-
-		list.push_back(feature->GetName());
+		if (this->distance->GetValue()) {
+			float dist = (Util::getLocalPlayer()->Position - entity.position).length();
+			list.push_back(entity.name + " [" + std::to_string((int)dist) + "m]");
+		}
+		else
+			list.push_back(entity.name);
 	}
 
 	if (list.empty())
@@ -47,6 +53,7 @@ void FeatureList::OnRender2D() {
 
 	this->GetElement()->SetSize(Fonts::Figtree->getWidth(isOnTop ? list[0] : list.back()) + 6, Fonts::Figtree->getHeight() * list.size() + 6);
 
+
 	for (size_t i = 0; i < list.size(); i++) {
 		if (this->GetElement()->GetX() + this->GetElement()->GetWidth() / 2 < Util::app->Engine->Window->WindowWidth / 2)
 			Fonts::Figtree->RenderText(list[i], this->GetElement()->GetX() + 3, this->GetElement()->GetY() + 6 + (i * Fonts::Figtree->getHeight()), 1, Color::Normalize(Style::headerColor));
@@ -56,11 +63,9 @@ void FeatureList::OnRender2D() {
 				this->GetElement()->GetY() + 6 + (i * Fonts::Figtree->getHeight()),
 				1, Color::Normalize(Style::headerColor));
 	}
-
-	
 }
 
-void FeatureList::Initialize() {
-	Util::log("Initialized FeatureList feature");
+void PlayerList::Initialize() {
+	Util::log("Initialized PlayerList feature");
 	RegisterEvent(this);
 }

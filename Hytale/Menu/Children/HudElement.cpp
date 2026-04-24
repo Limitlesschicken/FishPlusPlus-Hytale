@@ -16,25 +16,27 @@ void HudElement::Render(double deltaTime) {
 	Renderer2D::colored->Square(Vector2(this->GetX(), this->GetY()), this->GetWidth(), this->GetHeight(), Color::Normalize(Color(255, 255, 255, hoverAlpha)));
 	Renderer2D::colored->Render();
 }
-void HudElement::Update(float mouseX, float mouseY) {
-	if (!ShouldInteract())
-		return;
-	this->hovered = this->IsHovered(mouseX, mouseY);
 
+void HudElement::SetSize(float width, float height) {
 	if (this->allowDynamicResize) {
 		bool isTopSide = this->GetY() + this->GetHeight() / 2 < Util::app->Engine->Window->WindowHeight / 2;
 		bool isRightSide = this->GetX() + this->GetWidth() / 2 > Util::app->Engine->Window->WindowWidth / 2;
 
 		if (isRightSide)
-			this->resizeLeft = true;
-		else
-			this->resizeLeft = false;
+			this->SetX(this->GetX() - (width - this->GetWidth()));
 
-		if (isTopSide)
-			this->resizeUp = false;
-		else
-			this->resizeUp = true;
+		if (!isTopSide)
+			this->SetY(this->GetY() - (height - this->GetHeight()));
 	}
+
+	this->SetWidth(width);
+	this->SetHeight(height);
+}
+
+void HudElement::Update(float mouseX, float mouseY) {
+	if (!ShouldInteract())
+		return;
+	this->hovered = this->IsHovered(mouseX, mouseY);
 
 	if (this->GetX() < 0)
 		this->SetX(0);

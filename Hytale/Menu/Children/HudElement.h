@@ -13,14 +13,7 @@ public:
 		this->parentFeature = feature;
 	}
 
-	void SetSize(float width, float height) {
-		if (resizeLeft)
-			this->SetX(this->GetX() - (width - this->GetWidth()));
-		if (resizeUp)
-			this->SetY(this->GetY() - (height - this->GetHeight()));
-		this->SetWidth(width);
-		this->SetHeight(height);
-	}
+	void SetSize(float width, float height);
 
 	void Render(double deltaTime) override;
 	void Update(float mouseX, float mouseY) override;
@@ -40,7 +33,4 @@ private:
 	float hoverAlpha = 0;
 	bool hovered = false;
 	bool dragging = false;
-
-	bool resizeLeft = false;
-	bool resizeUp = false;
 };

@@ -7,12 +7,12 @@
 
 #include "../../Settings/ToggleSetting.h"
 
-class FeatureList : public HudFeature {
+class PlayerList : public HudFeature {
 public:
-	FeatureList();
+	PlayerList();
 	void OnRender2D();
 
 	void Initialize() override;
 
-	ToggleSetting* onlyBound;
+	ToggleSetting* distance;
 };

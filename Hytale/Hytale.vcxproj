@@ -168,6 +168,7 @@
     <ClCompile Include="external\minhook\hook.c" />
     <ClCompile Include="external\minhook\trampoline.c" />
     <ClCompile Include="Features\ActualFeatures\Hud\FeatureList.cpp" />
+    <ClCompile Include="Features\ActualFeatures\Hud\PlayerList.cpp" />
     <ClCompile Include="Features\ActualFeatures\Hud\Position.cpp" />
     <ClCompile Include="Features\ActualFeatures\Hud\WaterMark.cpp" />
     <ClCompile Include="Features\ActualFeatures\NoDeath.cpp" />
@@ -352,6 +353,7 @@
     <ClInclude Include="external\nlohman\json.hpp" />
     <ClInclude Include="Features\ActualFeatures\Hud.h" />
     <ClInclude Include="Features\ActualFeatures\Hud\FeatureList.h" />
+    <ClInclude Include="Features\ActualFeatures\Hud\PlayerList.h" />
     <ClInclude Include="Features\ActualFeatures\Hud\Position.h" />
     <ClInclude Include="Features\ActualFeatures\Hud\WaterMark.h" />
     <ClInclude Include="Features\ActualFeatures\NoDeath.h" />

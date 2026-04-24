@@ -26,6 +26,7 @@
 #include "ActualFeatures/Hud/WaterMark.h"
 #include "ActualFeatures/Hud/Position.h"
 #include "ActualFeatures/Hud/FeatureList.h"
+#include "ActualFeatures/Hud/PlayerList.h"
 
 void InitFeature(std::unique_ptr<Feature> feature, std::string tab) {
 	feature->setCategory(tab);
@@ -64,6 +65,7 @@ void FeatureHandler::Init() {
 	InitFeature(std::make_unique<WaterMark>(), "Hud");
 	InitFeature(std::make_unique<PositionHud>(), "Hud");
 	InitFeature(std::make_unique<FeatureList>(), "Hud");
+	InitFeature(std::make_unique<PlayerList>(), "Hud");
 
 	Menu::mainComponent->AddChild(std::make_unique<Tab>("Combat", 200, 200));
 	Menu::mainComponent->AddChild(std::make_unique<Tab>("Movement", 460, 200));

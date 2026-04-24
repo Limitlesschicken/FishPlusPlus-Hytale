@@ -22,9 +22,18 @@ Inject with a LoadLibrary injector or manual map injector such as extreme inject
 
 ## Commands
 Theres a couple of different commands you can use. Just type these in the chat like shown with your input inbetween <>  
-!tp \<x\> \<y\> \<z\>  
-!config save \<name\>  
-!config load \<name\>  
+!tp \<x\> \<y\> \<z\>     Teleports to coordinate
+!rtp \<x\> \<y\> \<z\>    Relative tp to the player position
+!config save \<name\>     Saves config to file
+!config load \<name\>     Loads config from file
+!rename \<New name\>      Renames currently loaded remote chest
+!delchest                 Deletes currently loaded remote chest
+!savechests               Saves remote chests to file
+!loadchests               Loads remote chests from file
+!listchests               Lists loaded remote chests
+!clearchests              Clears loaded remote chests
+
+
 
 Configs are stored in your Hytale game folder usually in  
 >AppData\Roaming\Hytale\install\release\package\game\latest\Client\Fish++

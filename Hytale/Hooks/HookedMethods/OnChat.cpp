@@ -21,6 +21,18 @@ void tpCommand(std::string command) {
     }
 }
 
+void rtpCommand(std::string command) {
+	std::istringstream iss(command);
+	float x;
+	float y;
+	float z;
+	if (iss >> x >> y >> z) {
+		Entity* player = Util::getLocalPlayer();
+		HookData::queueTeleport = true;
+		HookData::teleportTarget = Vector3(player->Position.x + x, player->Position.y + y, player->Position.z + z);
+	}
+}
+
 void configCommand(std::string command) {
 	if (command.starts_with("save ")) {
 		std::string name = command.substr(5);
@@ -122,6 +134,9 @@ void __fastcall Hooks::hkOnChat(uint64_t instance, HytaleString* chatString) {
 
 	if (command.starts_with("tp "))
 		tpCommand(command.substr(3));
+
+	if (command.starts_with("rtp "))
+		rtpCommand(command.substr(4));
 
 	else if (command.starts_with("config "))
 		configCommand(command.substr(7));

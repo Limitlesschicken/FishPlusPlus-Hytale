@@ -82,8 +82,7 @@ void* __fastcall Hooks::hkSocketSend(void* instance, void* error, void* byteArra
 void __fastcall Hooks::hktemp(void* instance, void* object) {
 	HytaleString* name = Util::ObjectToString(object);
 	std::string nameStr = name ? name->getString() : "nullptr";
-	constexpr uint64_t nameHash = Hash::Hash("Hytale.Protocol.Packets.Interaction.SyncInteractionChains");
-    if (Hash::Hash(nameStr) == nameHash) {
+    if (Hash::Hash(nameStr) == "Hytale.Protocol.Packets.Interaction.SyncInteractionChains"_hash) {
 		SyncInteractionChainsPacket* packet = (SyncInteractionChainsPacket*) object;
 		//packet->DBGPrint();
 	}

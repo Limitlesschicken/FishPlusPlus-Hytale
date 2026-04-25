@@ -5,7 +5,7 @@
 
 #include <string>
 
-static const std::string CITY_FRAG = R"(#version 330 core
+static constexpr const char* CITY_FRAG = R"(#version 330 core
 
 in vec2 v_TexCoord;
 in vec2 v_OneTexel;
@@ -557,7 +557,7 @@ void main(void) {
     FragColor = vec4(color, 1.0);
 })";
 
-static const std::string FRACTAL_FRAG = R"(#version 330 core
+static constexpr const char* FRACTAL_FRAG = R"(#version 330 core
 
 in vec2 v_TexCoord;
 in vec2 v_OneTexel;
@@ -628,7 +628,7 @@ void main()
 }
 )";
 
-static const std::string HAPPY_FRAG = R"(#version 330 core
+static constexpr const char* HAPPY_FRAG = R"(#version 330 core
 
 //https://www.shadertoy.com/view/XsBXWt
 
@@ -851,7 +851,7 @@ void main()
 	FragColor = vec4(color,1.);
 })";
 
-static const std::string MOBIUS_SPHERE_FRAG = R"(#version 330 core
+static constexpr const char* MOBIUS_SPHERE_FRAG = R"(#version 330 core
 
 //https://www.shadertoy.com/view/7fl3DX
 
@@ -1546,7 +1546,7 @@ void main() {
 }
 )";
 
-static const std::string HEXAGON_FRAG = R"(#version 330 core
+static constexpr const char* HEXAGON_FRAG = R"(#version 330 core
 
 //https://www.shadertoy.com/view/fsdcz7
 
@@ -1820,7 +1820,7 @@ void main(){
     
 })";
 
-static const std::string BUBBLE_FRAG = R"(#version 330 core
+static constexpr const char* BUBBLE_FRAG = R"(#version 330 core
 
 //https://www.shadertoy.com/view/WdB3Dw
 

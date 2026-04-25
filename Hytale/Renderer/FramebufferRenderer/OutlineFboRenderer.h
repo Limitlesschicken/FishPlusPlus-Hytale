@@ -11,6 +11,7 @@ public:
 		Color outlineColor;
 		bool glow;
 		int glowSize;
+		bool wave;
 	};
 
 	OutlineFboRenderer();

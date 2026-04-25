@@ -59,8 +59,9 @@ void __fastcall Hooks::hkDrawPostEffect(GameInstance* instance) {
             bool glow = static_cast<ToggleSetting*>(entities->GetSettingFromName("Glow"))->GetValue();
             float glowSize = static_cast<SliderSetting*>(entities->GetSettingFromName("Glow Size"))->GetValue();
             Color color = static_cast<ColorSetting*>(entities->GetSettingFromName("Color"))->GetValue();
+            bool wave = static_cast<ToggleSetting*>(entities->GetSettingFromName("Wave"))->GetValue();
 
-            OutlineFboRenderer::OutlineUniforms uniforms(Color::Normalize(color), glow, (int)glowSize);
+            OutlineFboRenderer::OutlineUniforms uniforms(Color::Normalize(color), glow, (int)glowSize, wave);
             FrameBuffers::entityOutlineFBO->setupPass(uniforms);
             FrameBuffers::entityOutlineFBO->draw();
         }
@@ -69,8 +70,9 @@ void __fastcall Hooks::hkDrawPostEffect(GameInstance* instance) {
             bool glow = static_cast<ToggleSetting*>(items->GetSettingFromName("Glow"))->GetValue();
             float glowSize = static_cast<SliderSetting*>(items->GetSettingFromName("Glow Size"))->GetValue();
             Color color = static_cast<ColorSetting*>(items->GetSettingFromName("Color"))->GetValue();
+			bool wave = static_cast<ToggleSetting*>(items->GetSettingFromName("Wave"))->GetValue();
 
-            OutlineFboRenderer::OutlineUniforms uniforms(Color::Normalize(color), glow, (int)glowSize);
+            OutlineFboRenderer::OutlineUniforms uniforms(Color::Normalize(color), glow, (int)glowSize, wave);
             FrameBuffers::itemOutlineFBO->setupPass(uniforms);
             FrameBuffers::itemOutlineFBO->draw();
         }

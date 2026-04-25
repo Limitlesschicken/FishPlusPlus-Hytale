@@ -12,6 +12,7 @@
 class Renderer2D {
 public:
 	static inline std::unique_ptr<Renderer2D> colored;
+	static inline std::unique_ptr<Renderer2D> menuShaders;
 	static inline std::unique_ptr<Renderer2D> alphaChecker;
 	static inline std::unique_ptr<Renderer2D> hue;
 	std::unique_ptr<Mesh> lines = nullptr;
@@ -30,8 +31,12 @@ public:
 
 	void Line(Vector2 p1, Vector2 p2, Color color);
 
+	void ChangeShader(Shader* shader) {
+		this->shader = shader;
+	}
+
 	virtual void Render();
-private:
+protected:
 
 	Shader* shader;
 };

@@ -189,6 +189,9 @@ void SDK::Reset() {
 }
 
 void SDK::Main() {
+
+	Util::frameCount++;
+
 	if (Menu::isMenuOpen() && Util::app->Engine->Window->IsCursorHidden) {
 		setCursorHidden(false);
 	}

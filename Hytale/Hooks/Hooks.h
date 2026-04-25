@@ -101,5 +101,11 @@ namespace Hooks {
     inline SocketSend oSocketSend = nullptr;
     extern void* __fastcall hkSocketSend(void* instance, void* error, void* byteArray, char socketFlags, void* param5);
 
+    typedef void(__fastcall* MainMenuPostEffectRendererDraw)(AppMainMenu* instance, int a2, int a3, int a4, int a5, int a6, void* a7);
+    inline MainMenuPostEffectRendererDraw oMainMenuPostEffectRendererDraw = nullptr;
+    extern void __fastcall hkMainMenuPostEffectRendererDraw(AppMainMenu* instance, int a2, int a3, int a4, int a5, int a6, void* a7);
+
+
+
 	bool CreateHooks();
 };    

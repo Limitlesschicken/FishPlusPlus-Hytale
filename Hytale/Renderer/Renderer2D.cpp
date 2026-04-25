@@ -5,6 +5,7 @@
 
 #include "SpecialRenderers/AlphaCheckerRenderer.h"
 #include "SpecialRenderers/HueRenderer.h"
+#include "SpecialRenderers/MenuRenderer.h"
 
 #include "core.h"
 
@@ -21,6 +22,7 @@ void Renderer2D::InitRenderer() {
 	Renderer2D::colored = std::make_unique<Renderer2D>(Shaders::posColor.get());
 	Renderer2D::alphaChecker = std::make_unique<AlphaCheckerRenderer>(Shaders::alphaChecker.get());
 	Renderer2D::hue = std::make_unique<HueRenderer>(Shaders::hue.get());
+	Renderer2D::menuShaders = std::make_unique<MenuRenderer>(Shaders::city.get());
 }
 
 void Renderer2D::BeginScissor(float x, float y, float width, float height) {

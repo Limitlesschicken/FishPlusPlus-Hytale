@@ -27,6 +27,7 @@
 #include "ActualFeatures/Hud/Position.h"
 #include "ActualFeatures/Hud/FeatureList.h"
 #include "ActualFeatures/Hud/PlayerList.h"
+#include "ActualFeatures/MainMenuEffect.h"
 
 void InitFeature(std::unique_ptr<Feature> feature, std::string tab) {
 	feature->setCategory(tab);
@@ -44,7 +45,7 @@ void FeatureHandler::Init() {
 	InitFeature(std::make_unique<Speed>(), "Movement");
 	InitFeature(std::make_unique<NoFall>(), "Movement");
 	InitFeature(std::make_unique<Scaffold>(), "Movement");
-	InitFeature(std::make_unique<Gamemode>(), "Movement");
+	
 
 	InitFeature(std::make_unique<ESP>(), "Visuals");
 	InitFeature(std::make_unique<Nametags>(), "Visuals");
@@ -54,11 +55,13 @@ void FeatureHandler::Init() {
 	InitFeature(std::make_unique<Tracers>(), "Visuals");
 
 	InitFeature(std::make_unique<RemoteChest>(), "Misc");
+	InitFeature(std::make_unique<Gamemode>(), "Misc");
 	//InitFeature(std::make_unique<NoMapClear>(), "Misc");
 
 	//InitFeature(std::make_unique<ItemMagnet>(), "Misc");
 
 	InitFeature(std::make_unique<Hud>(), "Client");
+	InitFeature(std::make_unique<MainMenuEffect>(), "Client");
 
 
 	//HUD Features

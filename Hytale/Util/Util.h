@@ -36,6 +36,7 @@ namespace Util {
     inline Matrix4x4 viewProjMat;
     inline Matrix4x4 orthoProjMat;
 	inline bool orthoProjMatInitialized = false;
+    inline int frameCount = 0;
 
     inline float cursorPosX = 0;
     inline float cursorPosY = 0;

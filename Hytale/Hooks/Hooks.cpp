@@ -121,6 +121,7 @@ bool Hooks::CreateHooks() {
     CREATE_SIG_HOOK_BY_REF(BuildGeometry, "E8 ? ? ? ? 48 89 7D ? ? ? ? 00 75");
     CREATE_SIG_HOOK_BY_REF(ProcessPacket, "E8 ? ? ? ? 90 48 83 C4 ? 5B 5E C3 48 8D 4C 24");
     CREATE_SIG_HOOK_BY_REF(SocketSend, "E8 ? ? ? ? 0F 10 45 ? 0F 11 45 ? EB ? 48 89 85");
+	CREATE_SIG_HOOK_BY_REF(MainMenuPostEffectRendererDraw, "E8 ? ? ? ? 4C 8B 6D ? 49 8B 5D");
 
     if (MH_CreateHook((LPVOID) SM::SendPacketImmediateAddress, &hktemp, reinterpret_cast<LPVOID*>(&otemp)) != MH_OK) {
         Util::log("Failed to hook %s", "temp"); return false;

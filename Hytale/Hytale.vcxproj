@@ -171,6 +171,8 @@
     <ClCompile Include="Features\ActualFeatures\Hud\PlayerList.cpp" />
     <ClCompile Include="Features\ActualFeatures\Hud\Position.cpp" />
     <ClCompile Include="Features\ActualFeatures\Hud\WaterMark.cpp" />
+    <ClCompile Include="Features\ActualFeatures\MainMenuEffect.cpp" />
+    <ClCompile Include="Features\ActualFeatures\MainMenuEffect.h" />
     <ClCompile Include="Features\ActualFeatures\NoDeath.cpp" />
     <ClCompile Include="Features\ActualFeatures\HitBox.cpp" />
     <ClCompile Include="Features\ActualFeatures\ItemMagnet.cpp" />
@@ -192,6 +194,7 @@
     <ClCompile Include="Features\ActualFeatures\Hud.cpp" />
     <ClCompile Include="Hooks\GCPatch.cpp" />
     <ClCompile Include="Hooks\HookedMethods\DoMoveCycle.cpp" />
+    <ClCompile Include="Hooks\HookedMethods\MainMenuPostEffectRendererDraw.cpp" />
     <ClCompile Include="Hooks\HookedMethods\DrawEntityCharactersAndItems.cpp" />
     <ClCompile Include="Hooks\HookedMethods\DrawPostEffect.cpp" />
     <ClCompile Include="Hooks\HookedMethods\HandleScreenShotting.cpp" />
@@ -389,7 +392,15 @@
     <ClInclude Include="Menu\Children\BlockSelection\BlockSelectionButton.h" />
     <ClInclude Include="Menu\Children\BlockSelection\BlockSelectionWindow.h" />
     <ClInclude Include="Menu\Children\HudElement.h" />
+    <ClInclude Include="Renderer\shaders\AlphaChecker.h" />
+    <ClInclude Include="Renderer\shaders\Hue.h" />
+    <ClInclude Include="Renderer\shaders\MainMenu.h" />
+    <ClInclude Include="Renderer\shaders\PosColor.h" />
+    <ClInclude Include="Renderer\shaders\PostProcess.h" />
+    <ClInclude Include="Renderer\shaders\Text.h" />
+    <ClInclude Include="Renderer\SpecialRenderers\MenuRenderer.h" />
     <ClInclude Include="sdk\BaseDataTypes\Object.h" />
+    <ClInclude Include="sdk\Hytale\AppMainMenu.h" />
     <ClInclude Include="sdk\Hytale\BuildInfo.h" />
     <ClInclude Include="sdk\Hytale\ClientRootInteraction.h" />
     <ClInclude Include="sdk\Hytale\RaycastHit.h" />
@@ -484,10 +495,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="external\imgui-1.92.5\examples\libs\emscripten\shell_minimal.html" />
-    <None Include="Renderer\shaders\frag.frag" />
-    <None Include="Renderer\shaders\text.frag" />
-    <None Include="Renderer\shaders\text.vert" />
-    <None Include="Renderer\shaders\vert.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

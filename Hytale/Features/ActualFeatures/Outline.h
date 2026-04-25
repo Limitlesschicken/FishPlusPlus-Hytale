@@ -17,11 +17,13 @@ public:
 	bool CanExecute() override;
 
 	RecursiveSetting* entities;
+	ToggleSetting* entitiesWave;
 	ToggleSetting* entitiesGlow;
 	SliderSetting* entitiesGlowSize;
 	ColorSetting* entitiesColor;
 
 	RecursiveSetting* items;
+	ToggleSetting* itemsWave;
 	ToggleSetting* itemsGlow;
 	SliderSetting* itemsGlowSize;
 	ColorSetting* itemsColor;

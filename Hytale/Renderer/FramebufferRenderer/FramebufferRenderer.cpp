@@ -73,7 +73,7 @@ void FramebufferRenderer::draw() {
     ValidPtrVoid(Util::app->Engine);
     ValidPtrVoid(Util::app->Engine->Window);
 
-    glBindFramebuffer(GL_FRAMEBUFFER, lastFBO);
+    glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, &lastFBO);
 
     glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &lastVAO);
     glGetIntegerv(GL_CURRENT_PROGRAM, &lastProgram);
@@ -96,12 +96,11 @@ void FramebufferRenderer::draw() {
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture);
 
-    glBindVertexArray(vao);
-    glDrawArrays(GL_TRIANGLES, 0, 6);
-
     this->shader->bind();
     this->shader->set("screenTexture", 0);
-    
+
+    glBindVertexArray(vao);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
 
     glBindFramebuffer(GL_FRAMEBUFFER, lastFBO);
     glUseProgram(lastProgram);

@@ -394,7 +394,13 @@
     <ClInclude Include="Menu\Children\HudElement.h" />
     <ClInclude Include="Renderer\shaders\AlphaChecker.h" />
     <ClInclude Include="Renderer\shaders\Hue.h" />
-    <ClInclude Include="Renderer\shaders\MainMenu.h" />
+    <ClInclude Include="Renderer\shaders\MainMenu\Bubble.h" />
+    <ClInclude Include="Renderer\shaders\MainMenu\City.h" />
+    <ClInclude Include="Renderer\shaders\MainMenu\Fractal.h" />
+    <ClInclude Include="Renderer\shaders\MainMenu\Ghost.h" />
+    <ClInclude Include="Renderer\shaders\MainMenu\Happy.h" />
+    <ClInclude Include="Renderer\shaders\MainMenu\Hexagon.h" />
+    <ClInclude Include="Renderer\shaders\MainMenu\MobiusSphere.h" />
     <ClInclude Include="Renderer\shaders\PosColor.h" />
     <ClInclude Include="Renderer\shaders\PostProcess.h" />
     <ClInclude Include="Renderer\shaders\Text.h" />

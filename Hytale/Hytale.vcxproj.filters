@@ -998,9 +998,6 @@
     <ClInclude Include="Renderer\SpecialRenderers\MenuRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\shaders\MainMenu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer\shaders\PostProcess.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1017,6 +1014,27 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="sdk\Hytale\AppMainMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\shaders\MainMenu\City.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\shaders\MainMenu\Ghost.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\shaders\MainMenu\Fractal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\shaders\MainMenu\Happy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\shaders\MainMenu\MobiusSphere.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\shaders\MainMenu\Hexagon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\shaders\MainMenu\Bubble.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

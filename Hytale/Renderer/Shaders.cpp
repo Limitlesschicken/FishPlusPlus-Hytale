@@ -9,7 +9,13 @@
 #include "shaders/AlphaChecker.h"
 #include "shaders/Hue.h"
 #include "shaders/PostProcess.h"
-#include "shaders/MainMenu.h"
+#include "shaders/MainMenu/Bubble.h"
+#include "shaders/MainMenu/MobiusSphere.h"
+#include "shaders/MainMenu/Hexagon.h"
+#include "shaders/MainMenu/City.h"
+#include "shaders/MainMenu/Ghost.h"
+#include "shaders/MainMenu/Fractal.h"
+#include "shaders/MainMenu/Happy.h"
 
 void Shaders::initShaders() {
     posColor = std::make_unique<Shader>(POSCOLOR_VERT, POSCOLOR_FRAG);

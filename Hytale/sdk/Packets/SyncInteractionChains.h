@@ -112,8 +112,8 @@ struct InteractionSyncData : Object { // Struct from pEric
 	}
 
 	static Array<InteractionSyncData*>* CreateOpenContainerArray(InteractionModule* interaction, BlockPosition* blockPos) {
-		constexpr uint64_t openContainerHash = Hash::Hash("Open_Container");
-		constexpr uint64_t emptyUseHash = Hash::Hash("*Empty_Interactions_Use");
+		auto openContainerHash = "Open_Container"_hash;
+		auto emptyUseHash = "*Empty_Interactions_Use"_hash;
 		InteractionSyncData* syncData0 = CreateInteractionSyncData();
 		syncData0->operation_counter = 0;
 		syncData0->root_interaction = interaction->getInteractionID(emptyUseHash);

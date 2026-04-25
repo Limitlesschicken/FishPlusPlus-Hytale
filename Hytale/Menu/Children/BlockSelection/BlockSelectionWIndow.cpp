@@ -97,7 +97,7 @@ void BlockSelectionScreen::SyncToSetting() {
 		results.push_back({
 			Hash::HashCI(sel.selection.name.c_str()),
 			sel.selection.category
-			});
+		});
 	}
 
 	this->setting->SetValue(results);

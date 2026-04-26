@@ -261,6 +261,8 @@ struct SyncInteractionChainsPacket : Object { // Struct from pEric
 		chain->interaction_type = InteractionType::kInteractionTypeUse;
 		if (player->PrimaryItem && player->PrimaryItem->Id)
 			chain->item_in_hand_id = player->PrimaryItem->Id;
+		if (player->SecondaryItem && player->SecondaryItem->Id)
+			chain->utility_item_id = player->SecondaryItem->Id;
 		chain->active_hotbar_slot = Util::getGameInstance()->InventoryModule->HotbarActiveSlot;
 		chain->active_utility_slot = Util::getGameInstance()->InventoryModule->UtilityActiveSlot;
 		chain->active_tools_slot = -1;

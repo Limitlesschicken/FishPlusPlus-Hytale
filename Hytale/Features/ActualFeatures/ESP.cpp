@@ -34,12 +34,6 @@ void ESP::OnRender3D(Renderer3D& renderer3D) {
 	}
 }
 
-bool ESP::CanExecute() {
-	if (Util::app->Stage != AppStage::InGame)
-		return false;;
-	return true;
-}
-
 void ESP::Initialize() {
 	Util::log("Initialized ESP feature");
 	RegisterEvent(this);

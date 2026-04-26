@@ -16,6 +16,9 @@ public:
 
 	void OnDeactivate() override;
 	void Initialize() override;
+	bool CanExecute() override {
+		return Util::IsInGame();
+	}
 private:
 	ToggleSetting* players;
 	ToggleSetting* mobs;

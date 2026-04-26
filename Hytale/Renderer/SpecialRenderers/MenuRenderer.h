@@ -64,6 +64,12 @@ public:
 			Shaders::bubble->set("u_Size", Vector2((float)Util::app->Engine->Window->WindowWidth, (float)Util::app->Engine->Window->WindowHeight));
 			Shaders::bubble->set("u_Time", (float)t);
 		}
+		else if (MainMenuEffect::currentEffect == MainMenuEffects::Cells) {
+			Renderer2D::ChangeShader(Shaders::cells.get());
+			Shaders::cells->bind();
+			Shaders::cells->set("u_Size", Vector2((float)Util::app->Engine->Window->WindowWidth, (float)Util::app->Engine->Window->WindowHeight));
+			Shaders::cells->set("u_Time", (float)t);
+		}
 
 		Renderer2D::Render();
 	}

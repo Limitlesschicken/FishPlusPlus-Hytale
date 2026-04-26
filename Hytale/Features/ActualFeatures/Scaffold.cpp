@@ -11,9 +11,6 @@ Scaffold::Scaffold() : Feature("Scaffold") {
 }
 
 void Scaffold::OnMoveCycle(DefaultMovementController* dmc, Vector3& offset) {
-	if (!Util::isFullyInitialized())
-		return;
-
 	GameInstance* gameInstance = Util::getGameInstance();
 	Entity* localPlayer = gameInstance->Player;
 	if (!localPlayer || !localPlayer->PrimaryItem || !localPlayer->PrimaryItem->IsBlock())
@@ -37,10 +34,6 @@ void Scaffold::OnMoveCycle(DefaultMovementController* dmc, Vector3& offset) {
 			ClientPlaceBlockPacket::Send(feetPos, localPlayer->PrimaryItem->BlockId);
 		}
 	}
-}
-
-bool Scaffold::CanExecute() {
-	return Util::isFullyInitialized();
 }
 
 void Scaffold::Initialize() {

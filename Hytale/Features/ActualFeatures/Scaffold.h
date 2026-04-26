@@ -13,6 +13,8 @@ class Scaffold : public Feature {
 public:
 	Scaffold();
 	void OnMoveCycle(DefaultMovementController* dmc, Vector3& offset);
-	bool CanExecute() override;
+	bool CanExecute() override {
+		return Util::IsInGame();
+	}
 	void Initialize() override;
 };

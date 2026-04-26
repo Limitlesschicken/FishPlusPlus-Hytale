@@ -87,12 +87,6 @@ void RemoteChest::OnRender3D(Renderer3D& renderer3D) {
 	}
 }
 
-bool RemoteChest::CanExecute() {
-	if (Util::app->Stage != AppStage::InGame)
-		return false;
-	return true;
-}
-
 void RemoteChest::Initialize() {
 	Util::log("Initialized RemoteChest feature");
 	RegisterEvent(this);

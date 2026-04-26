@@ -44,11 +44,6 @@ void Nametags::OnRender3D(Renderer3D& renderer3D) {
 	}
 }
 
-bool Nametags::CanExecute() {
-	if (Util::app->Stage != AppStage::InGame)
-		return false;
-	return true;
-}
 void Nametags::Initialize() {
 	Util::log("Initialized Nametags feature");
 	RegisterEvent(this);

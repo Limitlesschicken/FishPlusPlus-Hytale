@@ -46,10 +46,6 @@ void Speed::OnMoveCycle(DefaultMovementController* dmc, Vector3& offset) {
     offset.z = move.z * speed->GetValue();
 }
 
-bool Speed::CanExecute() {
-    return Util::isFullyInitialized();
-}
-
 void Speed::Initialize() {
 	Util::log("Initialized Speed feature");
     RegisterEvent(this);

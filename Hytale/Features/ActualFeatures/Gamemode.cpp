@@ -34,7 +34,3 @@ void Gamemode::OnMoveCycle(DefaultMovementController* dmc, Vector3& offset) {
     if (gi->GameMode != GameMode::Creative)
         WriteGameMode(gi, GameMode::Creative);
 }
-
-bool Gamemode::CanExecute() {
-    return Util::isFullyInitialized();
-}

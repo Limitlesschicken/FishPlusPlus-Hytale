@@ -19,7 +19,3 @@ void NoDeath::OnPacketRecieved(Object* packet, PacketIndex& index, bool& cancel)
 			cancel = true;
 	}
 }
-
-bool NoDeath::CanExecute() {
-	return Util::isFullyInitialized();
-}

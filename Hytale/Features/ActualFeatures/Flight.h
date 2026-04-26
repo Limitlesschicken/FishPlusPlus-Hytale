@@ -14,7 +14,9 @@ public:
 	Flight();
 	void OnMoveCycle(DefaultMovementController* dmc, Vector3& offset);
 	void OnDeactivate() override;
-	bool CanExecute() override;
+	bool CanExecute() override {
+		return Util::IsInGame();
+	}
 	void Initialize() override;
 
 	

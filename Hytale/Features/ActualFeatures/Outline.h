@@ -14,7 +14,9 @@ class Outline : public Feature {
 public:
 	Outline();
 
-	bool CanExecute() override;
+	bool CanExecute() override {
+		return Util::IsInGame();
+	}
 
 	RecursiveSetting* entities;
 	ToggleSetting* entitiesWave;

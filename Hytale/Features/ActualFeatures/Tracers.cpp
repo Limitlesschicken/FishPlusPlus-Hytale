@@ -60,10 +60,6 @@ void Tracers::OnRender3D(Renderer3D& renderer3D) {
 	}
 }
 
-bool Tracers::CanExecute() {
-	return Util::app->Stage == AppStage::InGame;
-}
-
 void Tracers::Initialize() {
 	Util::log("Initialized Tracers feature");
 	RegisterEvent(this);

@@ -14,7 +14,9 @@ public:
 	Speed();
 	float GetSpeed() { return this->speed->GetValue(); }
 	void OnMoveCycle(DefaultMovementController* dmc, Vector3& offset);
-	bool CanExecute() override;
+	bool CanExecute() override {
+		return Util::IsInGame();
+	}
 	
 	void Initialize() override;
 	

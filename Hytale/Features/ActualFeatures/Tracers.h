@@ -13,7 +13,9 @@ public:
 
 	void OnRender3D(Renderer3D& renderer3D);
 
-	bool CanExecute() override;
+	bool CanExecute() override {
+		return Util::IsInGame();
+	}
 
 	void Initialize() override;
 

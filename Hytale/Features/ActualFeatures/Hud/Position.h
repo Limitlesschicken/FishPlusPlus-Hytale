@@ -10,5 +10,8 @@ public:
 	PositionHud() : HudFeature("Position") {};
 	void OnRender2D();
 
+	bool CanExecute() override {
+		return Util::IsInGame();
+	}
 	void Initialize() override;
 };

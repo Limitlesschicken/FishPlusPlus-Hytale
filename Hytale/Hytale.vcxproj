@@ -396,6 +396,7 @@
     <ClInclude Include="Renderer\shaders\Hue.h" />
     <ClInclude Include="Renderer\shaders\MainMenu\Bubble.h" />
     <ClInclude Include="Renderer\shaders\MainMenu\City.h" />
+    <ClInclude Include="Renderer\shaders\MainMenu\Cells.h" />
     <ClInclude Include="Renderer\shaders\MainMenu\Fractal.h" />
     <ClInclude Include="Renderer\shaders\MainMenu\Ghost.h" />
     <ClInclude Include="Renderer\shaders\MainMenu\Happy.h" />

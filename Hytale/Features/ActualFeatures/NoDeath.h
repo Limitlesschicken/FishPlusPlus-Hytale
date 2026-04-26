@@ -9,7 +9,9 @@ class NoDeath : public Feature { // Inspiration from pEric & Ariorh1337
 public:
 	NoDeath() : Feature("NoDeath") {}
 
-	bool CanExecute() override;
+	bool CanExecute() override {
+		return Util::IsInGame();
+	}
 	void Initialize() override;
 	void OnPacketRecieved(Object* packet, PacketIndex& index, bool& cancel);
 };

@@ -16,6 +16,7 @@
 #include "shaders/MainMenu/Ghost.h"
 #include "shaders/MainMenu/Fractal.h"
 #include "shaders/MainMenu/Happy.h"
+#include "shaders/MainMenu/Cells.h"
 
 void Shaders::initShaders() {
     posColor = std::make_unique<Shader>(POSCOLOR_VERT, POSCOLOR_FRAG);
@@ -31,4 +32,5 @@ void Shaders::initShaders() {
 	mobiusSphere = std::make_unique<Shader>(POSCOLOR_VERT, MOBIUS_SPHERE_FRAG);
 	hexagon = std::make_unique<Shader>(POSCOLOR_VERT, HEXAGON_FRAG);
 	bubble = std::make_unique<Shader>(POSCOLOR_VERT, BUBBLE_FRAG);
+	cells = std::make_unique<Shader>(POSCOLOR_VERT, CELLS_FRAG);
 }

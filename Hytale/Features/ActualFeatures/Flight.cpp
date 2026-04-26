@@ -11,9 +11,6 @@ Flight::Flight() : Feature("Flight") {
 }
 
 void Flight::OnMoveCycle(DefaultMovementController* dmc, Vector3& offset) {
-	if (!Util::isFullyInitialized())
-		return;
-
 	if (mode->GetValue() == 1) {
 		dmc->SpeedMultiplier = 1.0f;
 		dmc->clientMovementStates.IsFlying = false;
@@ -61,10 +58,6 @@ void Flight::OnDeactivate() {
 	DefaultMovementController* dmc = Util::GetMovementController();
 	ValidPtrVoid(dmc);
 	dmc->clientMovementStates.IsFlying = false;
-}
-
-bool Flight::CanExecute() {
-	return Util::isFullyInitialized();
 }
 
 void Flight::Initialize() {

@@ -32,6 +32,7 @@ namespace Util {
     GameInstance* getGameInstance();
     DefaultMovementController* GetMovementController();
     Camera* getCamera();
+    bool IsInGame();
     CameraModule* getCameraModule();
     inline Matrix4x4 viewProjMat;
     inline Matrix4x4 orthoProjMat;
@@ -54,7 +55,6 @@ namespace Util {
     uint64_t BuildTicksFromHours(float hours);
     const char* GetKeyName(SDL_Scancode key);
     bool ShouldInteractWithGame();
-    bool isFullyInitialized();
     void allocate_console();
     void free_console();
     void log(const char* fmt, ...);

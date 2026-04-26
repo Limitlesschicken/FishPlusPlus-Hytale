@@ -20,13 +20,6 @@ WorldModulate::WorldModulate() : Feature("WorldModulate") {
     }
 }
 
-bool WorldModulate::CanExecute() {
-    if (Util::app->Stage != AppStage::InGame)
-        return false;;
-    return true;
-}
-
-
 void WorldModulate::Initialize() {
     Util::log("Initialized WorldModulate feature");
     RegisterEvent(this);

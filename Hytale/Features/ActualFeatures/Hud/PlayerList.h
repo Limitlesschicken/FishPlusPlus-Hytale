@@ -12,6 +12,10 @@ public:
 	PlayerList();
 	void OnRender2D();
 
+	bool CanExecute() override {
+		return Util::IsInGame();
+	}
+
 	void Initialize() override;
 
 	ToggleSetting* distance;

@@ -10,11 +10,6 @@ void NoFall::OnMoveCycle(DefaultMovementController* dmc, Vector3& offset) {
 		dmc->Velocity.y = -20.0f;
 }
 
-bool NoFall::CanExecute() {
-	return Util::isFullyInitialized();
-}
-
-
 void NoFall::Initialize() {
 	Util::log("Initialized Nofall feature");
 	RegisterEvent(this);

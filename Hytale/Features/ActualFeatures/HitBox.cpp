@@ -9,9 +9,6 @@ HitBox::HitBox() : Feature("Hitbox") {
 };
 
 void HitBox::OnFrame() {
-	if (Util::app->Stage != AppStage::InGame)
-		return;
-
 	for (EntityData& data : SDK::entities) {
 		if (!data.entityPtr)
 			continue;

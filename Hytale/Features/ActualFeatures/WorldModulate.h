@@ -13,7 +13,9 @@
 class WorldModulate : public Feature {
 public:
 	WorldModulate();
-	bool CanExecute() override;
+	bool CanExecute() override {
+		return Util::IsInGame();
+	}
 	void Initialize() override;
 
 	RecursiveSetting* fogChanger;

@@ -15,7 +15,8 @@ enum MainMenuEffects {
 	Happy,
 	MobiusSphere,
 	Hexagon,
-	Bubble
+	Bubble,
+	Cells
 };
 
 const std::string MainMenuEffectNames[] = {
@@ -25,7 +26,8 @@ const std::string MainMenuEffectNames[] = {
 	"Happy",
 	"Sphere",
 	"Hexagon",
-	"Bubble"
+	"Bubble",
+	"Cells"
 };
 
 class MainMenuEffect : public Feature {
@@ -35,7 +37,7 @@ public:
 	void OnFrame();
 	void Initialize() override;
 
-	static inline MainMenuEffects currentEffect = Bubble;
+	static inline MainMenuEffects currentEffect = Cells;
 	static inline bool hasRefreshed = false;
 
 	ToggleSetting* random;

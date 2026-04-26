@@ -125,6 +125,10 @@ CameraModule* Util::getCameraModule() {
 	return gameInstance->CameraModule;
 }
 
+bool Util::IsInGame() {
+	return app && app->appInGame && getGameInstance() && getLocalPlayer();
+}
+
 double Util::GetTime() {
 	static LARGE_INTEGER freq;
 	static bool initialized = false;

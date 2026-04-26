@@ -101,7 +101,7 @@ void originalDrawEntityCharactersAndItems(SceneRenderer* _this) {
 
 __declspec(safebuffers) __declspec(noinline)
 void __fastcall Hooks::hkDrawEntityCharactersAndItems(SceneRenderer* _this, bool flag) {
-    if (!Util::isFullyInitialized())
+    if (!Util::IsInGame())
         return Hooks::oDrawEntityCharactersAndItems(_this, flag);
 
 

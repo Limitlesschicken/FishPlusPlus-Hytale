@@ -10,6 +10,19 @@ namespace FeatureHandler {
 
 	void Init();
 
-	Feature* GetFeatureFromName(std::string name);
+	template<typename TreatAs = Feature>
+		requires std::derived_from<TreatAs,Feature>
+	TreatAs* GetFeatureFromName(std::string_view name) {
+		for (auto& feature : features) {
+			if (feature->GetName()._Equal(name.data())) {
+				if constexpr (std::is_same_v<TreatAs, Feature>) {
+					return feature.get();
+				}
+				return reinterpret_cast<TreatAs*>(feature.get());
+			}
+		}
+		return nullptr;
+	}
+
 	bool FeaturesLoaded();
 }

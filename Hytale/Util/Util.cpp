@@ -126,6 +126,9 @@ CameraModule* Util::getCameraModule() {
 }
 
 bool Util::IsInGame() {
+	if (app->Stage != AppStage::InGame)
+		return false;
+
 	return app && app->appInGame && getGameInstance() && getLocalPlayer();
 }
 

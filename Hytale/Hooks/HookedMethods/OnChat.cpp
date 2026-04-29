@@ -148,10 +148,10 @@ void __fastcall Hooks::hkOnChat(uint64_t instance, HytaleString* chatString) {
 		deleteChestCommand();
 
 	else if (command.starts_with("savechests "))
-		saveChestsCommand(command.substr(12));
+		saveChestsCommand(command.substr(11));
 
 	else if (command.starts_with("loadchests "))
-		loadChestsCommand(command.substr(12));
+		loadChestsCommand(command.substr(11));
 
 	else if (command.starts_with("listchests"))
 		listChestsCommand();

@@ -28,6 +28,7 @@
 #include "ActualFeatures/Hud/FeatureList.h"
 #include "ActualFeatures/Hud/PlayerList.h"
 #include "ActualFeatures/MainMenuEffect.h"
+#include "ActualFeatures/Hud/Addresses.h"
 
 void InitFeature(std::unique_ptr<Feature> feature, std::string tab) {
 	feature->setCategory(tab);
@@ -69,6 +70,7 @@ void FeatureHandler::Init() {
 	InitFeature(std::make_unique<PositionHud>(), "Hud");
 	InitFeature(std::make_unique<FeatureList>(), "Hud");
 	InitFeature(std::make_unique<PlayerList>(), "Hud");
+	InitFeature(std::make_unique<Addresses>(), "Hud");
 
 	Menu::mainComponent->AddChild(std::make_unique<Tab>("Combat", 200, 200));
 	Menu::mainComponent->AddChild(std::make_unique<Tab>("Movement", 460, 200));

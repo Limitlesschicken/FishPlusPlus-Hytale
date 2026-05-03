@@ -16,7 +16,8 @@ enum MainMenuEffects {
 	MobiusSphere,
 	Hexagon,
 	Bubble,
-	Cells
+	Cells,
+	Octagram
 };
 
 const std::string MainMenuEffectNames[] = {
@@ -27,7 +28,8 @@ const std::string MainMenuEffectNames[] = {
 	"Sphere",
 	"Hexagon",
 	"Bubble",
-	"Cells"
+	"Cells",
+	"Octragram"
 };
 
 class MainMenuEffect : public Feature {

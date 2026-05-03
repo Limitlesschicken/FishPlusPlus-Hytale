@@ -167,6 +167,7 @@
     <ClCompile Include="external\minhook\hde\hde64.c" />
     <ClCompile Include="external\minhook\hook.c" />
     <ClCompile Include="external\minhook\trampoline.c" />
+    <ClCompile Include="Features\ActualFeatures\Hud\Addresses.cpp" />
     <ClCompile Include="Features\ActualFeatures\Hud\FeatureList.cpp" />
     <ClCompile Include="Features\ActualFeatures\Hud\PlayerList.cpp" />
     <ClCompile Include="Features\ActualFeatures\Hud\Position.cpp" />
@@ -355,6 +356,7 @@
     <ClInclude Include="external\nhollman\json.hpp" />
     <ClInclude Include="external\nlohman\json.hpp" />
     <ClInclude Include="Features\ActualFeatures\Hud.h" />
+    <ClInclude Include="Features\ActualFeatures\Hud\Addresses.h" />
     <ClInclude Include="Features\ActualFeatures\Hud\FeatureList.h" />
     <ClInclude Include="Features\ActualFeatures\Hud\PlayerList.h" />
     <ClInclude Include="Features\ActualFeatures\Hud\Position.h" />
@@ -402,6 +404,7 @@
     <ClInclude Include="Renderer\shaders\MainMenu\Happy.h" />
     <ClInclude Include="Renderer\shaders\MainMenu\Hexagon.h" />
     <ClInclude Include="Renderer\shaders\MainMenu\MobiusSphere.h" />
+    <ClInclude Include="Renderer\shaders\MainMenu\Octagram.h" />
     <ClInclude Include="Renderer\shaders\PosColor.h" />
     <ClInclude Include="Renderer\shaders\PostProcess.h" />
     <ClInclude Include="Renderer\shaders\Text.h" />

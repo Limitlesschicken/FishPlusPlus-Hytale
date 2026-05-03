@@ -24,6 +24,7 @@ namespace Shaders {
 	inline std::unique_ptr<Shader> hexagon = nullptr;
 	inline std::unique_ptr<Shader> bubble = nullptr;
 	inline std::unique_ptr<Shader> cells = nullptr;
+	inline std::unique_ptr<Shader> octagram = nullptr;
 
 	void initShaders();
 }

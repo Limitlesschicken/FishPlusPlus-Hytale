@@ -8,7 +8,7 @@
 
 MainMenuEffect::MainMenuEffect() : Feature("Main Menu") {
 	this->random = RegisterSetting<ToggleSetting>("Random", true);
-	this->effectSelect = RegisterSetting<MultiSetting>("Effect", std::vector<std::string>(MainMenuEffectNames, MainMenuEffectNames + 8), 0);
+	this->effectSelect = RegisterSetting<MultiSetting>("Effect", std::vector<std::string>(MainMenuEffectNames, MainMenuEffectNames + 9), 0);
 };
 
 void MainMenuEffect::OnFrame() {
@@ -16,7 +16,7 @@ void MainMenuEffect::OnFrame() {
 		if (!hasRefreshed) {
 			std::random_device rd;
 			std::mt19937 gen(rd());
-			std::uniform_int_distribution<> dist(0, 7);
+			std::uniform_int_distribution<> dist(0, 8);
 			currentEffect = static_cast<MainMenuEffects>(dist(gen));
 
 			hasRefreshed = true;

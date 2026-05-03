@@ -16,9 +16,7 @@ void __fastcall Hooks::hkTimeModuleNewFrame(void* instance, float deltaTime) {
     if (Util::app->Stage != AppStage::InGame)
         return;
 
-    WorldModulate* worldModulate = static_cast<WorldModulate*>(FeatureHandler::GetFeatureFromName("WorldModulate"));
-    if (!worldModulate)
-        return;
+    const auto& worldModulate = FeatureHandler::GetFeatureFromName<WorldModulate>("WorldModulate");
 
     if (!worldModulate->IsActive())
         return;

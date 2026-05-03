@@ -18,7 +18,7 @@ void __fastcall Hooks::hkMainMenuPostEffectRendererDraw(void* instance, int a2, 
 	if (Util::app->Stage != AppStage::MainMenu)
 		return;
 
-	MainMenuEffect* effect = static_cast<MainMenuEffect*>(FeatureHandler::GetFeatureFromName("Main Menu"));
+	const auto& effect = FeatureHandler::GetFeatureFromName<MainMenuEffect>("Main Menu");
 
 	if (!effect->IsActive())
 		return;

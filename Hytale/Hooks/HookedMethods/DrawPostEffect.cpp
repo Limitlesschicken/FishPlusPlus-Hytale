@@ -50,7 +50,7 @@ void __fastcall Hooks::hkDrawPostEffect(GameInstance* instance) {
     renderer3D.Render();
     
 
-    Outline* outline = static_cast<Outline*>(FeatureHandler::GetFeatureFromName("Outline"));
+    const auto& outline = FeatureHandler::GetFeatureFromName<Outline>("Outline");
     
 
     if (outline->IsActive() && outline->CanExecute()) {

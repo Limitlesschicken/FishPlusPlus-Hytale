@@ -45,11 +45,7 @@ void configCommand(std::string command) {
 }
 
 void renameCommand(std::string command) {
-	RemoteChest* remoteChest = (RemoteChest*)FeatureHandler::GetFeatureFromName("RemoteChest");
-	if (!remoteChest) {
-		Util::log("RemoteChest feature not found");
-		return;
-	}
+	const auto& remoteChest = FeatureHandler::GetFeatureFromName<RemoteChest>("RemoteChest");
 
 	if (remoteChest->selectedChestIndex == -1 || remoteChest->selectedChestIndex >= (int)remoteChest->savedChests.size()) {
 		Util::log("No chest selected. Use Next/Prev Chest keybinds to select a chest first.");
@@ -66,20 +62,12 @@ void renameCommand(std::string command) {
 }
 
 void deleteChestCommand() {
-	RemoteChest* remoteChest = (RemoteChest*) FeatureHandler::GetFeatureFromName("RemoteChest");
-	if (!remoteChest) {
-		Util::log("RemoteChest feature not found");
-		return;
-	}
+	const auto& remoteChest = FeatureHandler::GetFeatureFromName<RemoteChest>("RemoteChest");
 	remoteChest->RemoveCurrentChest();
 }
 
 void saveChestsCommand(std::string command) {
-	RemoteChest* remoteChest = (RemoteChest*)FeatureHandler::GetFeatureFromName("RemoteChest");
-	if (!remoteChest) {
-		Util::log("RemoteChest feature not found");
-		return;
-	}
+	const auto& remoteChest = FeatureHandler::GetFeatureFromName<RemoteChest>("RemoteChest");
 
 	std::string profileName = command;
 	if (profileName.empty()) 
@@ -89,9 +77,7 @@ void saveChestsCommand(std::string command) {
 }
 
 void loadChestsCommand(std::string command) {
-	RemoteChest* remoteChest = (RemoteChest*)FeatureHandler::GetFeatureFromName("RemoteChest");
-	if (!remoteChest)
-		return;
+	const auto& remoteChest = FeatureHandler::GetFeatureFromName<RemoteChest>("RemoteChest");
 
 	std::string profileName = command;
 	if (profileName.empty())
@@ -101,21 +87,13 @@ void loadChestsCommand(std::string command) {
 }
 
 void listChestsCommand() {
-	RemoteChest* remoteChest = (RemoteChest*)FeatureHandler::GetFeatureFromName("RemoteChest");
-	if (!remoteChest) {
-		Util::log("RemoteChest feature not found");
-		return;
-	}
+	const auto& remoteChest = FeatureHandler::GetFeatureFromName<RemoteChest>("RemoteChest");
 
 	remoteChest->ShowChestLists();
 }
 
 void clearChestsCommand() {
-	RemoteChest* remoteChest = (RemoteChest*) FeatureHandler::GetFeatureFromName("RemoteChest");
-	if (!remoteChest) {
-		Util::log("RemoteChest feature not found");
-		return;
-	}
+	const auto& remoteChest = FeatureHandler::GetFeatureFromName<RemoteChest>("RemoteChest");
 
 	remoteChest->ClearChests();
 }

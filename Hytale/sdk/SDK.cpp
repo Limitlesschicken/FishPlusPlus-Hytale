@@ -225,7 +225,8 @@ void SDK::Main() {
 		firstScan = false;
 	}
 
-	if (BlockESP* blockESP = (BlockESP*) FeatureHandler::GetFeatureFromName("BlockESP"); blockESP != nullptr && blockESP->refreshList != nullptr && (blockESP->refreshList->GetValue() || !filterInitialized)) {
+	const auto& blockESP = FeatureHandler::GetFeatureFromName<BlockESP>("BlockESP");
+	if (blockESP->refreshList != nullptr && (blockESP->refreshList->GetValue() || !filterInitialized)) {
 		Reset();
 		MapModule* mapModule = (MapModule*) Util::app->appInGame->gameInstance->MapModule;
 		Array<ClientBlockType*>* ClientBlockTypes = mapModule->ClientBlockTypes;

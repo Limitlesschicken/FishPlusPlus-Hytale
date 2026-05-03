@@ -85,11 +85,3 @@ void FeatureHandler::Init() {
 bool FeatureHandler::FeaturesLoaded() {
 	return !features.empty();
 }
-
-Feature* FeatureHandler::GetFeatureFromName(std::string name) {
-	for (auto& feature : features) {
-		if (name == feature->GetName())
-			return feature.get();
-	}
-	return nullptr;
-}

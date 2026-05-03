@@ -29,16 +29,13 @@ struct ClientPlaceBlockPacket : Object { // Struct from pEric
 
 	static void Send(Vector3 pos, int placedBlockId = 0, bool quickReplace = false) {
 		ClientPlaceBlockPacket* packet = CreatePacket<ClientPlaceBlockPacket*>(ClientPlaceBlock_C2S);
-		BlockPosition* position = new BlockPosition(pos.toFloor());
-		BlockRotation* rotation = new BlockRotation();
-		packet->position = position;
-		packet->rotation = rotation;
+		BlockPosition position = BlockPosition(pos.toFloor());
+		BlockRotation rotation = BlockRotation();
+		packet->position = &position;
+		packet->rotation = &rotation;
 		packet->placedBlockId = placedBlockId;
 		packet->quickReplace = quickReplace;
 
 		Packets::SendPacketImmediate(packet);
-
-		delete position;
-		delete rotation;
 	}
 };

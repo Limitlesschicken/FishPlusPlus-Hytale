@@ -36,8 +36,8 @@ void HitBox::OnFrame() {
 				(Util::getLocalPlayer()->Position + Vector3(0, 1, 0)) - entity->Position;
 
 			BoundingBox box;
-			box.min = offset - Vector3(0.1, 0, 0.1);
-			box.max = offset + Vector3(0.1, 1, 0.1);
+			box.min = offset - Vector3(1.0, 0, 1.0);
+			box.max = offset + Vector3(1.0, 1.0, 1.0);
 
 			entity->Hitbox = box;
 		}

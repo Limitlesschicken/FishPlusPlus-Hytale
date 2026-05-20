@@ -5,7 +5,12 @@
 #include "Hooks.h"
 #include "GCPatch.h"
 #include "sdk/Packets/SyncInteractionChains.h"
+#include "sdk/Packets/DropItemStack.h"
 #include "sdk/Packets/ClientBlockPlace.h"
+#include "Events/EventRegister.h"
+
+#include <cmath>
+#include <limits>
 
 // Helper macros for creating hooks
 // These macros simplify the process of creating hooks by combining pattern scanning and hook creation into a single step. They also log the addresses found for easier debugging.
@@ -38,45 +43,47 @@ void RebuildPacketsFromBuffer(void* byteArray) {
     if (buffer == 0)
 		return;
 
-    if (totalLength > 0) {
-        uint64_t targetBuffer = buffer;
-        if (batchOffset != 0)
-			targetBuffer = buffer + batchOffset;
-
-		int packetID = *(const int*) (targetBuffer + 0x14);
+    if (totalLength < 0)
+        return;
         
-		if (packetID == 117) { // ClientPlaceBlock packet, sent by the client when placing a block. Contains the position, block ID, and other data related to the block placement.
-            bool ClientPlaceBlockRebuild = false;
-			if (!ClientPlaceBlockRebuild)
-                return;
+    uint64_t targetBuffer = buffer;
+    if (batchOffset != 0)
+        targetBuffer = buffer + batchOffset;
 
-            int dataSize = *(int*)(buffer + 0x10);
-            uint64_t payloadPtr = buffer + 0x18;
-            if (dataSize < sizeof(ClientPlaceBlockPacketBuffer))
-				return;
+    int packetID = *(const int*)(targetBuffer + 0x14);
 
-            ClientPlaceBlockPacketBuffer* packet = (ClientPlaceBlockPacketBuffer*)(payloadPtr);
-        }
-        else if (packetID == 4) { // Pong packet, sent by the client in response to a server ping. Contains a timestamp that can be used to measure latency.
-			return; // This packet is sent very frequently and isn't very interesting, so we can skip logging it to avoid spamming the logs.
-        }
-        else if (packetID == 108) { // ClientMovement packet, sent by the client to update the player's position and movement state. Contains the player's current position, velocity, and other movement-related data.
-			return; // This packet is also sent very frequently and isn't very interesting on its own, so we can skip logging it as well.        
-        }
-        else if (packetID == 290) { // SyncInteractionChains packet
-            int dataSize = *(int*) (buffer + 0x10);
-			//Util::log("SyncInteractionChains packet sent by client with data size: %d", dataSize);
+    if (packetID == 117) { // ClientPlaceBlock packet, sent by the client when placing a block. Contains the position, block ID, and other data related to the block placement.
+        bool ClientPlaceBlockRebuild = false;
+        if (!ClientPlaceBlockRebuild)
             return;
-        }
-        else {
-            //Util::log("Packet with ID %d sent by client", packetID);
-		}
-    }
-}
 
-void* __fastcall Hooks::hkSocketSend(void* instance, void* error, void* byteArray, char socketFlags, void* param5) {
-	RebuildPacketsFromBuffer(byteArray);
-	return Hooks::oSocketSend(instance, error, byteArray, socketFlags, param5);
+        int dataSize = *(int*)(buffer + 0x10);
+        uint64_t payloadPtr = buffer + 0x18;
+        if (dataSize < sizeof(ClientPlaceBlockPacketBuffer))
+            return;
+
+        ClientPlaceBlockPacketBuffer* packet = (ClientPlaceBlockPacketBuffer*)(payloadPtr);
+    }
+    else if (packetID == 4) { // Pong packet, sent by the client in response to a server ping. Contains a timestamp that can be used to measure latency.
+        return; // This packet is sent very frequently and isn't very interesting, so we can skip logging it to avoid spamming the logs.
+    }
+    else if (packetID == 108) { // ClientMovement packet, sent by the client to update the player's position and movement state. Contains the player's current position, velocity, and other movement-related data.
+        return; // This packet is also sent very frequently and isn't very interesting on its own, so we can skip logging it as well.        
+    }
+    else if (packetID == 290) { // SyncInteractionChains packet
+        int dataSize = *(int*)(buffer + 0x10);
+
+        //Util::log("SyncInteractionChains packet sent by client with data size: %d", dataSize);
+        return;
+    }
+    else if (packetID == 174) {
+        uint64_t payloadPtr = buffer + 0x18;
+        DropItemStack* packet = (DropItemStack*)(payloadPtr);
+
+    }
+    else {
+      //Util::log("Packet with ID %d sent by client", packetID);
+    }
 }
 
 void __fastcall Hooks::hktemp(void* instance, void* object) {
@@ -86,6 +93,7 @@ void __fastcall Hooks::hktemp(void* instance, void* object) {
 		SyncInteractionChainsPacket* packet = (SyncInteractionChainsPacket*) object;
 		//packet->DBGPrint();
 	}
+    //Util::log("%s", nameStr.c_str());
 	Hooks::otemp(instance, object);
 }
 

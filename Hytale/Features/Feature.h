@@ -38,6 +38,11 @@ concept HasFrame = requires(T t) {
 	t->OnFrame();
 };
 
+template<typename T>
+concept HasPacketSend = requires(T t, Object * packet, PacketIndex & index, bool& cancel) {
+	t->OnPacketSend(packet, index, cancel);
+};
+
 class Feature {
 public:
 	Feature(std::string name);
@@ -91,6 +96,13 @@ public:
 			EventRegister::FrameEvent.Subscribe([feature]() {
 				if (feature->IsActive() && feature->CanExecute())
 					feature->OnFrame();
+				});
+		}
+
+		if constexpr (HasPacketSend<T>) {
+			EventRegister::PacketSendEvent.Subscribe([feature](Object* packet, PacketIndex& index, bool& cancel) {
+				if (feature->IsActive() && feature->CanExecute())
+					feature->OnPacketSend(packet, index, cancel);
 				});
 		}
 	}

@@ -42,7 +42,8 @@ namespace HookData {
         { { }, "Thorium", Color::Normalize(255, 0, 255), 9 },
         { { }, "Treasure", Color::Normalize(255, 0, 255), 10 },
         { { }, "Crystal", Color::Normalize(255, 0, 255), 11 },
-        { { }, "Gem", Color::Normalize(255, 0, 255), 12 }
+        { { }, "Gem", Color::Normalize(255, 0, 255), 12 },
+        { { }, "Teleporter", Color::Normalize(255, 255, 255), 13 }
     };
 }
 
@@ -97,9 +98,9 @@ namespace Hooks {
     inline ProcessPacket oProcessPacket = nullptr;
     extern void __fastcall hkProcessPacket(void* instance, Object* packet);
 
-    typedef void*(__fastcall* SocketSend)(void* instance, void* error, void* byteArray, char socketFlags, void* param5);
+    typedef void(__fastcall* SocketSend)(void* instance, void* error, void* byteArray, char socketFlags, void* param5);
     inline SocketSend oSocketSend = nullptr;
-    extern void* __fastcall hkSocketSend(void* instance, void* error, void* byteArray, char socketFlags, void* param5);
+    extern void __fastcall hkSocketSend(void* instance, void* error, void* byteArray, char socketFlags, void* param5);
 
     typedef void(__fastcall* MainMenuPostEffectRendererDraw)(void* instance, int a2, int a3, int a4, int a5, int a6, void* a7);
     inline MainMenuPostEffectRendererDraw oMainMenuPostEffectRendererDraw = nullptr;

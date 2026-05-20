@@ -10,4 +10,5 @@ namespace EventRegister {
 	inline Event<> Render2DEvent;
 	inline Event<Object*, PacketIndex&, bool&> PacketRecieveEvent;
 	inline Event<> FrameEvent;
+	inline Event<Object*, PacketIndex&, bool&> PacketSendEvent;
 }

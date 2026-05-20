@@ -39,8 +39,8 @@ concept HasFrame = requires(T t) {
 };
 
 template<typename T>
-concept HasPacketSend = requires(T t, Object * packet, PacketIndex & index, bool& cancel) {
-	t->OnPacketSend(packet, index, cancel);
+concept HasPacketSend = requires(T t, Object * packet, int packetID, bool& cancel) {
+	t->OnPacketSend(packet, packetID, cancel);
 };
 
 class Feature {
@@ -100,9 +100,9 @@ public:
 		}
 
 		if constexpr (HasPacketSend<T>) {
-			EventRegister::PacketSendEvent.Subscribe([feature](Object* packet, PacketIndex& index, bool& cancel) {
+			EventRegister::PacketSendEvent.Subscribe([feature](Object* packet, int packetID, bool& cancel) {
 				if (feature->IsActive() && feature->CanExecute())
-					feature->OnPacketSend(packet, index, cancel);
+					feature->OnPacketSend(packet, packetID, cancel);
 				});
 		}
 	}

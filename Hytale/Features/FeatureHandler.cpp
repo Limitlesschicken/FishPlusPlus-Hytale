@@ -18,10 +18,8 @@
 #include "ActualFeatures/Scaffold.h"
 #include "ActualFeatures/HitBox.h"
 #include "ActualFeatures/Gamemode.h"
-#include "ActualFeatures/ItemMagnet.h"
 #include "ActualFeatures/RemoteChest.h"
 #include "ActualFeatures/NoDeath.h"
-#include "ActualFeatures/NoMapClear.h"
 #include "ActualFeatures/Hud.h"
 #include "ActualFeatures/Hud/WaterMark.h"
 #include "ActualFeatures/Hud/Position.h"
@@ -57,9 +55,7 @@ void FeatureHandler::Init() {
 
 	InitFeature(std::make_unique<RemoteChest>(), "Misc");
 	InitFeature(std::make_unique<Gamemode>(), "Misc");
-	//InitFeature(std::make_unique<NoMapClear>(), "Misc");
-
-	//InitFeature(std::make_unique<ItemMagnet>(), "Misc");
+	
 
 	InitFeature(std::make_unique<Hud>(), "Client");
 	InitFeature(std::make_unique<MainMenuEffect>(), "Client");
@@ -77,7 +73,6 @@ void FeatureHandler::Init() {
 	Menu::mainComponent->AddChild(std::make_unique<Tab>("Visuals", 720, 200));
 	Menu::mainComponent->AddChild(std::make_unique<Tab>("Misc", 980, 200));
 	Menu::mainComponent->AddChild(std::make_unique<Tab>("Client", 1240, 200));
-	//Menu::mainComponent->AddChild(std::make_unique<Tab>("Misc", 830, 200, 300));
 
 	Menu::hudTabComponent->AddChild(std::make_unique<Tab>("Hud", 200, 200));
 }

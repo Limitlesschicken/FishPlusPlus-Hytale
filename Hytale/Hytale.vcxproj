@@ -176,8 +176,6 @@
     <ClCompile Include="Features\ActualFeatures\MainMenuEffect.h" />
     <ClCompile Include="Features\ActualFeatures\NoDeath.cpp" />
     <ClCompile Include="Features\ActualFeatures\HitBox.cpp" />
-    <ClCompile Include="Features\ActualFeatures\ItemMagnet.cpp" />
-    <ClCompile Include="Features\ActualFeatures\NoMapClear.cpp" />
     <ClCompile Include="Features\ActualFeatures\Outline.cpp" />
     <ClCompile Include="Features\ActualFeatures\RemoteChest.cpp" />
     <ClCompile Include="Features\ActualFeatures\Tracers.cpp" />
@@ -364,8 +362,6 @@
     <ClInclude Include="Features\ActualFeatures\Hud\WaterMark.h" />
     <ClInclude Include="Features\ActualFeatures\NoDeath.h" />
     <ClInclude Include="Features\ActualFeatures\HitBox.h" />
-    <ClInclude Include="Features\ActualFeatures\ItemMagnet.h" />
-    <ClInclude Include="Features\ActualFeatures\NoMapClear.h" />
     <ClInclude Include="Features\ActualFeatures\Outline.h" />
     <ClInclude Include="Features\ActualFeatures\RemoteChest.h" />
     <ClInclude Include="Features\ActualFeatures\Tracers.h" />
@@ -415,6 +411,8 @@
     <ClInclude Include="sdk\Hytale\BuildInfo.h" />
     <ClInclude Include="sdk\Hytale\ClientRootInteraction.h" />
     <ClInclude Include="sdk\Hytale\RaycastHit.h" />
+    <ClInclude Include="sdk\Packets\DropItemStack.h" />
+    <ClInclude Include="sdk\Packets\MoveItemStack.h" />
     <ClInclude Include="sdk\Packets\Structs\Enums.h" />
     <ClInclude Include="sdk\Packets\Structs\IndependentStructs.h" />
     <ClInclude Include="Math\BoundingBox.h" />

@@ -9,6 +9,12 @@
 typedef uint32_t SDL_WindowID;
 typedef uint32_t SDL_MouseID;
 
+#define SDL_BUTTON_LEFT     1
+#define SDL_BUTTON_MIDDLE   2
+#define SDL_BUTTON_RIGHT    3
+#define SDL_BUTTON_X1       4
+#define SDL_BUTTON_X2       5
+
 typedef enum SDL_Scancode {
     SDL_SCANCODE_UNKNOWN = 0,
 
@@ -562,10 +568,26 @@ typedef struct SDL_MouseWheelEvent
     int32_t integer_y;   /**< The amount scrolled vertically, accumulated to whole scroll "ticks" (added in 3.2.12) */
 } SDL_MouseWheelEvent;
 
+typedef struct SDL_MouseButtonEvent
+{
+    SDL_EventType type; /**< SDL_EVENT_MOUSE_BUTTON_DOWN or SDL_EVENT_MOUSE_BUTTON_UP */
+    uint32_t reserved;
+    uint64_t timestamp;   /**< In nanoseconds, populated using SDL_GetTicksNS() */
+    SDL_WindowID windowID; /**< The window with mouse focus, if any */
+    SDL_MouseID which;  /**< The mouse instance id in relative mode, SDL_TOUCH_MOUSEID for touch events, or 0 */
+    uint8_t button;       /**< The mouse button index */
+    bool down;          /**< true if the button is pressed */
+    uint8_t clicks;       /**< 1 for single-click, 2 for double-click, etc. */
+    uint8_t padding;
+    float x;            /**< X coordinate, relative to window */
+    float y;            /**< Y coordinate, relative to window */
+} SDL_MouseButtonEvent;
+
 
 typedef union SDL_Event {
     uint32_t type;                            /**< Event type, shared with all events */
     SDL_KeyboardEvent key;                  /**< Keyboard event data */
+    SDL_MouseButtonEvent button;            /**< Mouse button event data */
     SDL_MouseWheelEvent wheel;              /**< Mouse wheel event data */
 
     uint8_t padding[128];
@@ -584,6 +606,10 @@ namespace InputSystem {
     inline bool scrolled = false;
     inline int scrollAmount = 0;
     inline bool shiftHeld = false;
+
+    inline bool mouseHeld[SDL_BUTTON_X2]{};
+    inline bool mousePressed[SDL_BUTTON_X2]{};
+    inline bool mouseReleased[SDL_BUTTON_X2]{};
     
     inline static char ScancodeToChar(SDL_Scancode sc, bool shift) {
         if (sc >= SDL_SCANCODE_A && sc <= SDL_SCANCODE_Z) {
@@ -639,6 +665,9 @@ namespace InputSystem {
         InputSystem::keysDepressed.clear();
         InputSystem::scrolled = false;
         InputSystem::scrollAmount = 0;
+		for (int i = 0; i < SDL_BUTTON_X2; i++) {
+			InputSystem::mousePressed[i] = false;
+		}
         InputSystem::inputMutex.unlock();
     }
 

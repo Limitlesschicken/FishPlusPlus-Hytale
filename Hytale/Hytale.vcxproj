@@ -207,6 +207,7 @@
     <ClCompile Include="Hooks\HookedMethods\WeatherUpdate.cpp" />
     <ClCompile Include="Hooks\HookedMethods\WglSwapBuffers.cpp" />
     <ClCompile Include="Hooks\Hooks.cpp" />
+    <ClCompile Include="Hooks\HookedMethods\SocketSend.cpp" />
     <ClCompile Include="Math\Vector4.h" />
     <ClCompile Include="Menu\Children\BlockSelection\BlockSelectionbutton.cpp" />
     <ClCompile Include="Menu\Children\BlockSelection\BlockSelectionWindow.cpp" />

@@ -427,7 +427,6 @@
     <ClInclude Include="Menu\Children\SettingButton.h" />
     <ClInclude Include="Menu\Children\ToggleButton.h" />
     <ClInclude Include="Menu\Component.h" />
-    <ClInclude Include="Menu\Config.h" />
     <ClInclude Include="Menu\Menu.h" />
     <ClInclude Include="Menu\Children\SliderButton.h" />
     <ClInclude Include="Menu\Style.h" />

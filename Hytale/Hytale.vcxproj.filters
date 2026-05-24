@@ -219,9 +219,6 @@
     <ClCompile Include="Menu\Children\BlockSelection\BlockSelectionbutton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Features\ActualFeatures\ItemMagnet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Features\ActualFeatures\RemoteChest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -229,9 +226,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Features\ActualFeatures\NoDeath.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Features\ActualFeatures\NoMapClear.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Features\ActualFeatures\Hud.cpp">
@@ -318,9 +312,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Menu\Menu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Menu\Config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Util\TimeUtil.h">
@@ -944,13 +935,7 @@
     <ClInclude Include="Menu\Children\BlockSelection\BlockSelectionButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Features\ActualFeatures\ItemMagnet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Features\ActualFeatures\NoDeath.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Features\ActualFeatures\NoMapClear.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Features\ActualFeatures\RemoteChest.h">

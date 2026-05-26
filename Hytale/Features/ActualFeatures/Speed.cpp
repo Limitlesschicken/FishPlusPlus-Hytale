@@ -11,7 +11,6 @@ Speed::Speed() : Feature("Speed") {
 }
 
 void Speed::OnMoveCycle(DefaultMovementController* dmc, Vector3& offset) {
-    dmc->SpeedMultiplier = 1.0f;
     float yawRad = Util::getLocalPlayer()->yawRad;
     float forwardX = -sin(yawRad);
     float forwardZ = -cos(yawRad);

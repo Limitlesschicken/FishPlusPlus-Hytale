@@ -38,6 +38,8 @@ std::vector<EntityData> getEntities(Entity* localPlayer) {
 		Entity* entity = entityArray->get(i);
 		ValidPtrLoop(entity);
 
+		
+
 		EntityAssetStruct* assetStruct = entity->AssetNameStruct;
 
 		EntityData data;
@@ -79,7 +81,7 @@ void UpdateInputStates(bool skipResetKeys) {
 }
 
 void setCursorHidden(bool hidden) {
-	using m_SetCursorHidden = void(*)(Window* window, bool hidden);
+	using m_SetCursorHidden = void(*)(Window* window, bool hidden, bool flush);
 	static m_SetCursorHidden SetCursorHidden_method{ };
 	if (!SetCursorHidden_method)
 		SetCursorHidden_method = reinterpret_cast<m_SetCursorHidden>(SM::SetCursorHiddenAddress);
@@ -88,7 +90,7 @@ void setCursorHidden(bool hidden) {
 		Util::log("Invalid app or window pointer\n");
 		return;
 	}
-	SetCursorHidden_method(app->Engine->Window, hidden);
+	SetCursorHidden_method(app->Engine->Window, hidden, false);
 }
 
 void* SafeReadPointer(void** ptrLocation) {
@@ -216,15 +218,16 @@ void SDK::Main() {
 	global_mutex.unlock();
 
 	if ((GetAsyncKeyState(VK_F6) & 1)) {
-
+		Util::log("%llx", Util::getGameInstance()->InteractionModule);
 	}
 
 	static bool firstScan = true;
 	if (firstScan || (GetAsyncKeyState(VK_F5) & 1)) {
-
+		//ScanObject(Util::app);
 		firstScan = false;
 	}
 
+	
 	const auto& blockESP = FeatureHandler::GetFeatureFromName<BlockESP>("BlockESP");
 	if (blockESP->refreshList != nullptr && (blockESP->refreshList->GetValue() || !filterInitialized)) {
 		Reset();
@@ -246,4 +249,6 @@ void SDK::Main() {
 		filterInitialized = true;
 		blockESP->refreshList->SetValue(false);
 	}
+	
+
 }

@@ -34,5 +34,6 @@ public:
 	ToggleSetting* showTreasure;
 	ToggleSetting* showCrystals;
 	ToggleSetting* showGems;
+	ToggleSetting* showTeleporter;
 	ToggleSetting* refreshList;
 };

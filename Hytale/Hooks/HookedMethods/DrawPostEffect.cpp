@@ -23,7 +23,7 @@ void __fastcall Hooks::hkDrawPostEffect(GameInstance* instance) {
 	EventRegister::Render3DEvent.Invoke(renderer3D);
 
     bool ShowBlockAtFeet = false;
-    if (ShowBlockAtFeet && Util::app->Stage == AppStage::InGame) {
+    if (ShowBlockAtFeet) {
         Vector3 renderPos = Util::getLocalPlayer()->Position.toFloor();
 		renderPos.y -= 1; // Adjust to get the block the player is standing on
         ClientBlockType* block = Util::getGameInstance()->MapModule->GetBlockType(renderPos);

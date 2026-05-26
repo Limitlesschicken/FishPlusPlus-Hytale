@@ -9,6 +9,7 @@
 #include "Math/Vector3.h"
 #include "Math/BoundingBox.h"
 #include "ClientItemBase.h"
+#include "Features/ConfigHandler.h"
 
 struct EntityAssetStruct {
 	char pad[0x8];
@@ -83,33 +84,33 @@ public:
 	float Scale; 							//0x1F4
 	char pad_01F8[52]; 						//0x1F8
 	int isPlayer; 							//0x22C
-	char pad_0230[16]; 						//0x230
-	float DisplayHealth; 					//0x240
-	char pad_0244[11]; 						//0x244
-	bool wasOnGround; 						//0x246
-	bool wasInFluid; 						//0x247
-	bool wasFalling; 						//0x248
-	bool wasJunping; 						//0x249
-	bool usable; 							//0x24A
-	char pad_0254[24]; 						//0x254
-	Vector3 PreviousPosition; 				//0x26C
-	Vector3 NextPos; 						//0x278
-	Vector3 Position; 						//0x284
-	Vector3 RenderPos; 						//0x290
-	BoundingBox Hitbox; 					//0x294
+	char pad_0230[20]; 						//0x230
+	float DisplayHealth; 					//0x244
+	char pad_0244[11]; 						//0x248
+	bool wasOnGround; 						//0x24A
+	bool wasInFluid; 						//0x24B
+	bool wasFalling; 						//0x24C
+	bool wasJunping; 						//0x24D
+	bool usable; 							//0x24E
+	char pad_0254[24]; 						//0x258
+	Vector3 PreviousPosition; 				//0x270
+	Vector3 NextPos; 						//0x27C
+	Vector3 Position; 						//0x288
+	Vector3 RenderPos; 						//0x294
+	BoundingBox Hitbox; 					//0x298
 	BoundingBox DefaultHitbox;
 	BoundingBox CrouchedHitbox;
 	BoundingBox IDKDefaultHitbox;
 	BoundingBox IDKCrouchedHitbox;
-	char pad_0314[208]; 					//0x314
-	float pitchRad; 					//0x3E4
-	float yawRad; 					//0x3E8
-	char pad_03EC[4];					 //0x3EC
-	float pitchRadOld; 					//0x3F0
-	float yawRadOld; 					//0x3F4
-	char pad_xxxx[4]; 					//0x3EC
-	float renderPitchRad;
-	float renderYawRad;
+	char pad_0318[232]; 					//0x318
+	float pitchRad; 						//0x400
+	float yawRad; 							//0x404
+	char pad_0408[4];					 	//0x408
+	float pitchRadOld; 						//0x40C
+	float yawRadOld; 						//0x410
+	char pad_0414[4]; 						//0x414
+	float renderPitchRad; 					//0x418
+	float renderYawRad; 					//0x41C
 	char pad_0388[1268];
 
 	void SetPositionTeleport(Vector3 nextPosition) {
@@ -123,4 +124,11 @@ public:
 		return isPlayer == 1;
 	}
 
+	bool IsFriend() {
+		if (!IsAPlayer())
+			return false;
+		HytaleString* name = Name;
+		std::string nameStr = name ? name->getString() : "nullptr";
+		return ConfigHandler::IsFriend(nameStr.c_str());
+	}
 }; //Size: 0x087C

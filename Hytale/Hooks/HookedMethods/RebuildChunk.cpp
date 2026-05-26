@@ -93,7 +93,7 @@ void __fastcall Hooks::hkBuildGeometry(void* instance, ChunkColumn* a2, int chun
 						FilteredBlockResult result;
 						result.position = Vector3((float)worldX, (float)worldY, (float)worldZ);
 						result.blockId = blockId;
-						result.displayName = entry.name;
+						result.displayName = entry.name; //Crash here
 						result.color = entry.color;
 
 						newBlocks.push_back(result);

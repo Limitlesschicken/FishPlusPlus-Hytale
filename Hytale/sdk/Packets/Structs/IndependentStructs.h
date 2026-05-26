@@ -96,21 +96,6 @@ struct Direction : Object { // Struct from pEric
 	}
 };
 
-struct MapImage : Object {
-	Array<int>* palette;
-	Array<byte>* packed_indices;
-	int width;
-	int height;
-	byte bits_per_index;
-
-};
-
-struct MapChunk : Object { // Struct from pEric
-	MapImage* image; //MapImage
-	int chunkX;
-	int chunkY;
-};
-
 struct MovementStates : Object {
 	bool idle;
 	bool horizontal_idle;

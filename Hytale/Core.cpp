@@ -21,6 +21,7 @@ void ClientInitialize() {
     if (!ConfigHandler::FishDirectoryExists()) {
         ConfigHandler::CreateFishDirectory();
         ConfigHandler::SaveConfig("immediateConfig", false);
+        ConfigHandler::CreateFriendsFile();
     }
     else {
         ConfigHandler::LoadConfig("immediateConfig", false);

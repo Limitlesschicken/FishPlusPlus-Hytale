@@ -179,3 +179,97 @@ void ConfigHandler::LoadConfig(std::string name, bool inConfigDirectory) {
 		}
 	}
 }
+
+bool ConfigHandler::IsFriend(const char* name) {
+	std::filesystem::path configPath = Globals::paths->ClientGameDirectory->getString();
+	std::filesystem::path base = configPath / "Fish++";
+	std::string fileName = "friends.json";
+
+	json friendsJson;
+
+	std::ifstream inputFile(base / fileName);
+	
+	try {
+		inputFile >> friendsJson;
+	}
+	catch (...) {
+		friendsJson = json::array();
+	}
+
+	for (const auto& friendName : friendsJson) {
+		if (friendName.get<std::string>() == name) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void ConfigHandler::RemoveFriend(const char* name) {
+	std::filesystem::path configPath = Globals::paths->ClientGameDirectory->getString();
+	std::filesystem::path base = configPath / "Fish++";
+	std::string fileName = "friends.json";
+	json friendsJson;
+	std::ifstream inputFile(base / fileName);
+
+	try {
+		inputFile >> friendsJson;
+	}
+	catch (...) {
+		friendsJson = json::array();
+	}
+	friendsJson.erase(std::remove_if(friendsJson.begin(), friendsJson.end(),
+		[&](const json& friendName) { return friendName.get<std::string>() == name; }),
+		friendsJson.end());
+	std::ofstream configFile(base / fileName);
+	if (!configFile.is_open()) {
+		Util::log("Failed to open friends file for writing");
+		return;
+	}
+	configFile << friendsJson.dump(4);
+}
+
+void ConfigHandler::SaveFriend(const char* name) {
+	std::filesystem::path configPath = Globals::paths->ClientGameDirectory->getString();
+	std::filesystem::path base = configPath / "Fish++";
+	std::string fileName = "friends.json";
+	
+
+	json friendsJson;
+
+	std::ifstream inputFile(base / fileName);
+	
+	try {
+		inputFile >> friendsJson;
+	}
+	catch (...) {
+		friendsJson = json::array();
+	}
+
+	friendsJson.push_back(name);
+
+	std::ofstream configFile(base / fileName);
+	if (!configFile.is_open()) {
+		Util::log("Failed to open friends file for writing");
+		return;
+	}
+
+	configFile << friendsJson.dump(4);
+}
+
+void ConfigHandler::CreateFriendsFile() {
+	if (!FishDirectoryExists()) {
+		CreateFishDirectory();
+	}
+
+	std::filesystem::path configPath = Globals::paths->ClientGameDirectory->getString();
+	std::filesystem::path base = configPath / "Fish++";
+	std::string fileName = "friends.json";
+	std::ofstream configFile(base / fileName);
+	if (!configFile.is_open()) {
+		Util::log("Failed to open friends file for writing");
+		return;
+	}
+
+	configFile << "";
+}

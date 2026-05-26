@@ -10,4 +10,9 @@ namespace ConfigHandler {
 	void SaveConfig(std::string name, bool inConfigDirectory);
 	void CreateFishDirectory();
 	bool FishDirectoryExists();
+
+	bool IsFriend(const char* name);
+	void RemoveFriend(const char* name);
+	void SaveFriend(const char* name);
+	void CreateFriendsFile();
 }

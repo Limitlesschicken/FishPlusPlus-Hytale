@@ -34,6 +34,7 @@ inline void submitDrawCommands() {
 #pragma optimize("", off)
 #pragma runtime_checks("", off)
 
+/*
 __declspec(safebuffers) __declspec(noinline)
 void renderIndividualEntity(SceneRenderer* _this, int i) {
     SceneContext* sceneContext = _this->contextContainer->sceneContext;
@@ -62,11 +63,12 @@ void renderIndividualEntity(SceneRenderer* _this, int i) {
     renderStats->totalIndicesDrawn += entityDrawTask->DataCount;
     glDrawElements(GL_TRIANGLES, entityDrawTask->DataCount, GL_UNSIGNED_SHORT, 0);
 }
+*/
 
 
 __declspec(safebuffers) __declspec(noinline)
 void originalDrawEntityCharactersAndItems(SceneRenderer* _this) {
-
+    /*
     EntityList* entityList = _this->entityList;
 
     //Render entities normally but through walls
@@ -97,6 +99,7 @@ void originalDrawEntityCharactersAndItems(SceneRenderer* _this) {
             renderIndividualEntity(_this, i);
     }
     FrameBuffers::itemOutlineFBO->unbind();
+    */
 }
 
 __declspec(safebuffers) __declspec(noinline)
@@ -106,6 +109,8 @@ void __fastcall Hooks::hkDrawEntityCharactersAndItems(SceneRenderer* _this, bool
 
 
     Feature* outline = FeatureHandler::GetFeatureFromName("Outline");
+    if (!outline)
+        return;
     if(outline->IsActive())
         originalDrawEntityCharactersAndItems(_this);
     else 

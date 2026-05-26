@@ -12,6 +12,8 @@ struct RaycastHit {
 	Vector3 TextureCoord;				// 0x54
 	int BlockID;						// 0x60
 	int Rotation;						// 0x64
-	char pad_0x68[0x18];				// 0x68
+	char pad_0x68[0x10];				// 0x68
+	Entity* TargetedEntity;				// 0x78
+	char pad_0x7C[0x4];					// 0x7C
 	float Distance;						// 0x80
 };

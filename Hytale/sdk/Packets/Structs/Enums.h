@@ -1,6 +1,8 @@
 #pragma once
 #include "Math/Vector3.h"
 
+typedef unsigned char byte;
+
 enum Rotation : byte {
 	None,
 	Ninety,

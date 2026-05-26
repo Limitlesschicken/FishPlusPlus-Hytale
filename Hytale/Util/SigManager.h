@@ -27,6 +27,4 @@ namespace SM {
 	inline uint64_t BlockPosition_MTAddress = 0;
 	inline uint64_t Array_InteractionSyncData_MTAddress = 0;
 	inline uint64_t InteractionSyncData_MTAddress = 0;
-	inline uint64_t Array_MapChunk_MTAddress = 0;
-	inline uint64_t MapChunk_MTAddress = 0;
 }

@@ -9,7 +9,6 @@
 struct SceneContext;
 struct RenderStats;
 struct EntityDrawData;
-struct RenderDevice;
 struct EntityDrawTask;
 
 // Render statistics tracking
@@ -58,12 +57,6 @@ struct EntityList {
     uint32_t count;                     // 0x008 - number of entities in list
     char pad_000C[0x4];                 // 0x00C
     EntityDrawTask entities[1];         // 0x010 - variable length array (0x90 stride)
-};
-
-// Render device/context wrapper
-struct RenderDevice {
-    char pad_0000[0x10];                // 0x000
-    RenderStats* renderStats;           // 0x010 - pointer to render statistics
 };
 
 // Container structure pointed to by SceneRenderer+0x38

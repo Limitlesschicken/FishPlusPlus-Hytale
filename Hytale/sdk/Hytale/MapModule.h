@@ -81,7 +81,7 @@ public:
     Texture* Texture2;                                  // 0x30 HytaleClient.Graphics.Texture
     void* ChunkColumnDict;                              // 0x38 System.Collections.Concurrent.ConcurrentDictionary
     uint32_t* UInt32Array;                              // 0x40 System.UInt32[]
-    void* MapGeometryBuilder;                           // 0x48 HytaleClient.InGame.Modules.Map.MapGeometryBuilder
+    Camera* MapGeometryBuilder;                           // 0x48 HytaleClient.InGame.Modules.Map.MapGeometryBuilder
     float* FloatArray1;                                 // 0x50 System.Single[]
     Array<Chunk*>* _chunks;                             // 0x58 HytaleClient.InGame.Modules.Map.Chunk[]
     uint8_t* _drawMasks;                                // 0x60 System.Byte[]

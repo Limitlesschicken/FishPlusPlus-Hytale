@@ -23,10 +23,9 @@ struct App {
 	Engine* Engine; //0x0010
 	char pad_0018[48]; //0x0018
 	Input* Input; //0x0048
-	char pad_0050[32]; //0x0050
+	char pad_0050[72];   //0x0050
 	void* AppStartup ; //0x0070
-	AppMainMenu* AppMainMenu ; //0x0078
-	void* AppInGameLoading ; //0x0080
-	AppInGame* appInGame; //0x0088
-	char pad_0090[1456]; //0x0090
+	AppMainMenu* AppMainMenu ; //0x0098
+	void* AppInGameLoading ; //0x00A0
+	AppInGame* appInGame; //0x00B0
 };

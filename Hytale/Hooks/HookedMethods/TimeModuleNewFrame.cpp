@@ -17,7 +17,8 @@ void __fastcall Hooks::hkTimeModuleNewFrame(void* instance, float deltaTime) {
         return;
 
     const auto& worldModulate = FeatureHandler::GetFeatureFromName<WorldModulate>("WorldModulate");
-
+    if (!worldModulate)
+        return;
     if (!worldModulate->IsActive())
         return;
 

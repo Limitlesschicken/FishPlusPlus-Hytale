@@ -11,6 +11,7 @@ struct InteractionModule {
 	BlockPlacementPreview* BlockPreview; 				//0x20 HytaleClient.InGame.Modules.Interaction.BlockPlacementPreview
 	void* EntityPreview; 								//0x28 HytaleClient.InGame.Modules.Interaction.EntityPreview
 	void* _blockOutlineRenderer; 						//0x30 HytaleClient.Graphics.Gizmos.BlockOutlineRenderer
+	void* boxRenderer;									//0x38 HytaleClient.Graphics.Gizmos.BoxRenderer
 	void* _targetBlockRaycastOptions; 					//0x38 HytaleClient.InGame.HitDetection+RaycastOptions
 	Array<ClientRootInteraction*>* ClientRootInteractions; //0x40 HytaleClient.Data.ClientInteraction.ClientRootInteraction[]
 	Array<void*>* ClientInteractions; 					//0x48 HytaleClient.Data.ClientInteraction.ClientInteraction[]
@@ -53,5 +54,18 @@ struct InteractionModule {
 				return interaction->interactionID;
 		}
 		return -1;
+	}
+
+	std::string getInteractionIdName(int id) {
+		for (int i = 0; i < ClientRootInteractions->count; i++) {
+			ClientRootInteraction* interaction = ClientRootInteractions->get(i);
+
+			if (i != id)
+				continue;
+
+			return interaction->ID->getString();
+		}
+
+		return "Unknown ID";
 	}
 };

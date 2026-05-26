@@ -38,7 +38,7 @@ void Nametags::OnRender3D(Renderer3D& renderer3D) {
 
 		std::string healthString = Util::string_format(" %.1f", health);
 
-		Fonts::Figtree->RenderTextShadow(entity.name, screenPos.x - Fonts::Figtree->getWidth(entity.name) / 2, screenPos.y, 1, Color::White());
+		Fonts::Figtree->RenderTextShadow(entity.name, screenPos.x - Fonts::Figtree->getWidth(entity.name) / 2, screenPos.y, 1, entity.entityPtr->IsFriend() ? Color::Normalize(Color(132, 205, 245)) : Color::White());
 		Fonts::Figtree->RenderText(healthString, (screenPos.x - Fonts::Figtree->getWidth(entity.name) / 2) + Fonts::Figtree->getWidth(entity.name), screenPos.y, 1, healthColor);
 
 	}

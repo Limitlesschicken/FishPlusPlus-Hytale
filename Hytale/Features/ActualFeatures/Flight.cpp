@@ -12,7 +12,6 @@ Flight::Flight() : Feature("Flight") {
 
 void Flight::OnMoveCycle(DefaultMovementController* dmc, Vector3& offset) {
 	if (mode->GetValue() == 1) {
-		dmc->SpeedMultiplier = 1.0f;
 		dmc->clientMovementStates.IsFlying = false;
 		float yawRad = Util::getLocalPlayer()->yawRad;
 		float forwardX = -sin(yawRad);
@@ -24,6 +23,7 @@ void Flight::OnMoveCycle(DefaultMovementController* dmc, Vector3& offset) {
 		dmc->Velocity = 0.0f;
 		offset = 0.0f;
 		Vector3 move = Vector3(0.0f, 0.0f, 0.0f);
+		//dmc->clientMovementStates.IsSwimming = true; Bypass for Fringe anarchy
 
 		if (!Util::ShouldInteractWithGame())
 			return;
@@ -49,7 +49,6 @@ void Flight::OnMoveCycle(DefaultMovementController* dmc, Vector3& offset) {
 
 
 	} else {
-		dmc->SpeedMultiplier = this->speed->GetValue();
 		dmc->clientMovementStates.IsFlying = true;
 	}
 }

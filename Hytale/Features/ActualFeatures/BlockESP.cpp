@@ -24,6 +24,7 @@ BlockESP::BlockESP() : Feature("BlockESP") {
 	this->showTreasure = this->RegisterSetting<ToggleSetting>("Show Treasure", true);
 	this->showCrystals = this->RegisterSetting<ToggleSetting>("Show Crystals", true);
 	this->showGems = this->RegisterSetting<ToggleSetting>("Show Gems", true);
+	this->showTeleporter = this->RegisterSetting<ToggleSetting>("Show Teleporters", true);
 	this->refreshList = this->RegisterSetting<ToggleSetting>("Refresh List", false);
 }
 
@@ -91,6 +92,7 @@ bool BlockESP::IsBlockImportant(int settingID) {
 		case 10: return this->showTreasure->GetValue();
 		case 11: return this->showCrystals->GetValue();
 		case 12: return this->showGems->GetValue();
+		case 13: return this->showTeleporter->GetValue();
 		default: return false;
 	}
 }

@@ -17,6 +17,7 @@ struct ClientPlaceBlockPacketBuffer {
 	Rotation rotationRoll;
 	int placedBlockId;
 	bool quickReplace;
+	bool noPhysics;
 };
 #pragma pack(pop)
 
@@ -26,16 +27,21 @@ struct ClientPlaceBlockPacket : Object { // Struct from pEric
 	BlockRotation* rotation;
 	int placedBlockId;
 	bool quickReplace;
+	bool noPhysics;
 
-	static void Send(Vector3 pos, int placedBlockId = 0, bool quickReplace = false) {
+	static void Send(Vector3 pos, int placedBlockId = 0, bool quickReplace = false, bool noPhysics = false) {
 		ClientPlaceBlockPacket* packet = CreatePacket<ClientPlaceBlockPacket*>(ClientPlaceBlock_C2S);
-		BlockPosition position = BlockPosition(pos.toFloor());
-		BlockRotation rotation = BlockRotation();
-		packet->position = &position;
-		packet->rotation = &rotation;
+		BlockPosition* position = new BlockPosition(pos.toFloor());
+		BlockRotation* rotation = new BlockRotation();
+		packet->position = position;
+		packet->rotation = rotation;
 		packet->placedBlockId = placedBlockId;
 		packet->quickReplace = quickReplace;
+		packet->noPhysics = noPhysics;
 
 		Packets::SendPacketImmediate(packet);
+
+		delete position;
+		delete rotation;
 	}
 };

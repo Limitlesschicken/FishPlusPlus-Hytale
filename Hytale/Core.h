@@ -22,6 +22,7 @@ inline bool uninjecting = false;
 #include "Util/NativeAOTAPI.h"
 #include "Util/Hash.h"
 #include "sdk/Hytale/App.h"
+#include "sdk/Hytale/Input.h"
 #include "sdk/Hytale/DefaultMovementController.h"
 #include "sdk/Hytale/OptionsHelper.h"
 #include "sdk/Hytale/Paths.h"

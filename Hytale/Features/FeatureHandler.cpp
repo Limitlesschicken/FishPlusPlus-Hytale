@@ -27,6 +27,9 @@
 #include "ActualFeatures/Hud/PlayerList.h"
 #include "ActualFeatures/MainMenuEffect.h"
 #include "ActualFeatures/Hud/Addresses.h"
+#include "ActualFeatures/MiddleClickFriend.h"
+
+#include "ActualFeatures/TestFeature.h"
 
 void InitFeature(std::unique_ptr<Feature> feature, std::string tab) {
 	feature->setCategory(tab);
@@ -55,10 +58,12 @@ void FeatureHandler::Init() {
 
 	InitFeature(std::make_unique<RemoteChest>(), "Misc");
 	InitFeature(std::make_unique<Gamemode>(), "Misc");
+	InitFeature(std::make_unique<MiddleClickFriend>(), "Misc");
 	
 
 	InitFeature(std::make_unique<Hud>(), "Client");
 	InitFeature(std::make_unique<MainMenuEffect>(), "Client");
+	InitFeature(std::make_unique<TestFeature>(), "Client");
 
 
 	//HUD Features

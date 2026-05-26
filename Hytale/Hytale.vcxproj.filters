@@ -153,10 +153,10 @@
     <ClCompile Include="Hooks\HookedMethods\WglSwapBuffers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Hooks\HookedMethods\DoMoveCycle.cpp">
+    <ClCompile Include="Hooks\HookedMethods\MovementStates.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Hooks\HookedMethods\HandleScreenShotting.cpp">
+    <ClCompile Include="Hooks\HookedMethods\InputFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Hooks\HookedMethods\OnUserInput.cpp">
@@ -256,6 +256,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Features\ActualFeatures\Hud\Addresses.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Features\ActualFeatures\TestFeature.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sdk\Packets\SyncInteractions\OpenContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sdk\Packets\SyncInteractions\BreakBlock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Hooks\HookedMethods\SocketSend.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Features\ActualFeatures\MiddleClickFriend.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -923,9 +938,6 @@
     <ClInclude Include="sdk\Packets\UpdateBlockDamage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sdk\Packets\UpdateWorldMap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Features\ActualFeatures\HitBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1032,6 +1044,30 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Renderer\shaders\MainMenu\Octagram.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Features\ActualFeatures\TestFeature.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\Packets\MoveItemStack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\Packets\DropItemStack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\Packets\SyncInteractions\CreateSyncData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\Packets\SyncInteractions\SyncInteractionChain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\Packets\SyncInteractions\InteractionSyncData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\Packets\SyncInteractions\InteractionChainData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Features\ActualFeatures\MiddleClickFriend.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

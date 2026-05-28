@@ -11,8 +11,7 @@ namespace SM {
 
 	inline uint64_t beginGLContextAddress = 0;
 	inline uint64_t endGLContextAddress = 0;
-	inline uint64_t renderQueueFlushAddress = 0;
-	inline uint64_t submitDrawCommandsAddress = 0;
+	inline uint64_t drawGeometryAddress = 0;
 	inline uint64_t g_UniformManagerAddress = 0;
 	inline uint64_t g_BufferManagerAddress = 0;
 	inline uint64_t g_GlobalStateTableAddress = 0;

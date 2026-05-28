@@ -86,9 +86,29 @@ namespace Hooks {
 	inline DrawPostEffect oDrawPostEffect = nullptr;
 	extern void __fastcall hkDrawPostEffect(GameInstance* instance);
 
-    typedef void(__fastcall* DrawEntityCharactersAndItems)(SceneRenderer* instance, bool useOcclusionCulling);
+    typedef void(__fastcall* DrawEntityCharactersAndItems)(SceneRenderer* _this, bool useOcclusionCulling);
 	inline DrawEntityCharactersAndItems oDrawEntityCharactersAndItems = nullptr;
-	extern void __fastcall hkDrawEntityCharactersAndItems(SceneRenderer* instance, bool useOcclusionCulling);
+	extern void __fastcall hkDrawEntityCharactersAndItems(SceneRenderer* _this, bool useOcclusionCulling);
+
+    typedef void(__fastcall* DrawEntity)(EntityDrawData* a1, uint64_t a2,
+        uint64_t a3,
+        uint64_t a4,
+        uint64_t a5,
+        uint64_t a6,
+        uint64_t a7,
+        uint64_t a8,
+        uint64_t a9,
+        uint64_t a10);
+    inline DrawEntity oDrawEntity = nullptr;
+    extern void __fastcall hkDrawEntity(EntityDrawData* a1, uint64_t a2,
+        uint64_t a3,
+        uint64_t a4,
+        uint64_t a5,
+        uint64_t a6,
+        uint64_t a7,
+        uint64_t a8,
+        uint64_t a9,
+        uint64_t a10);
 
 	typedef void(__fastcall* BuildGeometry)(void* instance, ChunkColumn* a2, int chunkX, int chunkY, int chunkZ, int64_t a6, int64_t a7, int64_t a8, int64_t a9, int64_t a10, int64_t a11, int64_t a12, int a13, int a14, int64_t* a15);
 	inline BuildGeometry oBuildGeometry = nullptr;

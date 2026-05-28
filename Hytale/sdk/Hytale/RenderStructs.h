@@ -11,6 +11,7 @@ struct RenderStats;
 struct EntityDrawData;
 struct EntityDrawTask;
 
+/*
 // Render statistics tracking
 struct RenderStats {
     char pad_0000[0x438];           // 0x000
@@ -34,22 +35,16 @@ struct GLBuffer {
     uint32_t InternalId;
 };
 
+/*
 struct EntityDrawTask {
-    Vector4 BlockLightColor;
-    Vector3 BottomTint;
-    Vector3 TopTint;
-    float InvModelHeight;
-    Matrix4x4 ModelMatrix;
-    GLVertexArray VertexArray;
-    int DataCount;
-    GLBuffer AnimationData;
-    uint32_t AnimationDataOffset;
-    uint16_t AnimationDataSize;
-    float ModelVFXAnimationProgress;
-    int ModelVFXId;
-    float UseDithering;
+    void* unkPtr;
+    double unkDouble;
+    int64_t neg1;
     uint16_t EntityLocalId;
+    
 };
+
+
 
 // Entity list structure
 struct EntityList {
@@ -72,11 +67,12 @@ struct OcclusionFilterTable {
     char pad_000C[0x4];                 // 0x00C
     uint32_t VisibleOccludees[1];       // 0x010 - variable length array (1 = visible)
 };
+*/
 
 // Uniform manager structure
 struct UniformManagerVTable {
-    char pad_0000[0x348];               // 0x000
-    uint64_t setShaderUniform;          // 0x348
+    char pad_0000[0x358];               // 0x000
+    uint64_t setShaderUniform;          // 0x358
 };
 
 struct UniformManager {
@@ -86,8 +82,8 @@ struct UniformManager {
 
 // Buffer manager structure
 struct BufferManagerVTable {
-    char pad_0000[0x278];               // 0x000
-	uint64_t bindUniformBufferRange;    // 0x278
+    char pad_0000[0x280];               // 0x000
+	uint64_t bindUniformBufferRange;    // 0x280
 };
 
 struct BufferManager {

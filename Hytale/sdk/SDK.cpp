@@ -218,12 +218,12 @@ void SDK::Main() {
 	global_mutex.unlock();
 
 	if ((GetAsyncKeyState(VK_F6) & 1)) {
-		Util::log("%llx", Util::getGameInstance()->InteractionModule);
+		//ScanObject(Util::getGameInstance()->SceneRenderer->graphicsDevice);
 	}
 
 	static bool firstScan = true;
 	if (firstScan || (GetAsyncKeyState(VK_F5) & 1)) {
-		//ScanObject(Util::app);
+		
 		firstScan = false;
 	}
 

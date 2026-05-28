@@ -24,100 +24,152 @@ inline void beginGLContext(void* stateBuffer) {
 inline void endGLContext(void* stateBuffer) {
     sub_offset<void(__fastcall*)(void*)>(SM::endGLContextAddress)(stateBuffer);
 }
-inline void renderQueueFlush(uint64_t queue, uint64_t renderContext) {
-    sub_offset<void(__fastcall*)(uint64_t, uint64_t)>(SM::renderQueueFlushAddress)(queue, renderContext);
+
+inline void renderGeometry(EntityDrawData* a1, int uniformBufferId, int animationId, int unkValue, int unkValue2, int unkValue3, uint64_t unkValue4 = 0, uint64_t unkValue5 = 0, uint64_t unkValue6 = 0, uint64_t unkValue7 = 0) {
+    return sub_offset<void(__fastcall*)(EntityDrawData*, int, int, int, int, int, uint64_t, uint64_t, uint64_t, uint64_t)>(SM::drawGeometryAddress)(a1, uniformBufferId, animationId, unkValue, unkValue2, unkValue3, unkValue4, unkValue5, unkValue6, unkValue7);
 }
-inline void submitDrawCommands() {
-    sub_offset<void(__fastcall*)()>(SM::submitDrawCommandsAddress)();
-}
+
 
 #pragma optimize("", off)
 #pragma runtime_checks("", off)
-
-/*
 __declspec(safebuffers) __declspec(noinline)
-void renderIndividualEntity(SceneRenderer* _this, int i) {
-    SceneContext* sceneContext = _this->contextContainer->sceneContext;
-    RenderStats* renderStats = _this->renderDevice->renderStats;
-    EntityList* entityList = _this->entityList;
+void renderIndividualEntity(SceneRenderer* _this, EntityDrawTask entityDrawTask, int entityIndex) {
+    
+    GPUProgramStore* sceneContext = _this->contextContainer->GPUProgramStore;
+    GraphicsDevice* renderStats = _this->graphicsDevice->graphicsDevice;
+   
+    
     UniformManager* uniformMgrPtr = *(UniformManager**)(SM::g_UniformManagerAddress);
     BufferManager* bufferMgrPtr = *(BufferManager**)(SM::g_BufferManagerAddress);
+    
 
-    auto setShaderUniform = (void(__fastcall*)(uint64_t, uint64_t, uint64_t))(uniformMgrPtr->vtable->setShaderUniform);
-    auto bindUniformBufferRange = (void(__fastcall*)(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t))(bufferMgrPtr->vtable->bindUniformBufferRange);
-
-    if (i >= entityList->count)
+    if (entityIndex >= _this->EntityDrawTask1->count)
         return;
-    EntityDrawTask* entityDrawTask = &entityList->entities[i];
+    
+    uintptr_t v27 = *(uintptr_t*)(*(uintptr_t*)((uintptr_t)entityDrawTask.drawData + 0x20) + 0x10);
 
-    if (*(&SM::g_GlobalStateTableAddress - 1))
-        submitDrawCommands();
+    for (int i = 0; i < entityDrawTask.drawData->AnimationData->count; i++) {
+        auto bindUniformBufferRange = (void(__fastcall*)(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t))(bufferMgrPtr->vtable->bindUniformBufferRange);
 
-    //beginGLContext(glStateBuffer);
-    setShaderUniform(sceneContext->shaderProgramId, 0, (uint32_t)i);
-    bindUniformBufferRange(35345, sceneContext->uniformBufferId, entityDrawTask->AnimationData.InternalId, entityDrawTask->AnimationDataOffset, entityDrawTask->AnimationDataSize);
-    //endGLContext(glStateBuffer);
+        if (i >= entityDrawTask.drawData->AnimationSizeData->count)
+            return;
 
-    glBindVertexArray(entityDrawTask->VertexArray.InternalId);
-    ++renderStats->drawCallCount;
-    renderStats->totalIndicesDrawn += entityDrawTask->DataCount;
-    glDrawElements(GL_TRIANGLES, entityDrawTask->DataCount, GL_UNSIGNED_SHORT, 0);
+        if (i >= entityDrawTask.drawData->AnimationData->count)
+            return;
+        
+
+        int AnimationOffset = entityDrawTask.drawData->animationOffset;
+		int AnimationSize = 0;
+
+        AnimationOffset = (int)((entityDrawTask.drawData->AnimationData->get(i) << 6) + AnimationOffset);
+        AnimationSize = entityDrawTask.drawData->AnimationSizeData->get(i) << 6;
+
+        
+        //beginGLContext(glStateBuffer);
+		//Util::log("Uniform Buffer ID: %i, Animation ID: %i, Animation Offset: %i, Animation Size: %i", sceneContext->uniformBufferId, entityDrawTask.AnimationId, AnimationOffset, AnimationSize);
+        
+        bindUniformBufferRange(35345, sceneContext->uniformBufferId, entityDrawTask.AnimationId, AnimationOffset, AnimationSize);
+        //endGLContext(glStateBuffer);
+
+        
+		int dataCount = entityDrawTask.drawData->drawCallArray->get(i);
+        int vertexId = entityDrawTask.drawData->vertexArrayArray->get(i);
+
+        glBindVertexArray(vertexId);
+        *(uint32_t*)(v27 + 0x468) += 1;
+        *(uint32_t*)(v27 + 0x46C) += dataCount;
+        glDrawElements(GL_TRIANGLES, dataCount, GL_UNSIGNED_SHORT, 0);
+    }
 }
-*/
-
 
 __declspec(safebuffers) __declspec(noinline)
 void originalDrawEntityCharactersAndItems(SceneRenderer* _this) {
-    /*
-    EntityList* entityList = _this->entityList;
+    Array<EntityDrawTask>* drawTasks = _this->EntityDrawTask1;
+
+    GPUProgramStore* sceneContext = _this->contextContainer->GPUProgramStore;
+    GraphicsDevice* renderStats = _this->graphicsDevice->graphicsDevice;
+
+
+    UniformManager* uniformMgrPtr = *(UniformManager**)(SM::g_UniformManagerAddress);
+    BufferManager* bufferMgrPtr = *(BufferManager**)(SM::g_BufferManagerAddress);
 
     //Render entities normally but through walls
-    glEnable(GL_POLYGON_OFFSET_FILL);
-    glPolygonOffset(1.0f, -1500000.0f);
-    for (int i = 0; i < _this->_entityDrawTaskCount; i++) {
-        renderIndividualEntity(_this, i);
-    }
-    glPolygonOffset(1.0f, 1500000.0f);
-    glDisable(GL_POLYGON_OFFSET_FILL);
 
-    //Render entities for outline/glow
-    FrameBuffers::entityOutlineFBO->bind();
-    for (int i = 0; i < _this->_entityDrawTaskCount; i++) {
-        EntityDrawTask* entityDrawTask = &entityList->entities[i];
-        Entity* entityToRender = Util::app->appInGame->gameInstance->EntityStoreModule->entityArray->get(entityDrawTask->EntityLocalId);
-        if (entityToRender->entityType == Entity::EntityType::Character)
-            renderIndividualEntity(_this, i);
+    for (int i = 0; i < _this->entityDrawCount; i++) {
+        auto setShaderUniform = (void(__fastcall*)(uint64_t, uint64_t, uint64_t))(uniformMgrPtr->vtable->setShaderUniform);
+        setShaderUniform(sceneContext->shaderProgramId, 0, i);
+
+        EntityDrawTask entityDrawTask = drawTasks->get(i);
+
+        uint64_t v14 = ((uint64_t)sceneContext->unkValue4 << 32) | 1;
+        uint64_t v15 = ((uint64_t)sceneContext->unkValue5 << 32) | 1;
+
+        uint64_t value = 0xCCCCCCCC00000001ULL;
+        uint64_t value2 = 0xCCCCCCCC00000000ULL;
+
+        Util::log("My passed data: a1: %llx, uniformBufferId: %i, animationId: %i, unkValue: %i, unkValue2: %i, unkValue3: %i, unkValue4: %llx, unkValue5: %llx, unkValue6: %llx, unkValue7: %llx", entityDrawTask.drawData, sceneContext->uniformBufferId, entityDrawTask.AnimationId, sceneContext->unkValue, sceneContext->unkValue2, sceneContext->unkValue3, value, value, value2, value2);
+		renderGeometry(entityDrawTask.drawData, sceneContext->uniformBufferId, entityDrawTask.AnimationId, sceneContext->unkValue, sceneContext->unkValue2, sceneContext->unkValue3, value, value, value2, value2);
+		//renderIndividualEntity(_this, entityDrawTask, i);
     }
-    FrameBuffers::entityOutlineFBO->unbind();
+
+
+    /*
+    //Render entities for outline/glow
+    //FrameBuffers::entityOutlineFBO->bind();
+    for (int i = 0; i < _this->entityDrawCount; i++) {
+        EntityDrawTask entityDrawTask = drawTasks->get(i);
+        Entity* entityToRender = Util::app->appInGame->gameInstance->EntityStoreModule->entityArray->get(entityDrawTask.entityLocalId);
+        if (entityToRender->entityType == Entity::EntityType::Character)
+			renderGeometry(entityDrawTask.drawData, _this->contextContainer->GPUProgramStore->uniformBufferId, entityDrawTask.drawData->AnimationId, _this->contextContainer->GPUProgramStore->unkValue, _this->contextContainer->GPUProgramStore->unkValue2);
+            //renderIndividualEntity(_this, entityDrawTask, i);
+    }
+    //FrameBuffers::entityOutlineFBO->unbind();
 
     //Render items for outline/glow
     FrameBuffers::itemOutlineFBO->bind();
-    for (int i = 0; i < _this->_entityDrawTaskCount; i++) {
-        EntityDrawTask* entityDrawTask = &entityList->entities[i];
-        Entity* entityToRender = Util::app->appInGame->gameInstance->EntityStoreModule->entityArray->get(entityDrawTask->EntityLocalId);
-        if (entityToRender->entityType == Entity::EntityType::Item)
-            renderIndividualEntity(_this, i);
+    for (int i = 0; i < _this->entityDrawCount; i++) {
+        EntityDrawTask entityDrawTask = drawTasks->get(i);
+        Entity* entityToRender = Util::app->appInGame->gameInstance->EntityStoreModule->entityArray->get(i);
+        //if (entityToRender->entityType == Entity::EntityType::Item)
+            //renderIndividualEntity(_this, entityDrawTask, i);
     }
     FrameBuffers::itemOutlineFBO->unbind();
     */
 }
 
 __declspec(safebuffers) __declspec(noinline)
-void __fastcall Hooks::hkDrawEntityCharactersAndItems(SceneRenderer* _this, bool flag) {
+void __fastcall Hooks::hkDrawEntityCharactersAndItems(SceneRenderer* _this, bool useOcclusionCulling) {
     if (!Util::IsInGame())
-        return Hooks::oDrawEntityCharactersAndItems(_this, flag);
-
+        return Hooks::oDrawEntityCharactersAndItems(_this, useOcclusionCulling);
 
     Feature* outline = FeatureHandler::GetFeatureFromName("Outline");
-    if (!outline)
+    if (!outline) {
+        Hooks::oDrawEntityCharactersAndItems(_this, useOcclusionCulling);
         return;
-    if(outline->IsActive())
+    }
+    if (outline->IsActive()) {
         originalDrawEntityCharactersAndItems(_this);
-    else 
-		Hooks::oDrawEntityCharactersAndItems(_this, flag);
+        Hooks::oDrawEntityCharactersAndItems(_this, useOcclusionCulling);
+        return;
+    }
     
+    Hooks::oDrawEntityCharactersAndItems(_this, useOcclusionCulling);
 
+}
 
+__declspec(safebuffers) __declspec(noinline)
+void __fastcall Hooks::hkDrawEntity(EntityDrawData* a1, uint64_t a2,
+    uint64_t a3,
+    uint64_t a4,
+    uint64_t a5,
+    uint64_t a6,
+    uint64_t a7,
+    uint64_t a8,
+    uint64_t a9,
+    uint64_t a10) {
+    //Util::log("unkValue5: %llx, unkValue6: %llx", a7, a8);
+	Util::log("Game passed data: a1: %llx, uniformBufferId: %i, animationId: %i, unkValue: %i, unkValue2: %i, unkValue3: %i, unkValue4: %llx, unkValue5: %llx,  unkValue6: %llx,  unkValue7: %llx", a1, a2, a3, a4, a5, a6, a7, a8, a9, a10);
+    Hooks::oDrawEntity(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10);
 }
 #pragma runtime_checks("", restore)
 #pragma optimize("", on)

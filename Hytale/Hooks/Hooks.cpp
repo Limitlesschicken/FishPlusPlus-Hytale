@@ -125,6 +125,7 @@ bool Hooks::CreateHooks() {
     CREATE_SIG_HOOK_BY_REF(OnUserInput, "E8 ? ? ? ? 48 8B 53 ? 48 8B 92 ? ? ? ? 38 12");
     CREATE_SIG_HOOK_BY_REF(OnChat, "E8 ? ? ? ? 48 8B 4D ? 48 8B 89 ? ? ? ? 48 8B 89");
     CREATE_SIG_HOOK_BY_REF(DrawEntityCharactersAndItems, "E8 ? ? ? ? 48 8B 4B ? 48 8B 49 ? BA ? ? ? ? 39 09 E8 ? ? ? ? 48 8B 85");
+    CREATE_SIG_HOOK(DrawEntity, "55 41 57 41 56 41 55 41 54 57 56 53 48 81 EC ? ? ? ? 48 8D AC 24 ? ? ? ? 48 89 55 ? 48 8B D9 41 8B F0");
     CREATE_SIG_HOOK_BY_REF(DrawPostEffect, "E8 ? ? ? ? 80 7B ? 00 75 ? 48 89 5D ? EB");
     CREATE_SIG_HOOK_BY_REF(BuildGeometry, "E8 ? ? ? ? 48 89 7D ? ? ? ? 00 75");
     CREATE_SIG_HOOK_BY_REF(ProcessPacket, "E8 ? ? ? ? 90 48 83 C4 ? 5B 5E C3 48 8D 4C 24");

@@ -19,8 +19,6 @@ public:
 	}
 	void Initialize() override;
 
-	
 
-	MultiSetting* mode;
 	SliderSetting* speed;
 };

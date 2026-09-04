@@ -54,17 +54,17 @@ namespace Hooks {
     inline WglSwapBuffers oWglSwapBuffers = nullptr;
     extern BOOL WINAPI hkWglSwapBuffers(HDC hdc);
 
-	typedef void(__fastcall* GroundUpdate)(void* a1, DefaultMovementController* dmc, Vector3 offset);
+	typedef void(__fastcall* GroundUpdate)(void* a1, DefaultMovementController* dmc, Vector3 offset, const double* a4, int a5);
 	inline GroundUpdate oGroundUpdate = nullptr;
-	extern void __fastcall hkGroundUpdate(void* a1, DefaultMovementController* dmc, Vector3 offset);
+	extern void __fastcall hkGroundUpdate(void* a1, DefaultMovementController* dmc, Vector3 offset, const double* a4, int a5);
 
     typedef void(__fastcall* AirborneUpdate)(DefaultMovementController* dmc, Vector3 offset);
     inline AirborneUpdate oAirborneUpdate = nullptr;
     extern void __fastcall hkAirborneUpdate(DefaultMovementController* dmc, Vector3 offset);
 
-	typedef void(__fastcall* InputFrame)(Input* input);
-	inline InputFrame oInputFrame = nullptr;
-	extern void __fastcall hkInputFrame(Input* input);
+	typedef void(__fastcall* HandleScreenshotting)(App* input);
+	inline HandleScreenshotting oHandleScreenshotting = nullptr;
+	extern void __fastcall hkHandleScreenshotting(App* app);
 
 	typedef void(__fastcall* OnUserInput)(uint64_t instance, SDL_Event event);
 	inline OnUserInput oOnUserInput = nullptr;

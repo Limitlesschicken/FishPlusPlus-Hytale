@@ -198,7 +198,7 @@
     <ClCompile Include="Hooks\HookedMethods\MainMenuPostEffectRendererDraw.cpp" />
     <ClCompile Include="Hooks\HookedMethods\DrawEntityCharactersAndItems.cpp" />
     <ClCompile Include="Hooks\HookedMethods\DrawPostEffect.cpp" />
-    <ClCompile Include="Hooks\HookedMethods\InputFrame.cpp" />
+    <ClCompile Include="Hooks\HookedMethods\HandleScreenshotting.cpp" />
     <ClCompile Include="Hooks\HookedMethods\OnChat.cpp" />
     <ClCompile Include="Hooks\HookedMethods\OnUserInput.cpp" />
     <ClCompile Include="Hooks\HookedMethods\ProcessPacket.cpp" />

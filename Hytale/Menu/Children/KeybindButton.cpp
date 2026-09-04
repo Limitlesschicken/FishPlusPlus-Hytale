@@ -52,7 +52,7 @@ void KeybindButton::Update(float mouseX, float mouseY) {
 
 	auto* s = static_cast<KeybindSetting*>(this->setting);
 	SDL_Scancode key = *InputSystem::keysPressed.begin();
-	if (Util::GetKeyName(key) == "None" || key == SDL_SCANCODE_ESCAPE) {
+	if (Util::GetKeyName(key) == "None" || key == SDL_SCANCODE_BACKSPACE) {
 		if (s->isDefaultKeybind && s->parentFeature)
 			s->parentFeature->SetKeybind(SDL_SCANCODE_UNKNOWN);
 		s->SetValue(SDL_SCANCODE_UNKNOWN);

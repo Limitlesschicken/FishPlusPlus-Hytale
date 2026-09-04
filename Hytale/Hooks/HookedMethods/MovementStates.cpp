@@ -25,13 +25,13 @@ void MovementUpdate(DefaultMovementController* dmc, Vector3& offset) {
 #pragma optimize("", off)
 #pragma runtime_checks("", off)
 __declspec(safebuffers) __declspec(noinline)
-void __fastcall Hooks::hkGroundUpdate(void* a1, DefaultMovementController* dmc, Vector3 offset) {
+void __fastcall Hooks::hkGroundUpdate(void* a1, DefaultMovementController* dmc, Vector3 offset, const double* a4, int a5) {
     if (!initialized)
-        return Hooks::oGroundUpdate(a1, dmc, offset);
+        return Hooks::oGroundUpdate(a1, dmc, offset, a4, a5);
     
     MovementUpdate(dmc, offset);
     
-	Hooks::oGroundUpdate(a1, dmc, offset);
+	Hooks::oGroundUpdate(a1, dmc, offset, a4, a5);
 }
 #pragma runtime_checks("", restore)
 #pragma optimize("", on)

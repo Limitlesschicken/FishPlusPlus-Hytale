@@ -10,12 +10,12 @@
 #pragma runtime_checks("", off)
 
 __declspec(safebuffers) __declspec(noinline)
-void __fastcall Hooks::hkInputFrame(Input* input) {
-    if (Util::app != input->app)
-        Util::app = input->app;
+void __fastcall Hooks::hkHandleScreenshotting(App* app) {
+    if (Util::app != app)
+        Util::app = app;
 
-    Hooks::oInputFrame(input);
-    //Util::log("%llx", input->app);
+
+    Hooks::oHandleScreenshotting(app);
     
     SDK::Main();
 

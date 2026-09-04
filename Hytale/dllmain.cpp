@@ -36,12 +36,12 @@ void __fastcall GCThread(void* pArg) {
 
 
 bool InitSigs() {
-	GetMethodSigByRef(SetCursorHidden, "E8 ? ? ? ? 80 7B ? 00 74 ? 33 C9"); // E8 ? ? ? ? 0F B6 4B ? 85 C9 74
+	GetMethodSigByRef(SetCursorHidden, "E8 ? ? ? ? 80 7B ? 00 74 ? 33 C9 EB ? 48 8B 4B");
 	GetMethodSigByRef(UpdateInputStates, "E8 ? ? ? ? 83 7E ? ? 75 ? 48 83 C4");
 	GetMethodSigByRef(GCToEEInterface_CreateThread, "E8 ? ? ? ? 0F B6 C0 89 05 ? ? ? ? 85 C0");
-	GetMethodSigByRef(beginGLContext, "E8 ? ? ? ? 41 FF D6 "); // E8 ? ? ? ? 8B 4D ? 44 8B 45 ? 8B 55 ? 41 FF D7
-	GetMethodSigByRef(endGLContext, "E8 ? ? ? ? 45 0B E6"); // E8 ? ? ? ? 48 8B 75 ? 4C 8D 4E ? 48 8B 5D ? 48 8B 53 ? 44 3B 72
-    GetMethodSigByRef(SetClientBlock, "E8 ? ? ? ? 48 8B CB 8B D6 44 8B C7 45 8B CE 48 83 C4");
+	GetMethodSigByRef(beginGLContext, "E8 ? ? ? ? 8B 4D ? 8B 95");
+	GetMethodSigByRef(endGLContext, "E8 ? ? ? ? 45 0B E6");
+    //GetMethodSigByRef(SetClientBlock, "E8 ? ? ? ? 48 8B CB 8B D6 44 8B C7 45 8B CE 48 83 C4");
     GetMethodSigByRef(drawGeometry, "E8 ? ? ? ? FF C7 48 89 5D");
 
 	GetGlobalSigByRef(g_UniformManager, "48 8B 0D ? ? ? ? 48 8B 49 ? ? ? ? 4C 8B B1 ? ? ? ? 41 8B C8"); // 48 8B 0D ? ? ? ? 48 8B 49 ? 45 8B 07
@@ -51,17 +51,19 @@ bool InitSigs() {
 
     GetSig(Object_ToString, "48 83 EC ? E8 ? ? ? ? 48 8B 48 ? 48 85 C9 74 ? 48 8B 09 48 85 C9 75 ? 48 8B C8 E8 ? ? ? ? EB ? 48 8B C1 48 8B C8 48 8B 00 48 83 C4 ? 48 FF 60");
     GetSig(RhpNewFast, "8B 15 ? ? ? ? 65 48 8B 04 25 ? ? ? ? ? ? ? ? BA");
-    GetSig(SendPacketImmediate, "55 41 57 41 56 41 55 41 54 57 56 53 48 81 EC ? ? ? ? 48 8D AC 24 ? ? ? ? 0F 57 E4 0F 29 65 ? 0F 29 65 ? 0F 29 65 ? 0F 29 65 ? 33 C0 48 89 45 ? 48 89 4D ? 48 8B D9"); //48 8b d9 48 8b f2 48 8d 0d ? ? ? ? e8 ? ? ? ? 48 89 85 ? ? ? ? 48 8d 48 08 48 8b d3 e8 ? ? ? ? 48 85 f6
+    GetSig(SendPacketImmediate, "55 41 57 41 56 41 55 41 54 57 56 53 48 83 EC ? 48 8D AC 24 ? ? ? ? 0F 57 E4 0F 11 65 ? 33 C0 48 89 45 ? 48 89 4D ? 48 8B D9");
     GetSig(RhpNewArray_Generic, "48 81 FA ? ? ? ? 73 ? 67 8D 04 D5");
 
     //GetGlobalSigByRef(g_GlobalStateTable, "48 8D 05 ? ? ? ? 48 83 78 ? ? 0F 85 ? ? ? ? 48 8B 0D ? ? ? ? 48 8B 49 ? 45 8B 07");
 
+    /*
     GetGlobalSigByRef(Array_SyncInteractionChain_MT, "48 8D 0D ? ? ? ? E8 ? ? ? ? 4C 8B F0 45 33 ED 48 8B 53");
     GetGlobalSigByRef(SyncInteractionChain_MT, "48 8D 0D ? ? ? ? E8 ? ? ? ? 4C 8B F8 41 C7 47 ? ? ? ? ? 8B 8B");
     GetGlobalSigByRef(InteractionChainData_MT, "48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8B F0 48 BA"); // or 48 8D 0D ? ? ? ? E8 ? ? ? ? 4C 8B F8 48 B9 // 48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8B CB 48 BA
-    GetGlobalSigByRef(BlockPosition_MT, "48 8D 0D ? ? ? ? E8 ? ? ? ? 8B 0B 89 48 ? 8B 4B"); // or 48 8D 0D ? ? ? ? E8 ? ? ? ? 8B 4B ? 8B D6
+    GetGlobalSigByRef(BlockPosition_MT, "48 8D 0D ? ? ? ? E8 ? ? ? ? ? ? 89 48 ? 8B 4B ? 89 48 ? 8B 4B"); // or 48 8D 0D ? ? ? ? E8 ? ? ? ? 8B 4B ? 8B D6
     GetGlobalSigByRef(Array_InteractionSyncData_MT, "48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8B F0 45 33 FF"); 
     GetGlobalSigByRef(InteractionSyncData_MT, "48 8D 0D ? ? ? ? E8 ? ? ? ? C7 40 ? ? ? ? ? 48 B9");
+    */
 
 	Util::log("Finished initializing signatures");
 	return true;

@@ -37,9 +37,8 @@ std::vector<EntityData> getEntities(Entity* localPlayer) {
 	for (int i = 0; i < entityCount; i++) {
 		Entity* entity = entityArray->get(i);
 		ValidPtrLoop(entity);
-
 		
-
+		/*
 		EntityAssetStruct* assetStruct = entity->AssetNameStruct;
 
 		EntityData data;
@@ -63,6 +62,7 @@ std::vector<EntityData> getEntities(Entity* localPlayer) {
 		data.isLocalPlayer = (entity == localPlayer);
 
 		entities.push_back(data);
+		*/
 	}
 	return entities;
 }
@@ -203,6 +203,10 @@ void SDK::Main() {
 		Menu::m_justClosed = false;
 	}
 
+	if ((GetAsyncKeyState(VK_F6) & 1)) {
+		ScanObject(Util::app->appInGame->gameInstance->Player);
+	}
+
 	if (!Util::app || !Util::app->appInGame || !Util::app->appInGame->gameInstance || Util::app->Stage != AppStage::InGame) {
 		Reset();
 		return;
@@ -214,12 +218,10 @@ void SDK::Main() {
 	}
 
 	global_mutex.lock();
-	entities = getEntities(Util::getLocalPlayer());
+	//entities = getEntities(Util::getLocalPlayer());
 	global_mutex.unlock();
 
-	if ((GetAsyncKeyState(VK_F6) & 1)) {
-		//ScanObject(Util::getGameInstance()->SceneRenderer->graphicsDevice);
-	}
+	
 
 	static bool firstScan = true;
 	if (firstScan || (GetAsyncKeyState(VK_F5) & 1)) {
@@ -227,7 +229,7 @@ void SDK::Main() {
 		firstScan = false;
 	}
 
-	
+	/*
 	const auto& blockESP = FeatureHandler::GetFeatureFromName<BlockESP>("BlockESP");
 	if (blockESP->refreshList != nullptr && (blockESP->refreshList->GetValue() || !filterInitialized)) {
 		Reset();
@@ -249,6 +251,6 @@ void SDK::Main() {
 		filterInitialized = true;
 		blockESP->refreshList->SetValue(false);
 	}
-	
+	*/
 
 }

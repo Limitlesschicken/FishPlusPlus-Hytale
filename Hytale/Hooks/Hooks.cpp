@@ -117,20 +117,28 @@ bool Hooks::CreateHooks() {
     ValidPtrBool(WglSwapBuffersAddress);
 
     CREATE_HOOK(WglSwapBuffers);
-    CREATE_SIG_HOOK_BY_REF(WeatherUpdate, "E8 ? ? ? ? 48 8B 4B ? 48 8B 49 ? BA ? ? ? ? ? ? E8 ? ? ? ? 80 BB ? ? ? ? 00 75 ? 48 8B 8B ? ? ? ? F3 0F 10 8B ? ? ? ? ? ? E8 ? ? ? ? 48 8B 8B");
-    CREATE_SIG_HOOK_BY_REF(TimeModuleNewFrame, "E8 ? ? ? ? 44 0F B6 83 ? ? ? ? F3 0F 10 8B");
-    CREATE_SIG_HOOK_BY_REF(GroundUpdate, "E8 ? ? ? ? FF CE 75 ? 48 8B 4B ? 48 8B 49 ? F2 0F 11 B9 ? ? ? ? 0F 12 C7 F3 0F 11 81 ? ? ? ? 80 BB ? ? ? ? 00 74 ? 48 8B CB");
-    CREATE_SIG_HOOK_BY_REF(AirborneUpdate, "E8 ? ? ? ? FF CE 75 ? 48 8B 4B ? 48 8B 49 ? F2 0F 11 B9 ? ? ? ? 0F 12 C7 F3 0F 11 81 ? ? ? ? E9 ? ? ? ? 48 8B 4B ? 48 8B 79");
-    CREATE_SIG_HOOK_BY_REF(InputFrame, "E8 ? ? ? ? 49 8B 4F ? 0F 28 CF");
+    //CREATE_SIG_HOOK_BY_REF(WeatherUpdate, "E8 ? ? ? ? 48 8B 4B ? 48 8B 49 ? BA ? ? ? ? ? ? E8 ? ? ? ? 80 BB ? ? ? ? 00 75 ? 48 8B 8B ? ? ? ? F3 0F 10 8B ? ? ? ? ? ? E8 ? ? ? ? 48 8B 8B");
+
+
+    //CREATE_SIG_HOOK_BY_REF(TimeModuleNewFrame, "E8 ? ? ? ? 44 0F B6 83 ? ? ? ? F3 0F 10 8B");
+    CREATE_SIG_HOOK_BY_REF(GroundUpdate, "E8 ? ? ? ? 3B F5 7C ? 80 BB ? ? ? ? 00 74 ? 48 8B CB");
+    CREATE_SIG_HOOK_BY_REF(AirborneUpdate, "E8 ? ? ? ? 3B F7 7C ? 48 8B CB E8 ? ? ? ? 85 C0 74 ? 48 8B CB E8 ? ? ? ? 48 8B CB");
+
+
+    CREATE_SIG_HOOK_BY_REF(HandleScreenshotting, "E8 ? ? ? ? 49 8B 8D ? ? ? ? ? ? E8 ? ? ? ? 4C 89 6D");
     CREATE_SIG_HOOK_BY_REF(OnUserInput, "E8 ? ? ? ? 48 8B 53 ? 48 8B 92 ? ? ? ? 38 12");
     CREATE_SIG_HOOK_BY_REF(OnChat, "E8 ? ? ? ? 48 8B 4D ? 48 8B 89 ? ? ? ? 48 8B 89");
-    CREATE_SIG_HOOK_BY_REF(DrawEntityCharactersAndItems, "E8 ? ? ? ? 48 8B 4B ? 48 8B 49 ? BA ? ? ? ? 39 09 E8 ? ? ? ? 48 8B 85");
-    CREATE_SIG_HOOK(DrawEntity, "55 41 57 41 56 41 55 41 54 57 56 53 48 81 EC ? ? ? ? 48 8D AC 24 ? ? ? ? 48 89 55 ? 48 8B D9 41 8B F0");
-    CREATE_SIG_HOOK_BY_REF(DrawPostEffect, "E8 ? ? ? ? 80 7B ? 00 75 ? 48 89 5D ? EB");
-    CREATE_SIG_HOOK_BY_REF(BuildGeometry, "E8 ? ? ? ? 48 89 7D ? ? ? ? 00 75");
-    CREATE_SIG_HOOK_BY_REF(ProcessPacket, "E8 ? ? ? ? 90 48 83 C4 ? 5B 5E C3 48 8D 4C 24");
-    CREATE_SIG_HOOK_BY_REF(SocketSend, "E8 ? ? ? ? 0F 10 45 ? 0F 11 45 ? EB ? 48 89 85");
-	CREATE_SIG_HOOK_BY_REF(MainMenuPostEffectRendererDraw, "E8 ? ? ? ? 4C 8B 6D ? 49 8B 5D");
+    //CREATE_SIG_HOOK_BY_REF(DrawEntityCharactersAndItems, "E8 ? ? ? ? 48 89 5D ? 48 8B 4B ? 48 8B 49 ? BA ? ? ? ? ? ? E8 ? ? ? ? 48 8B 85 ? ? ? ? 48 8B 48");
+    //CREATE_SIG_HOOK(DrawEntity, "55 41 57 41 56 41 55 41 54 57 56 53 48 81 EC ? ? ? ? 48 8D AC 24 ? ? ? ? 48 89 55 ? 48 8B D9 41 8B F0");
+    //CREATE_SIG_HOOK_BY_REF(DrawPostEffect, "E8 ? ? ? ? 80 7B ? 00 75 ? 48 89 5D ? EB");
+
+
+    //CREATE_SIG_HOOK_BY_REF(BuildGeometry, "E8 ? ? ? ? 48 89 7D ? ? ? ? 00 75");
+    //CREATE_SIG_HOOK_BY_REF(ProcessPacket, "E8 ? ? ? ? 90 48 83 C4 ? 5B 5E C3 48 8D 4C 24");
+    //CREATE_SIG_HOOK_BY_REF(SocketSend, "E8 ? ? ? ? 0F 10 45 ? 0F 11 45 ? EB ? 48 89 85");
+
+
+	//CREATE_SIG_HOOK_BY_REF(MainMenuPostEffectRendererDraw, "E8 ? ? ? ? 4C 8B 6D ? 49 8B 5D");
 
     /*
     if (MH_CreateHook((LPVOID) SM::SendPacketImmediateAddress, &hktemp, reinterpret_cast<LPVOID*>(&otemp)) != MH_OK) {
